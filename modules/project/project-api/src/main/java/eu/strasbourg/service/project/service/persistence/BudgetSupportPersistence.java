@@ -669,6 +669,163 @@ public interface BudgetSupportPersistence
 	public int countByBudgetParticipatif(long budgetParticipatifId);
 
 	/**
+	 * Returns all the budget supports where budgetParticipatifId = &#63; and isNegatif = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param isNegatif the is negatif
+	 * @return the matching budget supports
+	 */
+	public java.util.List<BudgetSupport> findByBudgetParticipatifAndType(
+		long budgetParticipatifId, Boolean isNegatif);
+
+	/**
+	 * Returns a range of all the budget supports where budgetParticipatifId = &#63; and isNegatif = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>BudgetSupportModelImpl</code>.
+	 * </p>
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param isNegatif the is negatif
+	 * @param start the lower bound of the range of budget supports
+	 * @param end the upper bound of the range of budget supports (not inclusive)
+	 * @return the range of matching budget supports
+	 */
+	public java.util.List<BudgetSupport> findByBudgetParticipatifAndType(
+		long budgetParticipatifId, Boolean isNegatif, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the budget supports where budgetParticipatifId = &#63; and isNegatif = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>BudgetSupportModelImpl</code>.
+	 * </p>
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param isNegatif the is negatif
+	 * @param start the lower bound of the range of budget supports
+	 * @param end the upper bound of the range of budget supports (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching budget supports
+	 */
+	public java.util.List<BudgetSupport> findByBudgetParticipatifAndType(
+		long budgetParticipatifId, Boolean isNegatif, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<BudgetSupport>
+			orderByComparator);
+
+	/**
+	 * Returns an ordered range of all the budget supports where budgetParticipatifId = &#63; and isNegatif = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>BudgetSupportModelImpl</code>.
+	 * </p>
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param isNegatif the is negatif
+	 * @param start the lower bound of the range of budget supports
+	 * @param end the upper bound of the range of budget supports (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching budget supports
+	 */
+	public java.util.List<BudgetSupport> findByBudgetParticipatifAndType(
+		long budgetParticipatifId, Boolean isNegatif, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<BudgetSupport>
+			orderByComparator,
+		boolean useFinderCache);
+
+	/**
+	 * Returns the first budget support in the ordered set where budgetParticipatifId = &#63; and isNegatif = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param isNegatif the is negatif
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching budget support
+	 * @throws NoSuchBudgetSupportException if a matching budget support could not be found
+	 */
+	public BudgetSupport findByBudgetParticipatifAndType_First(
+			long budgetParticipatifId, Boolean isNegatif,
+			com.liferay.portal.kernel.util.OrderByComparator<BudgetSupport>
+				orderByComparator)
+		throws NoSuchBudgetSupportException;
+
+	/**
+	 * Returns the first budget support in the ordered set where budgetParticipatifId = &#63; and isNegatif = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param isNegatif the is negatif
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching budget support, or <code>null</code> if a matching budget support could not be found
+	 */
+	public BudgetSupport fetchByBudgetParticipatifAndType_First(
+		long budgetParticipatifId, Boolean isNegatif,
+		com.liferay.portal.kernel.util.OrderByComparator<BudgetSupport>
+			orderByComparator);
+
+	/**
+	 * Returns the last budget support in the ordered set where budgetParticipatifId = &#63; and isNegatif = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param isNegatif the is negatif
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching budget support
+	 * @throws NoSuchBudgetSupportException if a matching budget support could not be found
+	 */
+	public BudgetSupport findByBudgetParticipatifAndType_Last(
+			long budgetParticipatifId, Boolean isNegatif,
+			com.liferay.portal.kernel.util.OrderByComparator<BudgetSupport>
+				orderByComparator)
+		throws NoSuchBudgetSupportException;
+
+	/**
+	 * Returns the last budget support in the ordered set where budgetParticipatifId = &#63; and isNegatif = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param isNegatif the is negatif
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching budget support, or <code>null</code> if a matching budget support could not be found
+	 */
+	public BudgetSupport fetchByBudgetParticipatifAndType_Last(
+		long budgetParticipatifId, Boolean isNegatif,
+		com.liferay.portal.kernel.util.OrderByComparator<BudgetSupport>
+			orderByComparator);
+
+	/**
+	 * Returns the budget supports before and after the current budget support in the ordered set where budgetParticipatifId = &#63; and isNegatif = &#63;.
+	 *
+	 * @param budgetSupportId the primary key of the current budget support
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param isNegatif the is negatif
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next budget support
+	 * @throws NoSuchBudgetSupportException if a budget support with the primary key could not be found
+	 */
+	public BudgetSupport[] findByBudgetParticipatifAndType_PrevAndNext(
+			long budgetSupportId, long budgetParticipatifId, Boolean isNegatif,
+			com.liferay.portal.kernel.util.OrderByComparator<BudgetSupport>
+				orderByComparator)
+		throws NoSuchBudgetSupportException;
+
+	/**
+	 * Removes all the budget supports where budgetParticipatifId = &#63; and isNegatif = &#63; from the database.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param isNegatif the is negatif
+	 */
+	public void removeByBudgetParticipatifAndType(
+		long budgetParticipatifId, Boolean isNegatif);
+
+	/**
+	 * Returns the number of budget supports where budgetParticipatifId = &#63; and isNegatif = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param isNegatif the is negatif
+	 * @return the number of matching budget supports
+	 */
+	public int countByBudgetParticipatifAndType(
+		long budgetParticipatifId, Boolean isNegatif);
+
+	/**
 	 * Returns all the budget supports where publikUserId = &#63;.
 	 *
 	 * @param publikUserId the publik user ID

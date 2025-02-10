@@ -134,7 +134,7 @@ public class BudgetPhaseSupportsXlsxExporterImpl implements BudgetPhaseSupportsX
 							budgetSupport.getCitoyenPhone(),
 							budgetSupport.getCitoyenMobilePhone(),
 							dateFormat.format(budgetSupport.getCreateDate()),
-							"Négatif ou Positif"
+							budgetSupport.getIsNegatif()?LanguageUtil.get(bundle, "negatif"):LanguageUtil.get(bundle, "positif")
 					};
 
 					supportData = ArrayUtil.append(supportData, budgetSupportRow);

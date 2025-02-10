@@ -27508,7 +27508,9 @@ for (var i = 0; i != textDiscover.length; i++) {
         textDiscoverWrapped += '<span style="color: #c5c6c8;">' + textDiscover[i] + '</span>';
     }
     else {
-        isNumber = true;
+        if(textDiscover[i] != '-') {
+            isNumber = true;
+        }
         textDiscoverWrapped += '<span>' + textDiscover[i] + '</span>';
     }
 

@@ -504,7 +504,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	@Override
 	public long getNbSupportsPositifs() {
 		long nbPositivesSupports = BudgetSupportLocalServiceUtil
-				.countBudgetSupportByBudgetParticipatifId(this.getBudgetParticipatifId());
+				.countBudgetSupportPositifByBudgetParticipatifId(this.getBudgetParticipatifId());
 		nbPositivesSupports += this.getPositivePaperVotes();
 		return nbPositivesSupports;
 	}
@@ -514,7 +514,8 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	 */
 	@Override
 	public long getNbSupportsNegatifs() {
-		long nbNegativesSupports = 0;
+		long nbNegativesSupports = BudgetSupportLocalServiceUtil
+				.countBudgetSupportNegatifByBudgetParticipatifId(this.getBudgetParticipatifId());
 		nbNegativesSupports += this.getNegativePaperVotes();
 		return nbNegativesSupports;
 	}
@@ -819,8 +820,10 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 		case 19:
 		case 23:
 		case 24:
-			return "<span><strong id=\"nbEntrySupports\">" + this.getNbSupports() + "</strong> " +
-					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes") + "</span>";
+			return "<div class='pro-compteur'>" +
+						"<span class='pro-compt pro-compt-six'>" + this.getNbSupportsBoard() + "</span>" +
+						"<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes") + "</p>" +
+					"</div>";
 		case 25:
 		case 28:
 		case 29:
@@ -828,9 +831,11 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 			return "<span>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.non.feasible") + "</span>";
 		case 31:
 		case 36:
-			return "<p><strong id=\"nbEntrySupports\">" + this.getNbSupports() + "</strong> " +
-					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes") + "</p><span>" +
-					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes.laureat") + "</span>";
+			return "<div class='pro-compteur'>" +
+					"<span class='pro-compt pro-compt-six'>" + this.getNbSupportsBoard() + "</span>" +
+					"<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes") + "</p>" +
+					"<span>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes.laureat") + "</span>" +
+					"</div>";
 		case 37:
 		case 42:
 			return "<span>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.non.selected") + "</span>";
@@ -839,14 +844,18 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 			return "<span>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.cancelled") + "</span>";
 		case 49:
 		case 54:
-			return "<p><strong id=\"nbEntrySupports\">" + this.getNbSupports() + "</strong> " +
-					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes.votes") + "</p><span>" +
-					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.realized") + "</span>";
+			return "<div class='pro-compteur'>" +
+					"<span class='pro-compt pro-compt-six'>" + this.getNbSupportsBoard() + "</span>" +
+					"<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes") + "</p>" +
+					"<span>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.realized") + "</span>" +
+					"</div>";
 		case 55:
 		case 60:
-			return "<p><strong id=\"nbEntrySupports\">" + this.getNbSupports() + "</strong> " +
-					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes.votes") + "</p><span>" +
-					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.suspended") + "</span>";
+			return "<div class='pro-compteur'>" +
+					"<span class='pro-compt pro-compt-six'>" + this.getNbSupportsBoard() + "</span>" +
+					"<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes") + "</p>" +
+					"<span>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.suspended") + "</span>" +
+					"</div>";
 		default:
 			return "";
 		}

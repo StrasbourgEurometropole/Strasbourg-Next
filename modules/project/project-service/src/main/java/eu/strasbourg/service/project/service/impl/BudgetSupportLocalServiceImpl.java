@@ -85,16 +85,36 @@ public class BudgetSupportLocalServiceImpl extends BudgetSupportLocalServiceBase
     public List<BudgetSupport> getBudgetSupportsByBudgetParticipatifId(long budgetParticipatifId) {
         return this.budgetSupportPersistence.findByBudgetParticipatif(budgetParticipatifId);
     }
-    
-    /**
-     * Compter les soutiens d'un budget participatif donne
-     * @param budgetParticipatifId ID du budget participatif.
-     * @return Nombre de soutiens
-     */
-    @Override
-    public int countBudgetSupportByBudgetParticipatifId(long budgetParticipatifId) {
-        return this.budgetSupportPersistence.countByBudgetParticipatif(budgetParticipatifId);
-    }
+
+	/**
+	 * Compter les soutiens d'un budget participatif donne
+	 * @param budgetParticipatifId ID du budget participatif.
+	 * @return Nombre de soutiens
+	 */
+	@Override
+	public int countBudgetSupportByBudgetParticipatifId(long budgetParticipatifId) {
+		return this.budgetSupportPersistence.countByBudgetParticipatif(budgetParticipatifId);
+	}
+
+	/**
+	 * Compter les soutiens positifs d'un budget participatif donne
+	 * @param budgetParticipatifId ID du budget participatif.
+	 * @return Nombre de soutiens
+	 */
+	@Override
+	public int countBudgetSupportPositifByBudgetParticipatifId(long budgetParticipatifId) {
+		return this.budgetSupportPersistence.countByBudgetParticipatifAndType(budgetParticipatifId, false);
+	}
+
+	/**
+	 * Compter les soutiens négatifs d'un budget participatif donne
+	 * @param budgetParticipatifId ID du budget participatif.
+	 * @return Nombre de soutiens
+	 */
+	@Override
+	public int countBudgetSupportNegatifByBudgetParticipatifId(long budgetParticipatifId) {
+		return this.budgetSupportPersistence.countByBudgetParticipatifAndType(budgetParticipatifId, true);
+	}
     
     /**
      * Recuperer les soutiens d'un utilisateur donne

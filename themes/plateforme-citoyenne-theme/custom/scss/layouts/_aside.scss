@@ -177,13 +177,13 @@ aside {
 			@include ft($f_hx, 1em, 400, $c_white);
 			margin: 0;
 		}
+		.pro-compteur{
+			width: 100%;
+			padding: 0;
+		}
 		span {
 			@include ft($f_hx, 0.8em, 400, $c_txt);
 			text-transform: uppercase;
-			padding: 10px;
-			background-color: $c_white;
-			border: solid 1px #d9d9d9;
-
 		}
 
 

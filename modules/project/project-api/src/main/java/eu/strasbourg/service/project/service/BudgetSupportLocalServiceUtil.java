@@ -65,6 +65,32 @@ public class BudgetSupportLocalServiceUtil {
 	}
 
 	/**
+	 * Compter les soutiens négatifs d'un budget participatif donne
+	 *
+	 * @param budgetParticipatifId ID du budget participatif.
+	 * @return Nombre de soutiens
+	 */
+	public static int countBudgetSupportNegatifByBudgetParticipatifId(
+		long budgetParticipatifId) {
+
+		return getService().countBudgetSupportNegatifByBudgetParticipatifId(
+			budgetParticipatifId);
+	}
+
+	/**
+	 * Compter les soutiens positifs d'un budget participatif donne
+	 *
+	 * @param budgetParticipatifId ID du budget participatif.
+	 * @return Nombre de soutiens
+	 */
+	public static int countBudgetSupportPositifByBudgetParticipatifId(
+		long budgetParticipatifId) {
+
+		return getService().countBudgetSupportPositifByBudgetParticipatifId(
+			budgetParticipatifId);
+	}
+
+	/**
 	 * Creates a new budget support with the primary key. Does not add the budget support to the database.
 	 *
 	 * @param budgetSupportId the primary key for the new budget support
