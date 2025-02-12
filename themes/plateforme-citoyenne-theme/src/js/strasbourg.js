@@ -27501,22 +27501,25 @@ $('.pro-btn-disabled').on('click', function (e) {
 
 // Pour les compteurs dans les pages de détail
 var textDiscover = $('.pro-compt').first().text();
-var textDiscoverWrapped = '';
-var isNumber = false;
-for (var i = 0; i != textDiscover.length; i++) {
-    if(textDiscover[i] == '0' && !isNumber) {
-        textDiscoverWrapped += '<span style="color: #c5c6c8;">' + textDiscover[i] + '</span>';
-    }
-    else {
-        if(textDiscover[i] != '-') {
-            isNumber = true;
+$('.pro-compt').html(createCompt(textDiscover));
+
+function createCompt(textDiscover){
+    var textDiscoverWrapped = '';
+    var isNumber = false;
+    for (var i = 0; i != textDiscover.length; i++) {
+        if(textDiscover[i] == '0' && !isNumber) {
+            textDiscoverWrapped += '<span style="color: #c5c6c8;">' + textDiscover[i] + '</span>';
         }
-        textDiscoverWrapped += '<span>' + textDiscover[i] + '</span>';
+        else {
+            if(textDiscover[i] != '-') {
+                isNumber = true;
+            }
+            textDiscoverWrapped += '<span>' + textDiscover[i] + '</span>';
+        }
+
     }
-
+    return textDiscoverWrapped;
 }
-$('.pro-compt').html(textDiscoverWrapped);
-
 
 // Changer le texte du bouton Suivre ce Projet - Page Détail projet
 $("[href='#pro-follow-project']").click(function (e) {

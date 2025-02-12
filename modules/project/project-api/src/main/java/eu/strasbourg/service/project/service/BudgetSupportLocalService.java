@@ -77,15 +77,6 @@ public interface BudgetSupportLocalService
 	public BudgetSupport addBudgetSupport(BudgetSupport budgetSupport);
 
 	/**
-	 * Compter les soutiens d'un budget participatif donne
-	 *
-	 * @param budgetParticipatifId ID du budget participatif.
-	 * @return Nombre de soutiens
-	 */
-	public int countBudgetSupportByBudgetParticipatifId(
-		long budgetParticipatifId);
-
-	/**
 	 * Compter les soutiens négatifs d'un budget participatif donne
 	 *
 	 * @param budgetParticipatifId ID du budget participatif.
@@ -262,18 +253,6 @@ public interface BudgetSupportLocalService
 		throws PortalException;
 
 	/**
-	 * Recuperer les soutiens d'un budgte et d'un utilisateur donne
-	 *
-	 * @param budgetParticipatifId ID du budget participatif.
-	 * @param publikUserId ID publik de l'utilsiateur
-	 * @return Liste des soutiens
-	 */
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<BudgetSupport>
-		getBudgetSupportByBudgetParticipatifIdAndPublikUserId(
-			long budgetParticipatifId, String publikUserId);
-
-	/**
 	 * Recuperer les soutiens d'un utilisateur donne
 	 *
 	 * @param publikId ID publik de l'utilsiateur
@@ -294,6 +273,30 @@ public interface BudgetSupportLocalService
 	public BudgetSupport getBudgetSupportByUuidAndGroupId(
 			String uuid, long groupId)
 		throws PortalException;
+
+	/**
+	 * Recuperer les soutiens négatifs d'un budget et d'un utilisateur donne
+	 *
+	 * @param budgetParticipatifId ID du budget participatif.
+	 * @param publikUserId ID publik de l'utilsiateur
+	 * @return Liste des soutiens négatifs
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetSupport>
+		getBudgetSupportNegatifByBudgetParticipatifIdAndPublikUserId(
+			long budgetParticipatifId, String publikUserId);
+
+	/**
+	 * Recuperer les soutiens positifs d'un budget et d'un utilisateur donne
+	 *
+	 * @param budgetParticipatifId ID du budget participatif.
+	 * @param publikUserId ID publik de l'utilsiateur
+	 * @return Liste des soutiens positifs
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetSupport>
+		getBudgetSupportPositifByBudgetParticipatifIdAndPublikUserId(
+			long budgetParticipatifId, String publikUserId);
 
 	/**
 	 * Returns a range of all the budget supports.

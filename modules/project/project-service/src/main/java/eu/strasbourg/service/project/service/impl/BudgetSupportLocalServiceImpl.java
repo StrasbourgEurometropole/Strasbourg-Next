@@ -87,16 +87,6 @@ public class BudgetSupportLocalServiceImpl extends BudgetSupportLocalServiceBase
     }
 
 	/**
-	 * Compter les soutiens d'un budget participatif donne
-	 * @param budgetParticipatifId ID du budget participatif.
-	 * @return Nombre de soutiens
-	 */
-	@Override
-	public int countBudgetSupportByBudgetParticipatifId(long budgetParticipatifId) {
-		return this.budgetSupportPersistence.countByBudgetParticipatif(budgetParticipatifId);
-	}
-
-	/**
 	 * Compter les soutiens positifs d'un budget participatif donne
 	 * @param budgetParticipatifId ID du budget participatif.
 	 * @return Nombre de soutiens
@@ -125,16 +115,27 @@ public class BudgetSupportLocalServiceImpl extends BudgetSupportLocalServiceBase
 	public List<BudgetSupport> getBudgetSupportByPublikId(String publikId){
         return this.budgetSupportPersistence.findByPublikUserId(publikId);
     }
-    
-    /**
-     * Recuperer les soutiens d'un budgte et d'un utilisateur donne
-     * @param budgetParticipatifId ID du budget participatif.
-     * @param publikUserId ID publik de l'utilsiateur
-     * @return Liste des soutiens
-     */
-    @Override
-	public List<BudgetSupport> getBudgetSupportByBudgetParticipatifIdAndPublikUserId(long budgetParticipatifId, String publikUserId) {
-        return this.budgetSupportPersistence.findByBudgetParticipatifIdAndPublikUserId(budgetParticipatifId, publikUserId);
-    }
+
+	/**
+	 * Recuperer les soutiens positifs d'un budget et d'un utilisateur donne
+	 * @param budgetParticipatifId ID du budget participatif.
+	 * @param publikUserId ID publik de l'utilsiateur
+	 * @return Liste des soutiens positifs
+	 */
+	@Override
+	public List<BudgetSupport> getBudgetSupportPositifByBudgetParticipatifIdAndPublikUserId(long budgetParticipatifId, String publikUserId) {
+		return this.budgetSupportPersistence.findByBudgetParticipatifIdPublikUserIdAndType(budgetParticipatifId, publikUserId, false);
+	}
+
+	/**
+	 * Recuperer les soutiens négatifs d'un budget et d'un utilisateur donne
+	 * @param budgetParticipatifId ID du budget participatif.
+	 * @param publikUserId ID publik de l'utilsiateur
+	 * @return Liste des soutiens négatifs
+	 */
+	@Override
+	public List<BudgetSupport> getBudgetSupportNegatifByBudgetParticipatifIdAndPublikUserId(long budgetParticipatifId, String publikUserId) {
+		return this.budgetSupportPersistence.findByBudgetParticipatifIdPublikUserIdAndType(budgetParticipatifId, publikUserId, true);
+	}
 	
 }

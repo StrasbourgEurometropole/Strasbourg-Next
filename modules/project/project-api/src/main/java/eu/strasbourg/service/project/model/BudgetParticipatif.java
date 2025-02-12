@@ -221,29 +221,34 @@ public interface BudgetParticipatif
 		getSupports();
 
 	/**
-	 * Retourne le nombre de soutiens positifs
+	 * Retourne le nombre de soutiens positifs pour ce budget
 	 */
 	public long getNbSupportsPositifs();
 
 	/**
-	 * Retourne le nombre de soutiens négatifs
+	 * Retourne le nombre de soutiens négatifs pour ce budget
 	 */
 	public long getNbSupportsNegatifs();
 
 	/**
-	 * Retourne le nombre de soutien positifs et négatifs
+	 * Retourne le nombre de soutien positifs et négatifs pour ce budget
 	 */
 	public long getNbSupports();
 
 	/**
-	 * Retourne le nombre de soutiens d'un utilisateur pour ce projet
+	 * Retourne le nombre de soutiens positifs d'un utilisateur pour ce projet
 	 */
-	public int getNbSupportOfUser(String publikUserId);
+	public int getNbPositiveSupportOfUser(String publikUserId);
 
 	/**
-	 * Retourne le nombre de soutiens d'un utilisateur pour la phase en cours, qu'importe le projet
+	 * Retourne le nombre de soutiens positif d'un utilisateur pour la phase en cours, qu'importe le projet
 	 */
 	public int getNbSupportOfUserInActivePhase(String publikUserId);
+
+	/**
+	 * Retourne le nombre de soutiens négatifs d'un utilisateur pour la phase en cours, qu'importe le projet
+	 */
+	public int getNbUnsupportOfUserInActivePhase(String publikUserId);
 
 	/**
 	 * Retourne le nombre de soutien sous le format 6 digits pour l'affichage
@@ -256,9 +261,6 @@ public interface BudgetParticipatif
 
 	/**
 	 * Remplace le statut bp actuel par celui fournis en paramètre de la méthode
-	 *
-	 * @param budgetParticipatif
-	 * @param status
 	 */
 	public void setBPStatus(
 		eu.strasbourg.service.project.model.BudgetParticipatif

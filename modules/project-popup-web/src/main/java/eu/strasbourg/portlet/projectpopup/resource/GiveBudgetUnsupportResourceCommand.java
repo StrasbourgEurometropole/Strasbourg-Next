@@ -38,17 +38,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Component(
-	immediate = true,
-    property = {
-            "javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_POPUP_WEB,
-            "mvc.command.name=giveBudgetSupport"
-    },
-    service = MVCResourceCommand.class
+        immediate = true,
+        property = {
+                "javax.portlet.name=" + StrasbourgPortletKeys.PROJECT_POPUP_WEB,
+                "mvc.command.name=giveBudgetUnsupport"
+        },
+        service = MVCResourceCommand.class
 )
-public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
+public class GiveBudgetUnsupportResourceCommand implements MVCResourceCommand {
 
-	// Constantes des ID de recuperation d'informations de la requete
-	private static final String BIRTHDAY = "birthday";
+    // Constantes des ID de recuperation d'informations de la requete
+    private static final String BIRTHDAY = "birthday";
     private static final String ADDRESS = "address";
     private static final String CITY = "city";
     private static final String POSTALCODE = "postalcode";
@@ -66,16 +66,12 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
 
         // Initialisations respectives de : nombre de votes pour l'entite courante, le nombre de votes de l'utilisateur
         // pour l'entite courante, le nombre de votes de l'utilisateur, le nombre de votes pour la phase active
-        int nbUserSupports = 0;
         int nbUserUnsupports = 0;
-        int nbUserEntrySupports = 0;
         int nbEntrySupports = 0;
-        long nbSupportForActivePhase = 0;
+        int nbUserSupports = 0;
         long nbUnsupportForActivePhase = 0;
-        long nbUserSupportForEntry = 0;
-        long thresholdNegative = 0;
 
-        // Recuperation de l'utilsiteur Publik ayant lance la demande
+        // Recuperation de l'utilisateur Publik ayant lance la demande
         PublikUser user = null;
         String publikID = getPublikID(request);
         if (publikID != null && !publikID.isEmpty()) {
@@ -88,28 +84,20 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
         try {
             AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(entryID);
             budgetParticipatif = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(assetEntry.getClassPK());
-            // Recuperation du nombre de votes + de l'utilisateur
-            nbUserSupports = budgetParticipatif.getNbSupportOfUserInActivePhase(publikID);
             // Recuperation du nombre de votes - de l'utilisateur
             nbUserUnsupports = budgetParticipatif.getNbUnsupportOfUserInActivePhase(publikID);
-            // Recuperation du nombre de votes + de l'utilisateur pour l'entite courante
-            nbUserEntrySupports = budgetParticipatif.getNbPositiveSupportOfUser(publikID);
+            // Recuperation du nombre de votes + de l'utilisateur
+            nbUserSupports = budgetParticipatif.getNbSupportOfUserInActivePhase(publikID);
             // Recuperation du nombre de votes + et - pour l'entite courante
             nbEntrySupports = (int) budgetParticipatif.getNbSupports();
-            // Recuperation du nombre de votes + pour la phase
-            nbSupportForActivePhase = budgetParticipatif.getPhase().getNumberOfVote();
             // Recuperation du nombre de votes - pour la phase
             nbUnsupportForActivePhase = budgetParticipatif.getPhase().getNumberOfNegativeVote();
-            // Recuperation du nombre max de votes + pour l'entité pour un utilisateur
-            nbUserSupportForEntry = budgetParticipatif.getPhase().getMaxVoteBudget();
-            // Recuperation du seuil de votes + pour permettre les votes -
-            thresholdNegative = budgetParticipatif.getPhase().getThresholdNegative();
         } catch (PortalException e1) {
             _log.error(e1);
         }
 
         // Verification de la validite des informations
-        String message = validate(publikID, user,  budgetParticipatif, nbUserEntrySupports, nbUserSupports, nbUserUnsupports);
+        String message = validate(publikID, user,  budgetParticipatif, nbUserSupports, nbUserUnsupports);
         if (message.equals("")) {
 
             // Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
@@ -150,16 +138,15 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
             if (!mobile.isEmpty())
                 budgetSupport.setCitoyenMobilePhone(mobile);
             budgetSupport.setCitoyenMail(user != null ? user.getEmail() : null);
-            budgetSupport.setIsNegatif(false);
+            budgetSupport.setIsNegatif(true);
             budgetSupport.setPublikUserId(publikID);
             budgetSupport.setBudgetParticipatifId(budgetParticipatif != null ? budgetParticipatif.getBudgetParticipatifId() : 0);
             budgetSupport = BudgetSupportLocalServiceUtil.updateBudgetSupport(budgetSupport);
-            _log.info("Soutien cree : " + budgetSupport);
+            _log.info("Soutien négatif cree : " + budgetSupport);
             result = true;
             // MaJ des compteurs
-            nbUserSupports++;
-            nbUserEntrySupports++;
-            nbEntrySupports++;
+            nbUserUnsupports++;
+            nbEntrySupports--;
 
         }
 
@@ -169,18 +156,13 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
         jsonResponse.put("message", message);
         jsonResponse.put("savedInfo", saveInfo);
 
-        JSONObject updatedSupportsInfo = JSONFactoryUtil.createJSONObject();
+        JSONObject updatedUnsupportsInfo = JSONFactoryUtil.createJSONObject();
 
-        updatedSupportsInfo.put("nbUserSupports", nbUserSupports);
-        updatedSupportsInfo.put("nbUserUnsupports", nbUserUnsupports);
-        updatedSupportsInfo.put("nbUserEntrySupports", nbUserEntrySupports);
-        updatedSupportsInfo.put("nbEntrySupports", nbEntrySupports);
-        updatedSupportsInfo.put("nbSupportForActivePhase", nbSupportForActivePhase);
-        updatedSupportsInfo.put("nbUnsupportForActivePhase", nbUnsupportForActivePhase);
-        updatedSupportsInfo.put("nbUserSupportForEntry", nbUserSupportForEntry);
-        updatedSupportsInfo.put("thresholdNegative", thresholdNegative);
+        updatedUnsupportsInfo.put("nbUserUnsupports", nbUserUnsupports);
+        updatedUnsupportsInfo.put("nbEntrySupports", nbEntrySupports);
+        updatedUnsupportsInfo.put("nbUnsupportForActivePhase", nbUnsupportForActivePhase);
 
-        jsonResponse.put("updatedSupportsInfo", updatedSupportsInfo);
+        jsonResponse.put("updatedUnsupportsInfo", updatedUnsupportsInfo);
 
         // Recuperation de l'élément d'écriture de la réponse
         PrintWriter writer = null;
@@ -219,15 +201,15 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
      * du contexte fonctionnel de la requete (ex: vote possible, entite perime, etc)
      * @return le message d'erreur s'il y a une erreur
      */
-    private String validate(String publikID, PublikUser user, BudgetParticipatif budgetParticipatif, int nbUserEntrySupports, int nbUserSupports, int nbUserUnsupports) {
+    private String validate(String publikID, PublikUser user, BudgetParticipatif budgetParticipatif, int nbUserSupports, int nbUserUnsupports) {
         // utilisateur
         if (publikID == null || publikID.isEmpty()) {
             return "Utilisateur non reconnu";
         } else {
             if (user.isBanned()) {
-                return "Vous ne pouvez soutenir ce projet";
+                return "Vous ne pouvez contester ce projet";
             } else if (user.getPactSignature() == null) {
-                return "Vous devez signer le Pacte pour soutenir ce projet";
+                return "Vous devez signer le Pacte pour contester ce projet";
             }
         }
 
@@ -240,18 +222,13 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
             return "Erreur lors de la recherche du budget participatif";
         }
 
-        // nombre de votes positif pour ce budget de l'utilisateur
-        if (nbUserEntrySupports >= budgetParticipatif.getPhase().getMaxVoteBudget()) {
-            return "Vous avez atteint le nombre maximum de votes sur ce projet";
+        // nombre de votes négatifs >= au nombre de votes négatifs disponibles
+        if (nbUserUnsupports >= budgetParticipatif.getPhase().getNumberOfNegativeVote()) {
+            return "Vous ne disposez plus de votes n\u00e9gatif";
         }
-        // nombre de votes de l'utilisateur
-        if (nbUserSupports >= budgetParticipatif.getPhase().getNumberOfVote()) {
-            return "Vous ne pouvez plus voter pour cette phase";
-        }
-
-        // Vote négatif
-        if (nbUserUnsupports > 0) {
-            return "Vous ne pouvez plus soutenir un budget apr\u00e8s avoir vot\u00e9 n\u00e9gativement";
+        // nombre de votes positifs pas atteint
+        if (nbUserSupports < budgetParticipatif.getPhase().getThresholdNegative()) {
+            return "Vous n\u0027avez pas donner assez de votes positifs pour voter n\u00e9gativement";
         }
 
         return ""; //désactivation du controle des champs  de l'usager suite à la désactivation de la popup au premier vote

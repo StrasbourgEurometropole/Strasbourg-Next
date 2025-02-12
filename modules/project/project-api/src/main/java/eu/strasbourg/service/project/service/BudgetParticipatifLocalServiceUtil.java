@@ -65,6 +65,26 @@ public class BudgetParticipatifLocalServiceUtil {
 	}
 
 	/**
+	 * Retourne le nombre de budgets participatifs suivis négativement par un utilisateur et une phase donnes
+	 */
+	public static int countBudgetSupportedNegativelyByPublikUserInPhase(
+		String publikUserId, long budgetPhaseId) {
+
+		return getService().countBudgetSupportedNegativelyByPublikUserInPhase(
+			publikUserId, budgetPhaseId);
+	}
+
+	/**
+	 * Retourne le nombre de budgets participatifs suivis positivement par un utilisateur et une phase donnes
+	 */
+	public static int countBudgetSupportedPositivelyByPublikUserInPhase(
+		String publikUserId, long budgetPhaseId) {
+
+		return getService().countBudgetSupportedPositivelyByPublikUserInPhase(
+			publikUserId, budgetPhaseId);
+	}
+
+	/**
 	 * Creates a new budget participatif with the primary key. Does not add the budget participatif to the database.
 	 *
 	 * @param budgetParticipatifId the primary key for the new budget participatif
@@ -378,6 +398,17 @@ public class BudgetParticipatifLocalServiceUtil {
 
 		return getService().getBudgetSupportedByPublikUserInPhase(
 			publikUserId, budgetPhaseId);
+	}
+
+	/**
+	 * Retourne tous les budgets participatifs suivis par un utilisateur et une phase donnes
+	 */
+	public static List<BudgetParticipatif>
+		getBudgetSupportedByPublikUserInPhase(
+			String publikUserId, long budgetPhaseId, boolean isNegative) {
+
+		return getService().getBudgetSupportedByPublikUserInPhase(
+			publikUserId, budgetPhaseId, isNegative);
 	}
 
 	/**

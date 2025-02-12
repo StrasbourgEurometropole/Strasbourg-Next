@@ -327,26 +327,63 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             ${entry.getBPMessageState(request)}
 
             <#if isVotable> <#-- Est votable -->
-                <#assign nbSupportForActivePhase = entry.getPhase().getNumberOfVote()>
+                <#assign phase = entry.getPhase()>
+                <#assign nbSupportForActivePhase = phase.getNumberOfVote()> <#-- nb vote + max pour un user -->
+                <#assign nbSupportForEntry = phase.getMaxVoteBudget()><#-- nb vote + max pour un user et un bp -->
+                <#assign thresholdNegative = phase.getThresholdNegative() ><#-- seuil de votes + pour acceder aux votes - -->
+                <#assign nbUnsupportForActivePhase = phase.getNumberOfNegativeVote() ><#-- nb vote - max pour un user -->
                 <#if isUserloggedIn && hasUserPactSign && !isUserBanned> <#-- Utilisateur connecté et ayant signé le pacte -->
-                    <#assign nbSupportOfUserForEntry = entry.getNbSupportOfUser(userID) >
-                    <#assign nbSupportOfUserForActivePhase = entry.getNbSupportOfUserInActivePhase(userID) >
+                    <#assign nbSupportOfUserForActivePhase = entry.getNbSupportOfUserInActivePhase(userID) ><#-- nb vote + d'un user -->
+                    <#assign nbSupportOfUserForEntry = entry.getNbPositiveSupportOfUser(userID) ><#-- nb de votes + pour un user et un bp -->
+                    <#assign nbUnsupportOfUserForActivePhase = entry.getNbUnsupportOfUserInActivePhase(userID) ><#-- nb de votes - d'un user -->
 
-                    <a href="#Support" data-nbsupports="${nbSupportOfUserForEntry}" class="pro-btn-black" data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
-                    <p class="pro-txt-vote">Il vous reste <strong  id="nbUserSupports">${nbSupportForActivePhase - nbSupportOfUserForActivePhase}</strong> possibilité(s) de voter pour un projet</p>
+                    <a href="#Support" data-nbsupports="${nbSupportOfUserForEntry}" class="pro-btn-black" data-toggle="modal" data-target="#modalVote">
+                        ${entry.getBPbuttonMessageState(request)}
+                    </a>
+                    <a href="#Unsupport" data-nbunsupports="${nbUnsupportOfUserForActivePhase}" class="pro-btn-black" data-toggle="modal" data-target="#modalVote">
+                        Vote négatif
+                    </a>
+                    <p class="pro-txt-vote" id="messageSupport">
+                        Il vous reste <strong  id="nbUserSupports">${nbSupportForActivePhase - nbSupportOfUserForActivePhase}</strong> possibilité(s) de voter pour un projet
+                    </p>
                     <a href="#RemoveSupport" class="pro-btn-black">
                         Retirer vote (<strong  id="nbUserEntrySupports">${nbSupportOfUserForEntry}</strong>)
                     </a>
 
                     <script>
                         $(document).ready(function() {
-                            // Cacher le bouton de vote si l'utilisateur a déjà utilisé les siens
-                            if (${nbSupportOfUserForActivePhase} >= ${nbSupportForActivePhase}) {
+                            // Si vote - , on masque les boutons vote + , remove et le message
+                            if (${nbUnsupportOfUserForActivePhase} > 0){
                                 $("[href='#Support']").hide();
-                            }
-                            // Cacher le bouton de retrait de vote si l'utilisateur n'a jamais voté pour ce projet
-                            if (${nbSupportOfUserForEntry} < 1) {
                                 $("[href='#RemoveSupport']").hide();
+                                $("#messageSupport").hide();
+
+                                // Cacher le bouton de vote négatif
+                                // si l'utilisateur a déjà utilisé tous ses votes - pour la phase active
+                                if (${nbUnsupportOfUserForActivePhase} >= ${nbUnsupportForActivePhase}){
+                                    $("[href='#Unsupport']").hide();
+                                }
+                            }else{
+                                // Cacher le bouton de vote
+                                // si l'utilisateur a déjà utilisé tous ses votes + pour la phase active
+                                // ou s'il a atteint le nombre max de votes + sur ce bp
+                                if (${nbSupportOfUserForActivePhase} >= ${nbSupportForActivePhase} ||
+                                    ${nbSupportOfUserForEntry} >= ${nbSupportForEntry}) {
+                                    $("[href='#Support']").hide();
+                                }
+
+                                // Cacher le bouton de vote négatif
+                                // si l'utilisateur a déjà utilisé tous ses votes - pour la phase active
+                                // ou s'il n'a pas atteint le seuil de votes +
+                                if (${nbUnsupportOfUserForActivePhase} >= ${nbUnsupportForActivePhase} ||
+                                    ${nbSupportOfUserForActivePhase} < ${thresholdNegative}) {
+                                    $("[href='#Unsupport']").hide();
+                                }
+
+                                // Cacher le bouton de retrait de vote si l'utilisateur n'a jamais voté pour ce projet
+                                if (${nbSupportOfUserForEntry} < 1) {
+                                    $("[href='#RemoveSupport']").hide();
+                                }
                             }
                         });
                     </script>

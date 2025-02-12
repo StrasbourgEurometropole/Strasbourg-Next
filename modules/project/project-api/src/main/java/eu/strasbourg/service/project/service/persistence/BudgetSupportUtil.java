@@ -1257,207 +1257,435 @@ public class BudgetSupportUtil {
 	}
 
 	/**
-	 * Returns all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 * Returns all the budget supports where publikUserId = &#63; and isNegatif = &#63;.
 	 *
-	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 * @return the matching budget supports
 	 */
-	public static List<BudgetSupport> findByBudgetParticipatifIdAndPublikUserId(
-		long budgetParticipatifId, String publikUserId) {
+	public static List<BudgetSupport> findByPublikUserIdAndType(
+		String publikUserId, Boolean isNegatif) {
 
-		return getPersistence().findByBudgetParticipatifIdAndPublikUserId(
-			budgetParticipatifId, publikUserId);
+		return getPersistence().findByPublikUserIdAndType(
+			publikUserId, isNegatif);
 	}
 
 	/**
-	 * Returns a range of all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 * Returns a range of all the budget supports where publikUserId = &#63; and isNegatif = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>BudgetSupportModelImpl</code>.
 	 * </p>
 	 *
-	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 * @param start the lower bound of the range of budget supports
 	 * @param end the upper bound of the range of budget supports (not inclusive)
 	 * @return the range of matching budget supports
 	 */
-	public static List<BudgetSupport> findByBudgetParticipatifIdAndPublikUserId(
-		long budgetParticipatifId, String publikUserId, int start, int end) {
+	public static List<BudgetSupport> findByPublikUserIdAndType(
+		String publikUserId, Boolean isNegatif, int start, int end) {
 
-		return getPersistence().findByBudgetParticipatifIdAndPublikUserId(
-			budgetParticipatifId, publikUserId, start, end);
+		return getPersistence().findByPublikUserIdAndType(
+			publikUserId, isNegatif, start, end);
 	}
 
 	/**
-	 * Returns an ordered range of all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 * Returns an ordered range of all the budget supports where publikUserId = &#63; and isNegatif = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>BudgetSupportModelImpl</code>.
 	 * </p>
 	 *
-	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 * @param start the lower bound of the range of budget supports
 	 * @param end the upper bound of the range of budget supports (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching budget supports
 	 */
-	public static List<BudgetSupport> findByBudgetParticipatifIdAndPublikUserId(
-		long budgetParticipatifId, String publikUserId, int start, int end,
+	public static List<BudgetSupport> findByPublikUserIdAndType(
+		String publikUserId, Boolean isNegatif, int start, int end,
 		OrderByComparator<BudgetSupport> orderByComparator) {
 
-		return getPersistence().findByBudgetParticipatifIdAndPublikUserId(
-			budgetParticipatifId, publikUserId, start, end, orderByComparator);
+		return getPersistence().findByPublikUserIdAndType(
+			publikUserId, isNegatif, start, end, orderByComparator);
 	}
 
 	/**
-	 * Returns an ordered range of all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 * Returns an ordered range of all the budget supports where publikUserId = &#63; and isNegatif = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>BudgetSupportModelImpl</code>.
 	 * </p>
 	 *
-	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 * @param start the lower bound of the range of budget supports
 	 * @param end the upper bound of the range of budget supports (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching budget supports
 	 */
-	public static List<BudgetSupport> findByBudgetParticipatifIdAndPublikUserId(
-		long budgetParticipatifId, String publikUserId, int start, int end,
+	public static List<BudgetSupport> findByPublikUserIdAndType(
+		String publikUserId, Boolean isNegatif, int start, int end,
 		OrderByComparator<BudgetSupport> orderByComparator,
 		boolean useFinderCache) {
 
-		return getPersistence().findByBudgetParticipatifIdAndPublikUserId(
-			budgetParticipatifId, publikUserId, start, end, orderByComparator,
+		return getPersistence().findByPublikUserIdAndType(
+			publikUserId, isNegatif, start, end, orderByComparator,
 			useFinderCache);
 	}
 
 	/**
-	 * Returns the first budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 * Returns the first budget support in the ordered set where publikUserId = &#63; and isNegatif = &#63;.
 	 *
-	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching budget support
 	 * @throws NoSuchBudgetSupportException if a matching budget support could not be found
 	 */
-	public static BudgetSupport findByBudgetParticipatifIdAndPublikUserId_First(
-			long budgetParticipatifId, String publikUserId,
+	public static BudgetSupport findByPublikUserIdAndType_First(
+			String publikUserId, Boolean isNegatif,
 			OrderByComparator<BudgetSupport> orderByComparator)
 		throws eu.strasbourg.service.project.exception.
 			NoSuchBudgetSupportException {
 
-		return getPersistence().findByBudgetParticipatifIdAndPublikUserId_First(
-			budgetParticipatifId, publikUserId, orderByComparator);
+		return getPersistence().findByPublikUserIdAndType_First(
+			publikUserId, isNegatif, orderByComparator);
 	}
 
 	/**
-	 * Returns the first budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 * Returns the first budget support in the ordered set where publikUserId = &#63; and isNegatif = &#63;.
 	 *
-	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching budget support, or <code>null</code> if a matching budget support could not be found
 	 */
-	public static BudgetSupport
-		fetchByBudgetParticipatifIdAndPublikUserId_First(
-			long budgetParticipatifId, String publikUserId,
-			OrderByComparator<BudgetSupport> orderByComparator) {
+	public static BudgetSupport fetchByPublikUserIdAndType_First(
+		String publikUserId, Boolean isNegatif,
+		OrderByComparator<BudgetSupport> orderByComparator) {
 
-		return getPersistence().
-			fetchByBudgetParticipatifIdAndPublikUserId_First(
-				budgetParticipatifId, publikUserId, orderByComparator);
+		return getPersistence().fetchByPublikUserIdAndType_First(
+			publikUserId, isNegatif, orderByComparator);
 	}
 
 	/**
-	 * Returns the last budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 * Returns the last budget support in the ordered set where publikUserId = &#63; and isNegatif = &#63;.
 	 *
-	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching budget support
 	 * @throws NoSuchBudgetSupportException if a matching budget support could not be found
 	 */
-	public static BudgetSupport findByBudgetParticipatifIdAndPublikUserId_Last(
-			long budgetParticipatifId, String publikUserId,
+	public static BudgetSupport findByPublikUserIdAndType_Last(
+			String publikUserId, Boolean isNegatif,
 			OrderByComparator<BudgetSupport> orderByComparator)
 		throws eu.strasbourg.service.project.exception.
 			NoSuchBudgetSupportException {
 
-		return getPersistence().findByBudgetParticipatifIdAndPublikUserId_Last(
-			budgetParticipatifId, publikUserId, orderByComparator);
+		return getPersistence().findByPublikUserIdAndType_Last(
+			publikUserId, isNegatif, orderByComparator);
 	}
 
 	/**
-	 * Returns the last budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 * Returns the last budget support in the ordered set where publikUserId = &#63; and isNegatif = &#63;.
 	 *
-	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching budget support, or <code>null</code> if a matching budget support could not be found
 	 */
-	public static BudgetSupport fetchByBudgetParticipatifIdAndPublikUserId_Last(
-		long budgetParticipatifId, String publikUserId,
+	public static BudgetSupport fetchByPublikUserIdAndType_Last(
+		String publikUserId, Boolean isNegatif,
 		OrderByComparator<BudgetSupport> orderByComparator) {
 
-		return getPersistence().fetchByBudgetParticipatifIdAndPublikUserId_Last(
-			budgetParticipatifId, publikUserId, orderByComparator);
+		return getPersistence().fetchByPublikUserIdAndType_Last(
+			publikUserId, isNegatif, orderByComparator);
 	}
 
 	/**
-	 * Returns the budget supports before and after the current budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 * Returns the budget supports before and after the current budget support in the ordered set where publikUserId = &#63; and isNegatif = &#63;.
 	 *
 	 * @param budgetSupportId the primary key of the current budget support
-	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next budget support
 	 * @throws NoSuchBudgetSupportException if a budget support with the primary key could not be found
 	 */
-	public static BudgetSupport[]
-			findByBudgetParticipatifIdAndPublikUserId_PrevAndNext(
-				long budgetSupportId, long budgetParticipatifId,
-				String publikUserId,
+	public static BudgetSupport[] findByPublikUserIdAndType_PrevAndNext(
+			long budgetSupportId, String publikUserId, Boolean isNegatif,
+			OrderByComparator<BudgetSupport> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchBudgetSupportException {
+
+		return getPersistence().findByPublikUserIdAndType_PrevAndNext(
+			budgetSupportId, publikUserId, isNegatif, orderByComparator);
+	}
+
+	/**
+	 * Removes all the budget supports where publikUserId = &#63; and isNegatif = &#63; from the database.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 */
+	public static void removeByPublikUserIdAndType(
+		String publikUserId, Boolean isNegatif) {
+
+		getPersistence().removeByPublikUserIdAndType(publikUserId, isNegatif);
+	}
+
+	/**
+	 * Returns the number of budget supports where publikUserId = &#63; and isNegatif = &#63;.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 * @return the number of matching budget supports
+	 */
+	public static int countByPublikUserIdAndType(
+		String publikUserId, Boolean isNegatif) {
+
+		return getPersistence().countByPublikUserIdAndType(
+			publikUserId, isNegatif);
+	}
+
+	/**
+	 * Returns all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 * @return the matching budget supports
+	 */
+	public static List<BudgetSupport>
+		findByBudgetParticipatifIdPublikUserIdAndType(
+			long budgetParticipatifId, String publikUserId, Boolean isNegatif) {
+
+		return getPersistence().findByBudgetParticipatifIdPublikUserIdAndType(
+			budgetParticipatifId, publikUserId, isNegatif);
+	}
+
+	/**
+	 * Returns a range of all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>BudgetSupportModelImpl</code>.
+	 * </p>
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 * @param start the lower bound of the range of budget supports
+	 * @param end the upper bound of the range of budget supports (not inclusive)
+	 * @return the range of matching budget supports
+	 */
+	public static List<BudgetSupport>
+		findByBudgetParticipatifIdPublikUserIdAndType(
+			long budgetParticipatifId, String publikUserId, Boolean isNegatif,
+			int start, int end) {
+
+		return getPersistence().findByBudgetParticipatifIdPublikUserIdAndType(
+			budgetParticipatifId, publikUserId, isNegatif, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>BudgetSupportModelImpl</code>.
+	 * </p>
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 * @param start the lower bound of the range of budget supports
+	 * @param end the upper bound of the range of budget supports (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching budget supports
+	 */
+	public static List<BudgetSupport>
+		findByBudgetParticipatifIdPublikUserIdAndType(
+			long budgetParticipatifId, String publikUserId, Boolean isNegatif,
+			int start, int end,
+			OrderByComparator<BudgetSupport> orderByComparator) {
+
+		return getPersistence().findByBudgetParticipatifIdPublikUserIdAndType(
+			budgetParticipatifId, publikUserId, isNegatif, start, end,
+			orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>BudgetSupportModelImpl</code>.
+	 * </p>
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 * @param start the lower bound of the range of budget supports
+	 * @param end the upper bound of the range of budget supports (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching budget supports
+	 */
+	public static List<BudgetSupport>
+		findByBudgetParticipatifIdPublikUserIdAndType(
+			long budgetParticipatifId, String publikUserId, Boolean isNegatif,
+			int start, int end,
+			OrderByComparator<BudgetSupport> orderByComparator,
+			boolean useFinderCache) {
+
+		return getPersistence().findByBudgetParticipatifIdPublikUserIdAndType(
+			budgetParticipatifId, publikUserId, isNegatif, start, end,
+			orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching budget support
+	 * @throws NoSuchBudgetSupportException if a matching budget support could not be found
+	 */
+	public static BudgetSupport
+			findByBudgetParticipatifIdPublikUserIdAndType_First(
+				long budgetParticipatifId, String publikUserId,
+				Boolean isNegatif,
 				OrderByComparator<BudgetSupport> orderByComparator)
 		throws eu.strasbourg.service.project.exception.
 			NoSuchBudgetSupportException {
 
 		return getPersistence().
-			findByBudgetParticipatifIdAndPublikUserId_PrevAndNext(
-				budgetSupportId, budgetParticipatifId, publikUserId,
+			findByBudgetParticipatifIdPublikUserIdAndType_First(
+				budgetParticipatifId, publikUserId, isNegatif,
 				orderByComparator);
 	}
 
 	/**
-	 * Removes all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63; from the database.
+	 * Returns the first budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
 	 *
 	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching budget support, or <code>null</code> if a matching budget support could not be found
 	 */
-	public static void removeByBudgetParticipatifIdAndPublikUserId(
-		long budgetParticipatifId, String publikUserId) {
+	public static BudgetSupport
+		fetchByBudgetParticipatifIdPublikUserIdAndType_First(
+			long budgetParticipatifId, String publikUserId, Boolean isNegatif,
+			OrderByComparator<BudgetSupport> orderByComparator) {
 
-		getPersistence().removeByBudgetParticipatifIdAndPublikUserId(
-			budgetParticipatifId, publikUserId);
+		return getPersistence().
+			fetchByBudgetParticipatifIdPublikUserIdAndType_First(
+				budgetParticipatifId, publikUserId, isNegatif,
+				orderByComparator);
 	}
 
 	/**
-	 * Returns the number of budget supports where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 * Returns the last budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
 	 *
 	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching budget support
+	 * @throws NoSuchBudgetSupportException if a matching budget support could not be found
+	 */
+	public static BudgetSupport
+			findByBudgetParticipatifIdPublikUserIdAndType_Last(
+				long budgetParticipatifId, String publikUserId,
+				Boolean isNegatif,
+				OrderByComparator<BudgetSupport> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchBudgetSupportException {
+
+		return getPersistence().
+			findByBudgetParticipatifIdPublikUserIdAndType_Last(
+				budgetParticipatifId, publikUserId, isNegatif,
+				orderByComparator);
+	}
+
+	/**
+	 * Returns the last budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching budget support, or <code>null</code> if a matching budget support could not be found
+	 */
+	public static BudgetSupport
+		fetchByBudgetParticipatifIdPublikUserIdAndType_Last(
+			long budgetParticipatifId, String publikUserId, Boolean isNegatif,
+			OrderByComparator<BudgetSupport> orderByComparator) {
+
+		return getPersistence().
+			fetchByBudgetParticipatifIdPublikUserIdAndType_Last(
+				budgetParticipatifId, publikUserId, isNegatif,
+				orderByComparator);
+	}
+
+	/**
+	 * Returns the budget supports before and after the current budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
+	 *
+	 * @param budgetSupportId the primary key of the current budget support
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next budget support
+	 * @throws NoSuchBudgetSupportException if a budget support with the primary key could not be found
+	 */
+	public static BudgetSupport[]
+			findByBudgetParticipatifIdPublikUserIdAndType_PrevAndNext(
+				long budgetSupportId, long budgetParticipatifId,
+				String publikUserId, Boolean isNegatif,
+				OrderByComparator<BudgetSupport> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchBudgetSupportException {
+
+		return getPersistence().
+			findByBudgetParticipatifIdPublikUserIdAndType_PrevAndNext(
+				budgetSupportId, budgetParticipatifId, publikUserId, isNegatif,
+				orderByComparator);
+	}
+
+	/**
+	 * Removes all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63; from the database.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 */
+	public static void removeByBudgetParticipatifIdPublikUserIdAndType(
+		long budgetParticipatifId, String publikUserId, Boolean isNegatif) {
+
+		getPersistence().removeByBudgetParticipatifIdPublikUserIdAndType(
+			budgetParticipatifId, publikUserId, isNegatif);
+	}
+
+	/**
+	 * Returns the number of budget supports where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 * @return the number of matching budget supports
 	 */
-	public static int countByBudgetParticipatifIdAndPublikUserId(
-		long budgetParticipatifId, String publikUserId) {
+	public static int countByBudgetParticipatifIdPublikUserIdAndType(
+		long budgetParticipatifId, String publikUserId, Boolean isNegatif) {
 
-		return getPersistence().countByBudgetParticipatifIdAndPublikUserId(
-			budgetParticipatifId, publikUserId);
+		return getPersistence().countByBudgetParticipatifIdPublikUserIdAndType(
+			budgetParticipatifId, publikUserId, isNegatif);
 	}
 
 	/**

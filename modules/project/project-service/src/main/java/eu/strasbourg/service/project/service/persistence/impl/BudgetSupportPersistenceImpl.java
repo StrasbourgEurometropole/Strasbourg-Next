@@ -3549,82 +3549,79 @@ public class BudgetSupportPersistenceImpl
 	private static final String _FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3 =
 		"(budgetSupport.publikUserId IS NULL OR budgetSupport.publikUserId = '')";
 
-	private FinderPath
-		_finderPathWithPaginationFindByBudgetParticipatifIdAndPublikUserId;
-	private FinderPath
-		_finderPathWithoutPaginationFindByBudgetParticipatifIdAndPublikUserId;
-	private FinderPath _finderPathCountByBudgetParticipatifIdAndPublikUserId;
+	private FinderPath _finderPathWithPaginationFindByPublikUserIdAndType;
+	private FinderPath _finderPathWithoutPaginationFindByPublikUserIdAndType;
+	private FinderPath _finderPathCountByPublikUserIdAndType;
 
 	/**
-	 * Returns all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 * Returns all the budget supports where publikUserId = &#63; and isNegatif = &#63;.
 	 *
-	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 * @return the matching budget supports
 	 */
 	@Override
-	public List<BudgetSupport> findByBudgetParticipatifIdAndPublikUserId(
-		long budgetParticipatifId, String publikUserId) {
+	public List<BudgetSupport> findByPublikUserIdAndType(
+		String publikUserId, Boolean isNegatif) {
 
-		return findByBudgetParticipatifIdAndPublikUserId(
-			budgetParticipatifId, publikUserId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+		return findByPublikUserIdAndType(
+			publikUserId, isNegatif, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+			null);
 	}
 
 	/**
-	 * Returns a range of all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 * Returns a range of all the budget supports where publikUserId = &#63; and isNegatif = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>BudgetSupportModelImpl</code>.
 	 * </p>
 	 *
-	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 * @param start the lower bound of the range of budget supports
 	 * @param end the upper bound of the range of budget supports (not inclusive)
 	 * @return the range of matching budget supports
 	 */
 	@Override
-	public List<BudgetSupport> findByBudgetParticipatifIdAndPublikUserId(
-		long budgetParticipatifId, String publikUserId, int start, int end) {
+	public List<BudgetSupport> findByPublikUserIdAndType(
+		String publikUserId, Boolean isNegatif, int start, int end) {
 
-		return findByBudgetParticipatifIdAndPublikUserId(
-			budgetParticipatifId, publikUserId, start, end, null);
+		return findByPublikUserIdAndType(
+			publikUserId, isNegatif, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 * Returns an ordered range of all the budget supports where publikUserId = &#63; and isNegatif = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>BudgetSupportModelImpl</code>.
 	 * </p>
 	 *
-	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 * @param start the lower bound of the range of budget supports
 	 * @param end the upper bound of the range of budget supports (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching budget supports
 	 */
 	@Override
-	public List<BudgetSupport> findByBudgetParticipatifIdAndPublikUserId(
-		long budgetParticipatifId, String publikUserId, int start, int end,
+	public List<BudgetSupport> findByPublikUserIdAndType(
+		String publikUserId, Boolean isNegatif, int start, int end,
 		OrderByComparator<BudgetSupport> orderByComparator) {
 
-		return findByBudgetParticipatifIdAndPublikUserId(
-			budgetParticipatifId, publikUserId, start, end, orderByComparator,
-			true);
+		return findByPublikUserIdAndType(
+			publikUserId, isNegatif, start, end, orderByComparator, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 * Returns an ordered range of all the budget supports where publikUserId = &#63; and isNegatif = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>BudgetSupportModelImpl</code>.
 	 * </p>
 	 *
-	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 * @param start the lower bound of the range of budget supports
 	 * @param end the upper bound of the range of budget supports (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -3632,8 +3629,8 @@ public class BudgetSupportPersistenceImpl
 	 * @return the ordered range of matching budget supports
 	 */
 	@Override
-	public List<BudgetSupport> findByBudgetParticipatifIdAndPublikUserId(
-		long budgetParticipatifId, String publikUserId, int start, int end,
+	public List<BudgetSupport> findByPublikUserIdAndType(
+		String publikUserId, Boolean isNegatif, int start, int end,
 		OrderByComparator<BudgetSupport> orderByComparator,
 		boolean useFinderCache) {
 
@@ -3647,16 +3644,14 @@ public class BudgetSupportPersistenceImpl
 
 			if (useFinderCache) {
 				finderPath =
-					_finderPathWithoutPaginationFindByBudgetParticipatifIdAndPublikUserId;
-				finderArgs = new Object[] {budgetParticipatifId, publikUserId};
+					_finderPathWithoutPaginationFindByPublikUserIdAndType;
+				finderArgs = new Object[] {publikUserId, isNegatif};
 			}
 		}
 		else if (useFinderCache) {
-			finderPath =
-				_finderPathWithPaginationFindByBudgetParticipatifIdAndPublikUserId;
+			finderPath = _finderPathWithPaginationFindByPublikUserIdAndType;
 			finderArgs = new Object[] {
-				budgetParticipatifId, publikUserId, start, end,
-				orderByComparator
+				publikUserId, isNegatif, start, end, orderByComparator
 			};
 		}
 
@@ -3668,9 +3663,9 @@ public class BudgetSupportPersistenceImpl
 
 			if ((list != null) && !list.isEmpty()) {
 				for (BudgetSupport budgetSupport : list) {
-					if ((budgetParticipatifId !=
-							budgetSupport.getBudgetParticipatifId()) ||
-						!publikUserId.equals(budgetSupport.getPublikUserId())) {
+					if (!publikUserId.equals(budgetSupport.getPublikUserId()) ||
+						!Objects.equals(
+							isNegatif, budgetSupport.getIsNegatif())) {
 
 						list = null;
 
@@ -3693,21 +3688,634 @@ public class BudgetSupportPersistenceImpl
 
 			sb.append(_SQL_SELECT_BUDGETSUPPORT_WHERE);
 
+			boolean bindPublikUserId = false;
+
+			if (publikUserId.isEmpty()) {
+				sb.append(_FINDER_COLUMN_PUBLIKUSERIDANDTYPE_PUBLIKUSERID_3);
+			}
+			else {
+				bindPublikUserId = true;
+
+				sb.append(_FINDER_COLUMN_PUBLIKUSERIDANDTYPE_PUBLIKUSERID_2);
+			}
+
+			sb.append(_FINDER_COLUMN_PUBLIKUSERIDANDTYPE_ISNEGATIF_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else {
+				sb.append(BudgetSupportModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindPublikUserId) {
+					queryPos.add(publikUserId);
+				}
+
+				queryPos.add(isNegatif.booleanValue());
+
+				list = (List<BudgetSupport>)QueryUtil.list(
+					query, getDialect(), start, end);
+
+				cacheResult(list);
+
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first budget support in the ordered set where publikUserId = &#63; and isNegatif = &#63;.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching budget support
+	 * @throws NoSuchBudgetSupportException if a matching budget support could not be found
+	 */
+	@Override
+	public BudgetSupport findByPublikUserIdAndType_First(
+			String publikUserId, Boolean isNegatif,
+			OrderByComparator<BudgetSupport> orderByComparator)
+		throws NoSuchBudgetSupportException {
+
+		BudgetSupport budgetSupport = fetchByPublikUserIdAndType_First(
+			publikUserId, isNegatif, orderByComparator);
+
+		if (budgetSupport != null) {
+			return budgetSupport;
+		}
+
+		StringBundler sb = new StringBundler(6);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("publikUserId=");
+		sb.append(publikUserId);
+
+		sb.append(", isNegatif=");
+		sb.append(isNegatif);
+
+		sb.append("}");
+
+		throw new NoSuchBudgetSupportException(sb.toString());
+	}
+
+	/**
+	 * Returns the first budget support in the ordered set where publikUserId = &#63; and isNegatif = &#63;.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching budget support, or <code>null</code> if a matching budget support could not be found
+	 */
+	@Override
+	public BudgetSupport fetchByPublikUserIdAndType_First(
+		String publikUserId, Boolean isNegatif,
+		OrderByComparator<BudgetSupport> orderByComparator) {
+
+		List<BudgetSupport> list = findByPublikUserIdAndType(
+			publikUserId, isNegatif, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last budget support in the ordered set where publikUserId = &#63; and isNegatif = &#63;.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching budget support
+	 * @throws NoSuchBudgetSupportException if a matching budget support could not be found
+	 */
+	@Override
+	public BudgetSupport findByPublikUserIdAndType_Last(
+			String publikUserId, Boolean isNegatif,
+			OrderByComparator<BudgetSupport> orderByComparator)
+		throws NoSuchBudgetSupportException {
+
+		BudgetSupport budgetSupport = fetchByPublikUserIdAndType_Last(
+			publikUserId, isNegatif, orderByComparator);
+
+		if (budgetSupport != null) {
+			return budgetSupport;
+		}
+
+		StringBundler sb = new StringBundler(6);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("publikUserId=");
+		sb.append(publikUserId);
+
+		sb.append(", isNegatif=");
+		sb.append(isNegatif);
+
+		sb.append("}");
+
+		throw new NoSuchBudgetSupportException(sb.toString());
+	}
+
+	/**
+	 * Returns the last budget support in the ordered set where publikUserId = &#63; and isNegatif = &#63;.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching budget support, or <code>null</code> if a matching budget support could not be found
+	 */
+	@Override
+	public BudgetSupport fetchByPublikUserIdAndType_Last(
+		String publikUserId, Boolean isNegatif,
+		OrderByComparator<BudgetSupport> orderByComparator) {
+
+		int count = countByPublikUserIdAndType(publikUserId, isNegatif);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<BudgetSupport> list = findByPublikUserIdAndType(
+			publikUserId, isNegatif, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the budget supports before and after the current budget support in the ordered set where publikUserId = &#63; and isNegatif = &#63;.
+	 *
+	 * @param budgetSupportId the primary key of the current budget support
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next budget support
+	 * @throws NoSuchBudgetSupportException if a budget support with the primary key could not be found
+	 */
+	@Override
+	public BudgetSupport[] findByPublikUserIdAndType_PrevAndNext(
+			long budgetSupportId, String publikUserId, Boolean isNegatif,
+			OrderByComparator<BudgetSupport> orderByComparator)
+		throws NoSuchBudgetSupportException {
+
+		publikUserId = Objects.toString(publikUserId, "");
+
+		BudgetSupport budgetSupport = findByPrimaryKey(budgetSupportId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			BudgetSupport[] array = new BudgetSupportImpl[3];
+
+			array[0] = getByPublikUserIdAndType_PrevAndNext(
+				session, budgetSupport, publikUserId, isNegatif,
+				orderByComparator, true);
+
+			array[1] = budgetSupport;
+
+			array[2] = getByPublikUserIdAndType_PrevAndNext(
+				session, budgetSupport, publikUserId, isNegatif,
+				orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected BudgetSupport getByPublikUserIdAndType_PrevAndNext(
+		Session session, BudgetSupport budgetSupport, String publikUserId,
+		Boolean isNegatif, OrderByComparator<BudgetSupport> orderByComparator,
+		boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(4);
+		}
+
+		sb.append(_SQL_SELECT_BUDGETSUPPORT_WHERE);
+
+		boolean bindPublikUserId = false;
+
+		if (publikUserId.isEmpty()) {
+			sb.append(_FINDER_COLUMN_PUBLIKUSERIDANDTYPE_PUBLIKUSERID_3);
+		}
+		else {
+			bindPublikUserId = true;
+
+			sb.append(_FINDER_COLUMN_PUBLIKUSERIDANDTYPE_PUBLIKUSERID_2);
+		}
+
+		sb.append(_FINDER_COLUMN_PUBLIKUSERIDANDTYPE_ISNEGATIF_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			sb.append(BudgetSupportModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = sb.toString();
+
+		Query query = session.createQuery(sql);
+
+		query.setFirstResult(0);
+		query.setMaxResults(2);
+
+		QueryPos queryPos = QueryPos.getInstance(query);
+
+		if (bindPublikUserId) {
+			queryPos.add(publikUserId);
+		}
+
+		queryPos.add(isNegatif.booleanValue());
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						budgetSupport)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<BudgetSupport> list = query.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the budget supports where publikUserId = &#63; and isNegatif = &#63; from the database.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 */
+	@Override
+	public void removeByPublikUserIdAndType(
+		String publikUserId, Boolean isNegatif) {
+
+		for (BudgetSupport budgetSupport :
+				findByPublikUserIdAndType(
+					publikUserId, isNegatif, QueryUtil.ALL_POS,
+					QueryUtil.ALL_POS, null)) {
+
+			remove(budgetSupport);
+		}
+	}
+
+	/**
+	 * Returns the number of budget supports where publikUserId = &#63; and isNegatif = &#63;.
+	 *
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 * @return the number of matching budget supports
+	 */
+	@Override
+	public int countByPublikUserIdAndType(
+		String publikUserId, Boolean isNegatif) {
+
+		publikUserId = Objects.toString(publikUserId, "");
+
+		FinderPath finderPath = _finderPathCountByPublikUserIdAndType;
+
+		Object[] finderArgs = new Object[] {publikUserId, isNegatif};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(3);
+
+			sb.append(_SQL_COUNT_BUDGETSUPPORT_WHERE);
+
+			boolean bindPublikUserId = false;
+
+			if (publikUserId.isEmpty()) {
+				sb.append(_FINDER_COLUMN_PUBLIKUSERIDANDTYPE_PUBLIKUSERID_3);
+			}
+			else {
+				bindPublikUserId = true;
+
+				sb.append(_FINDER_COLUMN_PUBLIKUSERIDANDTYPE_PUBLIKUSERID_2);
+			}
+
+			sb.append(_FINDER_COLUMN_PUBLIKUSERIDANDTYPE_ISNEGATIF_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindPublikUserId) {
+					queryPos.add(publikUserId);
+				}
+
+				queryPos.add(isNegatif.booleanValue());
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String
+		_FINDER_COLUMN_PUBLIKUSERIDANDTYPE_PUBLIKUSERID_2 =
+			"budgetSupport.publikUserId = ? AND ";
+
+	private static final String
+		_FINDER_COLUMN_PUBLIKUSERIDANDTYPE_PUBLIKUSERID_3 =
+			"(budgetSupport.publikUserId IS NULL OR budgetSupport.publikUserId = '') AND ";
+
+	private static final String _FINDER_COLUMN_PUBLIKUSERIDANDTYPE_ISNEGATIF_2 =
+		"budgetSupport.isNegatif = ?";
+
+	private FinderPath
+		_finderPathWithPaginationFindByBudgetParticipatifIdPublikUserIdAndType;
+	private FinderPath
+		_finderPathWithoutPaginationFindByBudgetParticipatifIdPublikUserIdAndType;
+	private FinderPath
+		_finderPathCountByBudgetParticipatifIdPublikUserIdAndType;
+
+	/**
+	 * Returns all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 * @return the matching budget supports
+	 */
+	@Override
+	public List<BudgetSupport> findByBudgetParticipatifIdPublikUserIdAndType(
+		long budgetParticipatifId, String publikUserId, Boolean isNegatif) {
+
+		return findByBudgetParticipatifIdPublikUserIdAndType(
+			budgetParticipatifId, publikUserId, isNegatif, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>BudgetSupportModelImpl</code>.
+	 * </p>
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 * @param start the lower bound of the range of budget supports
+	 * @param end the upper bound of the range of budget supports (not inclusive)
+	 * @return the range of matching budget supports
+	 */
+	@Override
+	public List<BudgetSupport> findByBudgetParticipatifIdPublikUserIdAndType(
+		long budgetParticipatifId, String publikUserId, Boolean isNegatif,
+		int start, int end) {
+
+		return findByBudgetParticipatifIdPublikUserIdAndType(
+			budgetParticipatifId, publikUserId, isNegatif, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>BudgetSupportModelImpl</code>.
+	 * </p>
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 * @param start the lower bound of the range of budget supports
+	 * @param end the upper bound of the range of budget supports (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching budget supports
+	 */
+	@Override
+	public List<BudgetSupport> findByBudgetParticipatifIdPublikUserIdAndType(
+		long budgetParticipatifId, String publikUserId, Boolean isNegatif,
+		int start, int end,
+		OrderByComparator<BudgetSupport> orderByComparator) {
+
+		return findByBudgetParticipatifIdPublikUserIdAndType(
+			budgetParticipatifId, publikUserId, isNegatif, start, end,
+			orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>BudgetSupportModelImpl</code>.
+	 * </p>
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
+	 * @param start the lower bound of the range of budget supports
+	 * @param end the upper bound of the range of budget supports (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching budget supports
+	 */
+	@Override
+	public List<BudgetSupport> findByBudgetParticipatifIdPublikUserIdAndType(
+		long budgetParticipatifId, String publikUserId, Boolean isNegatif,
+		int start, int end, OrderByComparator<BudgetSupport> orderByComparator,
+		boolean useFinderCache) {
+
+		publikUserId = Objects.toString(publikUserId, "");
+
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			if (useFinderCache) {
+				finderPath =
+					_finderPathWithoutPaginationFindByBudgetParticipatifIdPublikUserIdAndType;
+				finderArgs = new Object[] {
+					budgetParticipatifId, publikUserId, isNegatif
+				};
+			}
+		}
+		else if (useFinderCache) {
+			finderPath =
+				_finderPathWithPaginationFindByBudgetParticipatifIdPublikUserIdAndType;
+			finderArgs = new Object[] {
+				budgetParticipatifId, publikUserId, isNegatif, start, end,
+				orderByComparator
+			};
+		}
+
+		List<BudgetSupport> list = null;
+
+		if (useFinderCache) {
+			list = (List<BudgetSupport>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (BudgetSupport budgetSupport : list) {
+					if ((budgetParticipatifId !=
+							budgetSupport.getBudgetParticipatifId()) ||
+						!publikUserId.equals(budgetSupport.getPublikUserId()) ||
+						!Objects.equals(
+							isNegatif, budgetSupport.getIsNegatif())) {
+
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler sb = null;
+
+			if (orderByComparator != null) {
+				sb = new StringBundler(
+					5 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				sb = new StringBundler(5);
+			}
+
+			sb.append(_SQL_SELECT_BUDGETSUPPORT_WHERE);
+
 			sb.append(
-				_FINDER_COLUMN_BUDGETPARTICIPATIFIDANDPUBLIKUSERID_BUDGETPARTICIPATIFID_2);
+				_FINDER_COLUMN_BUDGETPARTICIPATIFIDPUBLIKUSERIDANDTYPE_BUDGETPARTICIPATIFID_2);
 
 			boolean bindPublikUserId = false;
 
 			if (publikUserId.isEmpty()) {
 				sb.append(
-					_FINDER_COLUMN_BUDGETPARTICIPATIFIDANDPUBLIKUSERID_PUBLIKUSERID_3);
+					_FINDER_COLUMN_BUDGETPARTICIPATIFIDPUBLIKUSERIDANDTYPE_PUBLIKUSERID_3);
 			}
 			else {
 				bindPublikUserId = true;
 
 				sb.append(
-					_FINDER_COLUMN_BUDGETPARTICIPATIFIDANDPUBLIKUSERID_PUBLIKUSERID_2);
+					_FINDER_COLUMN_BUDGETPARTICIPATIFIDPUBLIKUSERIDANDTYPE_PUBLIKUSERID_2);
 			}
+
+			sb.append(
+				_FINDER_COLUMN_BUDGETPARTICIPATIFIDPUBLIKUSERIDANDTYPE_ISNEGATIF_2);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(
@@ -3734,6 +4342,8 @@ public class BudgetSupportPersistenceImpl
 					queryPos.add(publikUserId);
 				}
 
+				queryPos.add(isNegatif.booleanValue());
+
 				list = (List<BudgetSupport>)QueryUtil.list(
 					query, getDialect(), start, end);
 
@@ -3755,29 +4365,31 @@ public class BudgetSupportPersistenceImpl
 	}
 
 	/**
-	 * Returns the first budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 * Returns the first budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
 	 *
 	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching budget support
 	 * @throws NoSuchBudgetSupportException if a matching budget support could not be found
 	 */
 	@Override
-	public BudgetSupport findByBudgetParticipatifIdAndPublikUserId_First(
-			long budgetParticipatifId, String publikUserId,
+	public BudgetSupport findByBudgetParticipatifIdPublikUserIdAndType_First(
+			long budgetParticipatifId, String publikUserId, Boolean isNegatif,
 			OrderByComparator<BudgetSupport> orderByComparator)
 		throws NoSuchBudgetSupportException {
 
 		BudgetSupport budgetSupport =
-			fetchByBudgetParticipatifIdAndPublikUserId_First(
-				budgetParticipatifId, publikUserId, orderByComparator);
+			fetchByBudgetParticipatifIdPublikUserIdAndType_First(
+				budgetParticipatifId, publikUserId, isNegatif,
+				orderByComparator);
 
 		if (budgetSupport != null) {
 			return budgetSupport;
 		}
 
-		StringBundler sb = new StringBundler(6);
+		StringBundler sb = new StringBundler(8);
 
 		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
 
@@ -3787,26 +4399,32 @@ public class BudgetSupportPersistenceImpl
 		sb.append(", publikUserId=");
 		sb.append(publikUserId);
 
+		sb.append(", isNegatif=");
+		sb.append(isNegatif);
+
 		sb.append("}");
 
 		throw new NoSuchBudgetSupportException(sb.toString());
 	}
 
 	/**
-	 * Returns the first budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 * Returns the first budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
 	 *
 	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching budget support, or <code>null</code> if a matching budget support could not be found
 	 */
 	@Override
-	public BudgetSupport fetchByBudgetParticipatifIdAndPublikUserId_First(
-		long budgetParticipatifId, String publikUserId,
+	public BudgetSupport fetchByBudgetParticipatifIdPublikUserIdAndType_First(
+		long budgetParticipatifId, String publikUserId, Boolean isNegatif,
 		OrderByComparator<BudgetSupport> orderByComparator) {
 
-		List<BudgetSupport> list = findByBudgetParticipatifIdAndPublikUserId(
-			budgetParticipatifId, publikUserId, 0, 1, orderByComparator);
+		List<BudgetSupport> list =
+			findByBudgetParticipatifIdPublikUserIdAndType(
+				budgetParticipatifId, publikUserId, isNegatif, 0, 1,
+				orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -3816,29 +4434,31 @@ public class BudgetSupportPersistenceImpl
 	}
 
 	/**
-	 * Returns the last budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 * Returns the last budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
 	 *
 	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching budget support
 	 * @throws NoSuchBudgetSupportException if a matching budget support could not be found
 	 */
 	@Override
-	public BudgetSupport findByBudgetParticipatifIdAndPublikUserId_Last(
-			long budgetParticipatifId, String publikUserId,
+	public BudgetSupport findByBudgetParticipatifIdPublikUserIdAndType_Last(
+			long budgetParticipatifId, String publikUserId, Boolean isNegatif,
 			OrderByComparator<BudgetSupport> orderByComparator)
 		throws NoSuchBudgetSupportException {
 
 		BudgetSupport budgetSupport =
-			fetchByBudgetParticipatifIdAndPublikUserId_Last(
-				budgetParticipatifId, publikUserId, orderByComparator);
+			fetchByBudgetParticipatifIdPublikUserIdAndType_Last(
+				budgetParticipatifId, publikUserId, isNegatif,
+				orderByComparator);
 
 		if (budgetSupport != null) {
 			return budgetSupport;
 		}
 
-		StringBundler sb = new StringBundler(6);
+		StringBundler sb = new StringBundler(8);
 
 		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
 
@@ -3848,34 +4468,39 @@ public class BudgetSupportPersistenceImpl
 		sb.append(", publikUserId=");
 		sb.append(publikUserId);
 
+		sb.append(", isNegatif=");
+		sb.append(isNegatif);
+
 		sb.append("}");
 
 		throw new NoSuchBudgetSupportException(sb.toString());
 	}
 
 	/**
-	 * Returns the last budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 * Returns the last budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
 	 *
 	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching budget support, or <code>null</code> if a matching budget support could not be found
 	 */
 	@Override
-	public BudgetSupport fetchByBudgetParticipatifIdAndPublikUserId_Last(
-		long budgetParticipatifId, String publikUserId,
+	public BudgetSupport fetchByBudgetParticipatifIdPublikUserIdAndType_Last(
+		long budgetParticipatifId, String publikUserId, Boolean isNegatif,
 		OrderByComparator<BudgetSupport> orderByComparator) {
 
-		int count = countByBudgetParticipatifIdAndPublikUserId(
-			budgetParticipatifId, publikUserId);
+		int count = countByBudgetParticipatifIdPublikUserIdAndType(
+			budgetParticipatifId, publikUserId, isNegatif);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<BudgetSupport> list = findByBudgetParticipatifIdAndPublikUserId(
-			budgetParticipatifId, publikUserId, count - 1, count,
-			orderByComparator);
+		List<BudgetSupport> list =
+			findByBudgetParticipatifIdPublikUserIdAndType(
+				budgetParticipatifId, publikUserId, isNegatif, count - 1, count,
+				orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -3885,20 +4510,21 @@ public class BudgetSupportPersistenceImpl
 	}
 
 	/**
-	 * Returns the budget supports before and after the current budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 * Returns the budget supports before and after the current budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
 	 *
 	 * @param budgetSupportId the primary key of the current budget support
 	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next budget support
 	 * @throws NoSuchBudgetSupportException if a budget support with the primary key could not be found
 	 */
 	@Override
 	public BudgetSupport[]
-			findByBudgetParticipatifIdAndPublikUserId_PrevAndNext(
+			findByBudgetParticipatifIdPublikUserIdAndType_PrevAndNext(
 				long budgetSupportId, long budgetParticipatifId,
-				String publikUserId,
+				String publikUserId, Boolean isNegatif,
 				OrderByComparator<BudgetSupport> orderByComparator)
 		throws NoSuchBudgetSupportException {
 
@@ -3913,15 +4539,15 @@ public class BudgetSupportPersistenceImpl
 
 			BudgetSupport[] array = new BudgetSupportImpl[3];
 
-			array[0] = getByBudgetParticipatifIdAndPublikUserId_PrevAndNext(
+			array[0] = getByBudgetParticipatifIdPublikUserIdAndType_PrevAndNext(
 				session, budgetSupport, budgetParticipatifId, publikUserId,
-				orderByComparator, true);
+				isNegatif, orderByComparator, true);
 
 			array[1] = budgetSupport;
 
-			array[2] = getByBudgetParticipatifIdAndPublikUserId_PrevAndNext(
+			array[2] = getByBudgetParticipatifIdPublikUserIdAndType_PrevAndNext(
 				session, budgetSupport, budgetParticipatifId, publikUserId,
-				orderByComparator, false);
+				isNegatif, orderByComparator, false);
 
 			return array;
 		}
@@ -3934,9 +4560,9 @@ public class BudgetSupportPersistenceImpl
 	}
 
 	protected BudgetSupport
-		getByBudgetParticipatifIdAndPublikUserId_PrevAndNext(
+		getByBudgetParticipatifIdPublikUserIdAndType_PrevAndNext(
 			Session session, BudgetSupport budgetSupport,
-			long budgetParticipatifId, String publikUserId,
+			long budgetParticipatifId, String publikUserId, Boolean isNegatif,
 			OrderByComparator<BudgetSupport> orderByComparator,
 			boolean previous) {
 
@@ -3944,30 +4570,33 @@ public class BudgetSupportPersistenceImpl
 
 		if (orderByComparator != null) {
 			sb = new StringBundler(
-				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
+				6 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			sb = new StringBundler(4);
+			sb = new StringBundler(5);
 		}
 
 		sb.append(_SQL_SELECT_BUDGETSUPPORT_WHERE);
 
 		sb.append(
-			_FINDER_COLUMN_BUDGETPARTICIPATIFIDANDPUBLIKUSERID_BUDGETPARTICIPATIFID_2);
+			_FINDER_COLUMN_BUDGETPARTICIPATIFIDPUBLIKUSERIDANDTYPE_BUDGETPARTICIPATIFID_2);
 
 		boolean bindPublikUserId = false;
 
 		if (publikUserId.isEmpty()) {
 			sb.append(
-				_FINDER_COLUMN_BUDGETPARTICIPATIFIDANDPUBLIKUSERID_PUBLIKUSERID_3);
+				_FINDER_COLUMN_BUDGETPARTICIPATIFIDPUBLIKUSERIDANDTYPE_PUBLIKUSERID_3);
 		}
 		else {
 			bindPublikUserId = true;
 
 			sb.append(
-				_FINDER_COLUMN_BUDGETPARTICIPATIFIDANDPUBLIKUSERID_PUBLIKUSERID_2);
+				_FINDER_COLUMN_BUDGETPARTICIPATIFIDPUBLIKUSERIDANDTYPE_PUBLIKUSERID_2);
 		}
+
+		sb.append(
+			_FINDER_COLUMN_BUDGETPARTICIPATIFIDPUBLIKUSERIDANDTYPE_ISNEGATIF_2);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields =
@@ -4044,6 +4673,8 @@ public class BudgetSupportPersistenceImpl
 			queryPos.add(publikUserId);
 		}
 
+		queryPos.add(isNegatif.booleanValue());
+
 		if (orderByComparator != null) {
 			for (Object orderByConditionValue :
 					orderByComparator.getOrderByConditionValues(
@@ -4064,64 +4695,71 @@ public class BudgetSupportPersistenceImpl
 	}
 
 	/**
-	 * Removes all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63; from the database.
+	 * Removes all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63; from the database.
 	 *
 	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 */
 	@Override
-	public void removeByBudgetParticipatifIdAndPublikUserId(
-		long budgetParticipatifId, String publikUserId) {
+	public void removeByBudgetParticipatifIdPublikUserIdAndType(
+		long budgetParticipatifId, String publikUserId, Boolean isNegatif) {
 
 		for (BudgetSupport budgetSupport :
-				findByBudgetParticipatifIdAndPublikUserId(
-					budgetParticipatifId, publikUserId, QueryUtil.ALL_POS,
-					QueryUtil.ALL_POS, null)) {
+				findByBudgetParticipatifIdPublikUserIdAndType(
+					budgetParticipatifId, publikUserId, isNegatif,
+					QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 
 			remove(budgetSupport);
 		}
 	}
 
 	/**
-	 * Returns the number of budget supports where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 * Returns the number of budget supports where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
 	 *
 	 * @param budgetParticipatifId the budget participatif ID
 	 * @param publikUserId the publik user ID
+	 * @param isNegatif the is negatif
 	 * @return the number of matching budget supports
 	 */
 	@Override
-	public int countByBudgetParticipatifIdAndPublikUserId(
-		long budgetParticipatifId, String publikUserId) {
+	public int countByBudgetParticipatifIdPublikUserIdAndType(
+		long budgetParticipatifId, String publikUserId, Boolean isNegatif) {
 
 		publikUserId = Objects.toString(publikUserId, "");
 
 		FinderPath finderPath =
-			_finderPathCountByBudgetParticipatifIdAndPublikUserId;
+			_finderPathCountByBudgetParticipatifIdPublikUserIdAndType;
 
-		Object[] finderArgs = new Object[] {budgetParticipatifId, publikUserId};
+		Object[] finderArgs = new Object[] {
+			budgetParticipatifId, publikUserId, isNegatif
+		};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler sb = new StringBundler(3);
+			StringBundler sb = new StringBundler(4);
 
 			sb.append(_SQL_COUNT_BUDGETSUPPORT_WHERE);
 
 			sb.append(
-				_FINDER_COLUMN_BUDGETPARTICIPATIFIDANDPUBLIKUSERID_BUDGETPARTICIPATIFID_2);
+				_FINDER_COLUMN_BUDGETPARTICIPATIFIDPUBLIKUSERIDANDTYPE_BUDGETPARTICIPATIFID_2);
 
 			boolean bindPublikUserId = false;
 
 			if (publikUserId.isEmpty()) {
 				sb.append(
-					_FINDER_COLUMN_BUDGETPARTICIPATIFIDANDPUBLIKUSERID_PUBLIKUSERID_3);
+					_FINDER_COLUMN_BUDGETPARTICIPATIFIDPUBLIKUSERIDANDTYPE_PUBLIKUSERID_3);
 			}
 			else {
 				bindPublikUserId = true;
 
 				sb.append(
-					_FINDER_COLUMN_BUDGETPARTICIPATIFIDANDPUBLIKUSERID_PUBLIKUSERID_2);
+					_FINDER_COLUMN_BUDGETPARTICIPATIFIDPUBLIKUSERIDANDTYPE_PUBLIKUSERID_2);
 			}
+
+			sb.append(
+				_FINDER_COLUMN_BUDGETPARTICIPATIFIDPUBLIKUSERIDANDTYPE_ISNEGATIF_2);
 
 			String sql = sb.toString();
 
@@ -4140,6 +4778,8 @@ public class BudgetSupportPersistenceImpl
 					queryPos.add(publikUserId);
 				}
 
+				queryPos.add(isNegatif.booleanValue());
+
 				count = (Long)query.uniqueResult();
 
 				finderCache.putResult(finderPath, finderArgs, count);
@@ -4156,16 +4796,20 @@ public class BudgetSupportPersistenceImpl
 	}
 
 	private static final String
-		_FINDER_COLUMN_BUDGETPARTICIPATIFIDANDPUBLIKUSERID_BUDGETPARTICIPATIFID_2 =
+		_FINDER_COLUMN_BUDGETPARTICIPATIFIDPUBLIKUSERIDANDTYPE_BUDGETPARTICIPATIFID_2 =
 			"budgetSupport.budgetParticipatifId = ? AND ";
 
 	private static final String
-		_FINDER_COLUMN_BUDGETPARTICIPATIFIDANDPUBLIKUSERID_PUBLIKUSERID_2 =
-			"budgetSupport.publikUserId = ?";
+		_FINDER_COLUMN_BUDGETPARTICIPATIFIDPUBLIKUSERIDANDTYPE_PUBLIKUSERID_2 =
+			"budgetSupport.publikUserId = ? AND ";
 
 	private static final String
-		_FINDER_COLUMN_BUDGETPARTICIPATIFIDANDPUBLIKUSERID_PUBLIKUSERID_3 =
-			"(budgetSupport.publikUserId IS NULL OR budgetSupport.publikUserId = '')";
+		_FINDER_COLUMN_BUDGETPARTICIPATIFIDPUBLIKUSERIDANDTYPE_PUBLIKUSERID_3 =
+			"(budgetSupport.publikUserId IS NULL OR budgetSupport.publikUserId = '') AND ";
+
+	private static final String
+		_FINDER_COLUMN_BUDGETPARTICIPATIFIDPUBLIKUSERIDANDTYPE_ISNEGATIF_2 =
+			"budgetSupport.isNegatif = ?";
 
 	public BudgetSupportPersistenceImpl() {
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
@@ -4873,29 +5517,66 @@ public class BudgetSupportPersistenceImpl
 			new String[] {String.class.getName()},
 			new String[] {"publikUserId"}, false);
 
-		_finderPathWithPaginationFindByBudgetParticipatifIdAndPublikUserId =
+		_finderPathWithPaginationFindByPublikUserIdAndType = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikUserIdAndType",
+			new String[] {
+				String.class.getName(), Boolean.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			},
+			new String[] {"publikUserId", "isNegatif"}, true);
+
+		_finderPathWithoutPaginationFindByPublikUserIdAndType = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByPublikUserIdAndType",
+			new String[] {String.class.getName(), Boolean.class.getName()},
+			new String[] {"publikUserId", "isNegatif"}, true);
+
+		_finderPathCountByPublikUserIdAndType = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByPublikUserIdAndType",
+			new String[] {String.class.getName(), Boolean.class.getName()},
+			new String[] {"publikUserId", "isNegatif"}, false);
+
+		_finderPathWithPaginationFindByBudgetParticipatifIdPublikUserIdAndType =
 			new FinderPath(
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-				"findByBudgetParticipatifIdAndPublikUserId",
+				"findByBudgetParticipatifIdPublikUserIdAndType",
 				new String[] {
 					Long.class.getName(), String.class.getName(),
-					Integer.class.getName(), Integer.class.getName(),
-					OrderByComparator.class.getName()
+					Boolean.class.getName(), Integer.class.getName(),
+					Integer.class.getName(), OrderByComparator.class.getName()
 				},
-				new String[] {"budgetParticipatifId", "publikUserId"}, true);
+				new String[] {
+					"budgetParticipatifId", "publikUserId", "isNegatif"
+				},
+				true);
 
-		_finderPathWithoutPaginationFindByBudgetParticipatifIdAndPublikUserId =
+		_finderPathWithoutPaginationFindByBudgetParticipatifIdPublikUserIdAndType =
 			new FinderPath(
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-				"findByBudgetParticipatifIdAndPublikUserId",
-				new String[] {Long.class.getName(), String.class.getName()},
-				new String[] {"budgetParticipatifId", "publikUserId"}, true);
+				"findByBudgetParticipatifIdPublikUserIdAndType",
+				new String[] {
+					Long.class.getName(), String.class.getName(),
+					Boolean.class.getName()
+				},
+				new String[] {
+					"budgetParticipatifId", "publikUserId", "isNegatif"
+				},
+				true);
 
-		_finderPathCountByBudgetParticipatifIdAndPublikUserId = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByBudgetParticipatifIdAndPublikUserId",
-			new String[] {Long.class.getName(), String.class.getName()},
-			new String[] {"budgetParticipatifId", "publikUserId"}, false);
+		_finderPathCountByBudgetParticipatifIdPublikUserIdAndType =
+			new FinderPath(
+				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+				"countByBudgetParticipatifIdPublikUserIdAndType",
+				new String[] {
+					Long.class.getName(), String.class.getName(),
+					Boolean.class.getName()
+				},
+				new String[] {
+					"budgetParticipatifId", "publikUserId", "isNegatif"
+				},
+				false);
 
 		BudgetSupportUtil.setPersistence(this);
 	}

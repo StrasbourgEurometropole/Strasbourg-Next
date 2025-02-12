@@ -55,9 +55,18 @@
 			
 			<%-- Groupe de champs : Gestion de la phase --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="management">
-				
-				<%-- Champ : Nombre de votes necessaires --%>
+
+				<%-- Champ : Nombre de votes positifs --%>
 				<aui:input name="numberOfVote" required="true" />
+
+				<%-- Champ : Nombre de votes négatifs --%>
+				<aui:input name="numberOfNegativeVote" required="true" />
+
+				<%-- Champ : Nombre de votes positif par budget --%>
+				<aui:input name="maxVoteBudget" required="true" />
+
+				<%-- Champ : Seuil de votes positifs pour activer les votes négatifs --%>
+				<aui:input name="thresholdNegative" required="true" />
 				
 				<%-- Champ : Phase en cours d'activite --%>
 				<aui:input name="isActive" label="is-active" type="toggle-switch"

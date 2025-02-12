@@ -3,6 +3,9 @@
 <portlet:resourceURL id="giveBudgetSupport" var="giveBudgetSupportURL">
 </portlet:resourceURL>
 
+<portlet:resourceURL id="giveBudgetUnsupport" var="giveBudgetUnsupportURL">
+</portlet:resourceURL>
+
 <portlet:resourceURL id="removeBudgetSupport" var="removeBudgetSupportURL">
 </portlet:resourceURL>
 
@@ -11,7 +14,7 @@
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalSupport" tabindex="-1" role="dialog" aria-labelledby="modalSupport">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-        
+
             <div class="pro-modal-top">
                 <h3><liferay-ui:message key="modal.givebudgetsupport.title"/></h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -21,19 +24,19 @@
 
             <form id="form-give-budget-support">
                 <div class="pro-wrapper last-wrapper">
-                
+
                 	<!-- Champs : nom, prenom, date de naissance -->
                     <div class="pro-row">
                         <div class="form-group form-triple">
                             <aui:input name="username" id="supportUsername"
-                            	label="modal.user.username" disabled="true" 
+                            	label="modal.user.username" disabled="true"
                             	value="${userConnected.get('last_name')}"
                             />
 				            <aui:input type="hidden" name="lastname" value="${userConnected.get('last_name')}"/>
                         </div>
                         <div class="form-group form-triple">
-                            <aui:input name="firstname" id="supportFirstname" 
-                            	label="modal.user.firstname" disabled="true" 
+                            <aui:input name="firstname" id="supportFirstname"
+                            	label="modal.user.firstname" disabled="true"
                             	value="${userConnected.get('first_name')}"
                             />
                         </div>
@@ -42,65 +45,65 @@
 					            <fmt:parseDate pattern="yyyy-MM-dd" value="${userConnected.get('birthdate')}" var="parsedStatusDate" />
 	                            <fmt:formatDate value="${parsedStatusDate}" var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 	                        </c:if>
-                            <aui:input id="supportBirthday" name="birthday" 
-                            	cssClass="frm_date" label="modal.user.birthday" 
-                            	required="true" maxlength="10" placeholder="jj/mm/aaaa" 
+                            <aui:input id="supportBirthday" name="birthday"
+                            	cssClass="frm_date" label="modal.user.birthday"
+                            	required="true" maxlength="10" placeholder="jj/mm/aaaa"
                             	onInput="checkSupportValues();" onChange="checkSupportValues();"
                             />
                         </div>
                     </div>
-                    
+
                     <!-- Champ : email -->
                     <div class="form-group">
-                        <aui:input type="email" id="supportEmail" 
-                        	name="mail" disabled="true" 
-                        	label="modal.user.mail" 
+                        <aui:input type="email" id="supportEmail"
+                        	name="mail" disabled="true"
+                        	label="modal.user.mail"
                         	value="${userConnected.get('email')}"
                         />
                     </div>
-                    
+
                     <!-- Champs : adresse -->
                     <div class="pro-row">
                         <div class="form-group form-half">
-				            <aui:input id="supportAddress" name="address" 
-					            label="modal.user.address" required="true" 
+				            <aui:input id="supportAddress" name="address"
+					            label="modal.user.address" required="true"
 					            onInput="checkSupportValues();"
 					        />
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
-				                <aui:input id="supportCity" name="city" 
-				                	label="modal.user.city" required="true" 
-				                	placeholder="Strasbourg" maxlength="256" 
+				                <aui:input id="supportCity" name="city"
+				                	label="modal.user.city" required="true"
+				                	placeholder="Strasbourg" maxlength="256"
 				                	onInput="checkSupportValues();"
 				                />
                             </div>
                             <div class="form-code">
-                                <aui:input type="number" id="supportPostalCode" name="postalcode" 
-                                	label="modal.user.postalcode" required="true" 
-                                	placeholder="67XXX" maxlength="5" 
+                                <aui:input type="number" id="supportPostalCode" name="postalcode"
+                                	label="modal.user.postalcode" required="true"
+                                	placeholder="67XXX" maxlength="5"
                                 	onInput="checkSupportValues();"
                                 />
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Champs : telephones -->
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input type="text" id="supportPhone" name="phone" 
-                            	label="modal.user.phone" placeholder="0611111111" 
+                            <aui:input type="text" id="supportPhone" name="phone"
+                            	label="modal.user.phone" placeholder="0611111111"
                             	maxlength="20" onInput="checkSupportValues();"
                             />
                         </div>
                         <div class="form-group form-half">
-                            <aui:input type="text" id="supportMobile" name="mobile" 
-                            	label="modal.user.mobile" placeholder="0611111111" 
+                            <aui:input type="text" id="supportMobile" name="mobile"
+                            	label="modal.user.mobile" placeholder="0611111111"
                             	maxlength="20" onInput="checkSupportValues();"
                             />
                         </div>
                     </div>
-                    
+
                     <!-- Champ : demande de la mise aÃÂÃÂ  jour des informations dans publik -->
                     <div class="form-group form-checkbox" id="checkboxSupportSaveInfo">
                         <div>
@@ -108,11 +111,11 @@
                             <label for="save-info"><liferay-ui:message key="modal.save.info"/></label>
                         </div>
                     </div>
-                    
+
                 </div>
 
                 <div class="top-slope"></div>
-                
+
                 <!-- Condition de soumission -->
                 <div class="pro-optin form-checkbox">
                     <div>
@@ -130,22 +133,55 @@
                         </label>
                     </div>
                 </div>
-                
+
                 <!-- Champ cache : ID -->
                 <input type="hidden" id="<portlet:namespace />entryId" name="entryId" value="${entryId}"/>
-                
+
                 <!-- Alert d'erreur -->
                 <div id="supportAlert" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert"/></div>
                 <div id="supportAlertCity" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.city"/></div>
                 <div id="supportAlertPostalCode" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.postalcode"/></div>
                 <div id="supportAlertLegalAge" class="hidden pro-info-supp alertMessage"><liferay-ui:message key="modal.alert.legalage"/></div>
-                
+
                 <!-- Bonton de soumission -->
                 <div class="pro-form-submit">
                     <button id="submitBudgetSupport" type="submit" class="btn btn-default">Voter</button>
                 </div>
-                
+
             </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- MODAL DE PREMIER VOTE NEGATIF A UN BUDGET PARTICIPATIF -->
+<!-- HTML pour la modal de contestation d'un budget participatif -->
+<div class="pro-modal pro-bloc-pcs-form fade" id="modalUnsupport" tabindex="-1" role="dialog" aria-labelledby="modalUnsupport">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="pro-modal-top">
+                <h3></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><span class="icon-multiply"></span></span>
+                </button>
+            </div>
+
+            <div class="pro-wrapper">
+                <h4><liferay-ui:message key="modal.givebudgetsupport.first-unsupport"/></h4>
+
+                <form id="form-give2-budget-support">
+
+                    <!-- Champ cache : ID -->
+                    <input type="hidden" id="<portlet:namespace />entryId" name="entryId" value="${entryId}"/>
+
+                    <!-- Bonton de soumission -->
+                    <div class="centerButtonValidation">
+                        <input id="supportBudgetSupport" type="submit" class="pro-btn-yellow" value="Voter">
+                        <input id="buttonCancel" type="reset" class="pro-btn-yellow" value="Annuler">
+                    </div>
+
+                </form>
+            </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -220,7 +256,7 @@
         $("#giveSupportLegalAge").prop("checked", false);
         $("#giveBudgetSupportCondition1").prop("checked", false);
     }
-	
+
 	/*
 	* Affiche la demande de sauvegarde des informations dans Publik
 	*/
@@ -317,17 +353,17 @@
         
         return true;
     }
-	
-	/*
-	* Appel a la soumission du formulaire d'un nouveau soutien
-	*/
-	function sendSupport() {
-		// Verification du formulaire
+
+    /*
+    * Appel a la soumission du formulaire d'un nouveau soutien
+    */
+    function sendSupport() {
+        // Verification du formulaire
         var isValid = validateFormGiveBudgetSupport();
-        
+
         if (isValid) {
-        	// Recuperation des informations
-        	var entryId = $("#"+namespaceGiveBudgetSupport+"entryId").val();
+            // Recuperation des informations
+            var entryId = $("#"+namespaceGiveBudgetSupport+"entryId").val();
             var birthdayValue = $("#"+namespaceGiveBudgetSupport+"supportBirthday").val();
             var addressValue = $("#"+namespaceGiveBudgetSupport+"supportAddress").val();
             var cityValue = $("#"+namespaceGiveBudgetSupport+"supportCity").val();
@@ -335,14 +371,14 @@
             var phoneValue = $("#"+namespaceGiveBudgetSupport+"supportPhone").val();
             var mobileValue = $("#"+namespaceGiveBudgetSupport+"supportMobile").val();
             var saveInfoValue = $("#save-info").is(":checked");
-            
+
             // Requete Ajax
             AUI().use('aui-io-request', function(A) {
                 A.io.request('${giveBudgetSupportURL}', {
                     method : 'POST',
                     dataType: 'json',
                     data:{
-                    	<portlet:namespace/>entryId : entryId,
+                        <portlet:namespace/>entryId : entryId,
                         <portlet:namespace/>birthday : birthdayValue,
                         <portlet:namespace/>address : addressValue,
                         <portlet:namespace/>city : cityValue,
@@ -353,16 +389,16 @@
                     },
                     on: {
                         success: function(e) {
-                        	
+
                             var data = this.get('responseData');
-                            
+
                             // Succes de la requete
                             if (data.result) {
-                            	
-                            	// Cache du formulaire
+
+                                // Cache du formulaire
                                 $('#modalSupport').modal('hide');
-                            	
-                            	// Sauvegarde des nouvelles informations de l'utilisateur
+
+                                // Sauvegarde des nouvelles informations de l'utilisateur
                                 if (data.savedInfo) {
                                     saved_dateNaiss = $("#"+namespaceGiveBudgetSupport+"supportBirthday").val();
                                     saved_city = $("#"+namespaceGiveBudgetSupport+"supportCity").val();
@@ -373,43 +409,113 @@
                                     if($("#"+namespaceGiveBudgetSupport+"supportMobile").val() != "")
                                         saved_mobile = $("#"+namespaceGiveBudgetSupport+"supportMobile").val();
                                 }
-                            	
-                             	// Recuperation des informations de vote de l'utilisateur et modifications de l'interface
+
+                                // Recuperation des informations de vote de l'utilisateur et modifications de l'interface
                                 if (data.updatedSupportsInfo) {
-                                	// Modification des textes des labels et bouton
-                                	$('#nbUserSupports').text(data.updatedSupportsInfo.nbSupportForActivePhase - data.updatedSupportsInfo.nbUserSupports);
-                                	$('#nbUserEntrySupports').text(data.updatedSupportsInfo.nbUserEntrySupports);
-                                	$('#nbEntrySupports').text(data.updatedSupportsInfo.nbEntrySupports);
-                                	
-                                	// Cache du bouton si plus aucun vote disponible
-                                	if (data.updatedSupportsInfo.nbUserSupports >= data.updatedSupportsInfo.nbSupportForActivePhase) {
-                                		$("[href='#Support']").hide();
-                                	}
-                                	
-                                	// Mise a jour du tempon data dans la balise href de la demande du vote 
-                                	// notes : permet l'affichage ou non du formulaire
-                                	$("[href='#Support']").data('nbsupports', data.updatedSupportsInfo.nbUserEntrySupports);
-                                	
-                                	// Affichage dans tous les cas du boutons de retrait
-                                	$("[href='#RemoveSupport']").show();
+                                    // Mise a jour du tampon data dans la balise href de la demande du vote
+                                    // notes : permet l'affichage ou non du formulaire
+                                    $("[href='#Support']").data('nbsupports', data.updatedSupportsInfo.nbUserEntrySupports);
+
+                                    majDisplay(data.updatedSupportsInfo);
                                 }
                                 resetValuesGiveBudgetSupport();
-                             	// Modal de confirmation de succes
+                                // Modal de confirmation de succes
                                 $('#modalConfirmSupport').modal('show');
                             }
-                          
+
                             // Erreur ou refus de la requete
                             else {
                                 $("#modalErrorSupport h4").text(data.message);
                                 $('#modalErrorSupport').modal('show');
                             }
-                            
+
                         }
                     }
                 });
             });
         }
-	}
+    }
+
+    /*
+    * Appel a la soumission du formulaire d'un nouveau soutien négatif
+    */
+    function sendUnsupport() {
+        // Verification du formulaire
+        var isValid = validateFormGiveBudgetSupport();
+
+        if (isValid) {
+            // Recuperation des informations
+            var entryId = $("#"+namespaceGiveBudgetSupport+"entryId").val();
+            var birthdayValue = $("#"+namespaceGiveBudgetSupport+"supportBirthday").val();
+            var addressValue = $("#"+namespaceGiveBudgetSupport+"supportAddress").val();
+            var cityValue = $("#"+namespaceGiveBudgetSupport+"supportCity").val();
+            var postalcodeValue = $("#"+namespaceGiveBudgetSupport+"supportPostalCode").val();
+            var phoneValue = $("#"+namespaceGiveBudgetSupport+"supportPhone").val();
+            var mobileValue = $("#"+namespaceGiveBudgetSupport+"supportMobile").val();
+            var saveInfoValue = $("#save-info").is(":checked");
+
+            // Requete Ajax
+            AUI().use('aui-io-request', function(A) {
+                A.io.request('${giveBudgetUnsupportURL}', {
+                    method : 'POST',
+                    dataType: 'json',
+                    data:{
+                        <portlet:namespace/>entryId : entryId,
+                        <portlet:namespace/>birthday : birthdayValue,
+                        <portlet:namespace/>address : addressValue,
+                        <portlet:namespace/>city : cityValue,
+                        <portlet:namespace/>postalcode : postalcodeValue,
+                        <portlet:namespace/>phone : phoneValue,
+                        <portlet:namespace/>mobile : mobileValue,
+                        <portlet:namespace />saveinfo : saveInfoValue,
+                    },
+                    on: {
+                        success: function(e) {
+
+                            var data = this.get('responseData');
+
+                            // Succes de la requete
+                            if (data.result) {
+
+                                // Cache de la confirmation
+                                $('#modalUnsupport').modal('hide');
+
+                                // Sauvegarde des nouvelles informations de l'utilisateur
+                                if (data.savedInfo) {
+                                    saved_dateNaiss = $("#"+namespaceGiveBudgetSupport+"supportBirthday").val();
+                                    saved_city = $("#"+namespaceGiveBudgetSupport+"supportCity").val();
+                                    saved_address = $("#"+namespaceGiveBudgetSupport+"supportAddress").val();
+                                    saved_zipCode = $("#"+namespaceGiveBudgetSupport+"supportPostalCode").val();
+                                    if($("#"+namespaceGiveBudgetSupport+"supportPhone").val() != "")
+                                        saved_phone = $("#"+namespaceGiveBudgetSupport+"supportPhone").val();
+                                    if($("#"+namespaceGiveBudgetSupport+"supportMobile").val() != "")
+                                        saved_mobile = $("#"+namespaceGiveBudgetSupport+"supportMobile").val();
+                                }
+
+                                // Recuperation des informations de vote de l'utilisateur et modifications de l'interface
+                                if (data.updatedUnsupportsInfo) {
+                                    // Mise a jour du tampon data dans la balise href de la demande du vote -
+                                    $("[href='#Unsupport']").data('nbunsupports', data.updatedUnsupportsInfo.nbUserUnsupports);
+
+                                    majDisplay(data.updatedUnsupportsInfo);
+                                }
+                                resetValuesGiveBudgetSupport();
+                                // Modal de confirmation de succes
+                                $('#modalConfirmSupport').modal('show');
+                            }
+
+                            // Erreur ou refus de la requete
+                            else {
+                                $("#modalErrorSupport h4").text(data.message);
+                                $('#modalErrorSupport').modal('show');
+                            }
+
+                        }
+                    }
+                });
+            });
+        }
+    }
 	
 	/*
 	* Appel a la soumission d'un retrait de soutient
@@ -436,22 +542,11 @@
                   
                         	// Recuperation des informations de vote de l'utilisateur et modifications de l'interface
                            if (data.updatedSupportsInfo) {
-								// Modification des textes des labels et bouton
-	                           	$('#nbUserSupports').text(data.updatedSupportsInfo.nbSupportForActivePhase - data.updatedSupportsInfo.nbUserSupports);
-	                           	$('#nbUserEntrySupports').text(data.updatedSupportsInfo.nbUserEntrySupports);
-	                           	$('#nbEntrySupports').text(data.updatedSupportsInfo.nbEntrySupports);
-	                           	
-	                           	// Cache du bouton de retrait si aucun vote pour cette entite
-	                           	if (data.updatedSupportsInfo.nbUserEntrySupports < 1) {
-	                           		$("[href='#RemoveSupport']").hide();
-	                           	}
-	                           	
-	                           	// Mise a jour du tempon data dans la balise href de la demande du vote 
-	                           	// notes : permet l'affichage ou non du formulaire
-	                           	$("[href='#Support']").data('nbsupports', data.updatedSupportsInfo.nbUserEntrySupports);
-	                           	
-	                           	// Affichage dans tous les cas d'ajout
-	                           	$("[href='#Support']").show();
+                               // Mise a jour du tampon data dans la balise href de la demande du vote
+                               // notes : permet l'affichage ou non du formulaire
+                               $("[href='#Support']").data('nbsupports', data.updatedSupportsInfo.nbUserEntrySupports);
+
+                               majDisplay(data.updatedSupportsInfo);
 							}
                         	
                            resetValuesGiveBudgetSupport();
@@ -471,6 +566,69 @@
            });
         });
 	}
+
+    function majDisplay(updatedSupportsInfo){
+        // Modification des textes des labels et bouton
+        // nombre de vote
+        var textDiscover = Math.abs(updatedSupportsInfo.nbEntrySupports).toString().padStart(6, '0').split('');;
+        if (updatedSupportsInfo.nbEntrySupports < 0) {
+            textDiscover[0] = '-';
+        }
+        $('#nbEntrySupports').html(createCompt(textDiscover));
+        if(updatedSupportsInfo.nbSupportForActivePhase !== undefined &&
+            updatedSupportsInfo.nbUserSupports !== undefined) {
+            // message sous les boutons
+            $('#nbUserSupports').text(updatedSupportsInfo.nbSupportForActivePhase - updatedSupportsInfo.nbUserSupports);
+        }
+        if(updatedSupportsInfo.nbUserEntrySupports !== undefined) {
+            // message bouton remove
+            $('#nbUserEntrySupports').text(updatedSupportsInfo.nbUserEntrySupports);
+        }
+
+        // Si vote - , on masque les boutons vote + , remove et le message
+        if (updatedSupportsInfo.nbUserUnsupports > 0){
+            $("[href='#Support']").hide();
+            $("#messageSupport").hide();
+            $("[href='#RemoveSupport']").hide();
+
+            // Cacher le bouton de vote négatif
+            // si l'utilisateur a déjà utilisé tous ses votes - pour la phase active
+            if (updatedSupportsInfo.nbUserUnsupports >= updatedSupportsInfo.nbUnsupportForActivePhase){
+                $("[href='#Unsupport']").hide();
+            }else{
+                $("[href='#Unsupport']").show();
+            }
+        }else{
+            // Cacher le bouton de vote
+            // si l'utilisateur a déjà utilisé tous ses votes + pour la phase active
+            // ou s'il a atteint le nombre max de votes + sur ce bp
+            if (updatedSupportsInfo.nbUserSupports >= updatedSupportsInfo.nbSupportForActivePhase ||
+                updatedSupportsInfo.nbUserEntrySupports >= updatedSupportsInfo.nbUserSupportForEntry) {
+                $("[href='#Support']").hide();
+            }else{
+                $("[href='#Support']").show();
+            }
+
+            // Cacher le bouton de vote négatif
+            // si l'utilisateur a déjà utilisé tous ses votes - pour la phase active
+            // ou s'il n'a pas atteint le seuil de votes +
+            if (updatedSupportsInfo.nbUserUnsupports >= updatedSupportsInfo.nbUnsupportForActivePhase ||
+                updatedSupportsInfo.nbUserSupports < updatedSupportsInfo.thresholdNegative) {
+                $("[href='#Unsupport']").hide();
+            }else{
+                $("[href='#Unsupport']").show();
+            }
+
+            $("#messageSupport").show();
+
+            // Cacher le bouton de retrait de vote si l'utilisateur n'a jamais voté pour ce projet
+            if (updatedSupportsInfo.nbUserEntrySupports < 1) {
+                $("[href='#RemoveSupport']").hide();
+            }else{
+                $("[href='#RemoveSupport']").show();
+            }
+        }
+    }
 	
 	/*
 	* Lors du chargement de la page
@@ -483,7 +641,7 @@
     });
 	
 	/*
-	* Lors du click sur le bouton de vote
+	* Lors du click sur le bouton de vote positif
 	*/
 	$(document).on("click", "[href='#Support']", function(event) {
 		event.preventDefault();
@@ -508,9 +666,29 @@
 		
 		sendSupport();
 	});
+
+    /*
+    * Lors du click sur le bouton de vote négatif
+    */
+    $(document).on("click", "[href='#Unsupport']", function(event) {
+        event.preventDefault();
+        resetValuesGiveBudgetSupport();
+
+        // Si premier vote négatif, on demande confirmation
+        if (parseInt($("[href='#Unsupport']").data('nbunsupports'), 10)  === 0) {
+            $("#modalUnsupport").modal('show');
+        } else {
+            $('#checkboxSupportSaveInfo #save-info').prop('checked', false);
+            $('#giveSupportLegalAge').prop('checked', true);
+            $('#giveBudgetSupportCondition1').prop('checked', true);
+
+            sendUnsupport();
+        }
+
+    });
 	
 	/*
-	* Lors du click sur le bouton de retrait de vote
+	* Lors du click sur le bouton de retrait de vote positif
 	*/
 	$(document).on("click", "[href='#RemoveSupport']", function(event) {
 		event.preventDefault();
@@ -519,18 +697,26 @@
 	});
 
 	/*
-	* Lors d'un click sur les boutons confirmer des modals
+	* Lors d'un click sur les boutons confirmer/annuler des modals
 	*/
-    $('#modalQuitSupport #buttonConfirm, #modalConfirmSupport #buttonConfirm, #modalErrorSupport #buttonConfirm').click(function(event){
+    $('#modalQuitSupport #buttonConfirm, #modalConfirmSupport #buttonConfirm, #modalErrorSupport #buttonConfirm, #modalUnsupport #buttonCancel').click(function(event){
         $(this).parents('.pro-modal').modal('hide');
     });
-	
-	/*
-	* Lors du click sur la soumission d'une demande de soutien
-	*/
-	 $("#submitBudgetSupport").click(function(event){
-	 	event.preventDefault();
-	 	sendSupport();
-	 });
+
+    /*
+    * Lors du click sur la soumission d'une demande de soutien
+    */
+    $("#submitBudgetSupport").click(function(event){
+        event.preventDefault();
+        sendSupport();
+    });
+
+    /*
+    * Lors du click sur la validation d'un 1er vote négative
+    */
+    $("#supportBudgetSupport").click(function(event){
+        event.preventDefault();
+        sendUnsupport();
+    });
 	
 </script>

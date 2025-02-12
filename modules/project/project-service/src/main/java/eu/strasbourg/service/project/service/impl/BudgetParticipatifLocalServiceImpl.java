@@ -452,51 +452,91 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
     public List<BudgetParticipatif> getByParentId(long budgetPhaseId) {
         return this.budgetParticipatifPersistence.findByParentId(budgetPhaseId);
     }
-	
-    
+
+
     /**
-	 * Retourne tous les budgets participatifs suivis par un utilisateur et une phase donnes
+     * Retourne tous les budgets participatifs suivis par un utilisateur et une phase donnes
      */
-	@Override
+    @Override
     public List<BudgetParticipatif> getBudgetSupportedByPublikUserInPhase(String publikUserId, long budgetPhaseId) {
-    	// Recuperation des soutiens de l'utilisateur
-    	List<BudgetSupport> budgetSupports = this.budgetSupportPersistence.findByPublikUserId(publikUserId);
-    	
-    	List<BudgetParticipatif> budgetParticipatifs = new ArrayList<BudgetParticipatif>();
+        // Recuperation des soutiens de l'utilisateur
+        List<BudgetSupport> budgetSupports = this.budgetSupportPersistence.findByPublikUserId(publikUserId);
+
+        return getBudgetSupportedByPublikUserInPhase(budgetSupports, budgetPhaseId);
+    }
+
+
+    /**
+     * Retourne tous les budgets participatifs suivis par un utilisateur et une phase donnes
+     */
+    @Override
+    public List<BudgetParticipatif> getBudgetSupportedByPublikUserInPhase(String publikUserId, long budgetPhaseId, boolean isNegative) {
+        // Recuperation des soutiens de l'utilisateur
+        List<BudgetSupport> budgetSupports = this.budgetSupportPersistence.findByPublikUserIdAndType(publikUserId, isNegative);
+
+        return getBudgetSupportedByPublikUserInPhase(budgetSupports, budgetPhaseId);
+    }
+
+
+    /**
+     * Retourne tous les budgets participatifs suivis par un utilisateur et une phase donnes
+     */
+    private List<BudgetParticipatif> getBudgetSupportedByPublikUserInPhase(List<BudgetSupport> budgetSupports, long budgetPhaseId) {
+        List<BudgetParticipatif> budgetParticipatifs = new ArrayList<BudgetParticipatif>();
 
         // Recuperation de budgets correspondants
         for (BudgetSupport budgetSupport : budgetSupports) {
             BudgetParticipatif budgetParticipatif = null;
-    	    try {
-	    		budgetParticipatif = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(budgetSupport.getBudgetParticipatifId());
+            try {
+                budgetParticipatif = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(budgetSupport.getBudgetParticipatifId());
             } catch (PortalException e) {
                 _log.error("Erreur lors du retour des budgets soutenus par un utilisateur dans une phase donnee \n:" + e.getStackTrace());
             }
-	    		
+
             // Verification d'une phase existante pour les dits budgets
             if (budgetParticipatif != null && budgetParticipatif.getPhase() != null) {
                 budgetParticipatifs.add(budgetParticipatif);
             }
         }
-	    	
+
         // filtre sur ceux correspondant a la phase donnee
         budgetParticipatifs = budgetParticipatifs
                 .stream()
                 .filter(budgetParticipatif -> budgetParticipatif.getPhase().getBudgetPhaseId() == budgetPhaseId)
                 .collect(Collectors.toList());
 
-    	
-    	return budgetParticipatifs;
+
+        return budgetParticipatifs;
     }
-    
+
     /**
-	 * Retourne le nombre de budgets participatifs suivis par un utilisateur et une phase donnes
+     * Retourne le nombre de budgets participatifs suivis par un utilisateur et une phase donnes
      */
-	@Override
+    @Override
     public int countBudgetSupportedByPublikUserInPhase(String publikUserId, long budgetPhaseId) {
-    	List<BudgetParticipatif> budgetParticipatif = this.getBudgetSupportedByPublikUserInPhase(publikUserId, budgetPhaseId);
-    	
-    	return budgetParticipatif.size();
+        List<BudgetParticipatif> budgetParticipatif = this.getBudgetSupportedByPublikUserInPhase(publikUserId, budgetPhaseId);
+
+        return budgetParticipatif.size();
+    }
+
+    /**
+     * Retourne le nombre de budgets participatifs suivis positivement par un utilisateur et une phase donnes
+     */
+    @Override
+    public int countBudgetSupportedPositivelyByPublikUserInPhase(String publikUserId, long budgetPhaseId) {
+        List<BudgetParticipatif> budgetParticipatif = this.getBudgetSupportedByPublikUserInPhase(publikUserId, budgetPhaseId, false);
+
+        return budgetParticipatif.size();
+    }
+
+    /**
+     * Retourne le nombre de budgets participatifs suivis négativement par un utilisateur et une phase donnes
+     */
+    @Override
+    public int countBudgetSupportedNegativelyByPublikUserInPhase(String publikUserId, long budgetPhaseId) {
+        List<BudgetParticipatif> budgetParticipatif = this.getBudgetSupportedByPublikUserInPhase(publikUserId, budgetPhaseId, true);
+
+        return budgetParticipatif.size();
     }
 
     /**

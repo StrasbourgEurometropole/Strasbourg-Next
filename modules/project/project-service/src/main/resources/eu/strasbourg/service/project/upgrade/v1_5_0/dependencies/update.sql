@@ -17,6 +17,10 @@ ALTER TABLE project_BudgetPhase
 ALTER TABLE project_BudgetPhase
     ADD numberOfNegativeVote LONG not null default 1 AFTER thresholdNegative;
 create index IX_A7452AA4 on project_BudgetSupport (budgetParticipatifId, isNegatif);
+create index IX_9C788CF9 on project_BudgetSupport (budgetParticipatifId, publikUserId[$COLUMN_LENGTH:75$], isNegatif);
+create index IX_EA62D111 on project_BudgetSupport (publikUserId[$COLUMN_LENGTH:75$], isNegatif);
+IX_155DAB95
+IX_528650AD
 
 UPDATE project_BudgetSupport
     SET isNegatif = false;

@@ -499,7 +499,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     }
 
 	/**
-	 * Retourne le nombre de soutiens positifs
+	 * Retourne le nombre de soutiens positifs pour ce budget
 	 */
 	@Override
 	public long getNbSupportsPositifs() {
@@ -510,7 +510,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	}
 
 	/**
-	 * Retourne le nombre de soutiens négatifs
+	 * Retourne le nombre de soutiens négatifs pour ce budget
 	 */
 	@Override
 	public long getNbSupportsNegatifs() {
@@ -521,37 +521,54 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	}
 
 	/**
-	 * Retourne le nombre de soutien positifs et négatifs
+	 * Retourne le nombre de soutien positifs et négatifs pour ce budget
 	 */
 	@Override
 	public long getNbSupports() {
 		return getNbSupportsPositifs() - getNbSupportsNegatifs();
 	}
-	
+
 	/**
-	 * Retourne le nombre de soutiens d'un utilisateur pour ce projet
+	 * Retourne le nombre de soutiens positifs d'un utilisateur pour ce projet
 	 */
 	@Override
-	public int getNbSupportOfUser(String publikUserId) {
+	public int getNbPositiveSupportOfUser(String publikUserId) {
 		return BudgetSupportLocalServiceUtil
-				.getBudgetSupportByBudgetParticipatifIdAndPublikUserId(this.getBudgetParticipatifId(), publikUserId)
+				.getBudgetSupportPositifByBudgetParticipatifIdAndPublikUserId(this.getBudgetParticipatifId(), publikUserId)
 				.size();
 	}
-	
+
 	/**
-	 * Retourne le nombre de soutiens d'un utilisateur pour la phase en cours, qu'importe le projet
+	 * Retourne le nombre de soutiens positif d'un utilisateur pour la phase en cours, qu'importe le projet
 	 */
 	@Override
 	public int getNbSupportOfUserInActivePhase(String publikUserId) {
 		BudgetPhase activePhase = BudgetPhaseLocalServiceUtil.getActivePhase(this.getGroupId());
-		
+
 		if (activePhase != null) {
-			return BudgetParticipatifLocalServiceUtil.countBudgetSupportedByPublikUserInPhase(
-						publikUserId,
-						activePhase.getBudgetPhaseId()
-					);
+			return BudgetParticipatifLocalServiceUtil.countBudgetSupportedPositivelyByPublikUserInPhase(
+					publikUserId,
+					activePhase.getBudgetPhaseId()
+			);
 		}
-		
+
+		return 0;
+	}
+
+	/**
+	 * Retourne le nombre de soutiens négatifs d'un utilisateur pour la phase en cours, qu'importe le projet
+	 */
+	@Override
+	public int getNbUnsupportOfUserInActivePhase(String publikUserId) {
+		BudgetPhase activePhase = BudgetPhaseLocalServiceUtil.getActivePhase(this.getGroupId());
+
+		if (activePhase != null) {
+			return BudgetParticipatifLocalServiceUtil.countBudgetSupportedNegativelyByPublikUserInPhase(
+					publikUserId,
+					activePhase.getBudgetPhaseId()
+			);
+		}
+
 		return 0;
 	}
 	
@@ -573,8 +590,6 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     
     /**
      * Remplace le statut bp actuel par celui fournis en paramètre de la méthode
-     * @param budgetParticipatif
-     * @param status
      */
     @Override
     public void setBPStatus(BudgetParticipatif budgetParticipatif, ParticiperCategories status, long groupID)
@@ -584,7 +599,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     	AssetCategory category = AssetVocabularyHelper.getCategory(status.getName(), groupID);
     	
     	if(!statuses.isEmpty())
-		AssetEntryAssetCategoryRelLocalServiceUtil.deleteAssetEntryAssetCategoryRel
+			AssetEntryAssetCategoryRelLocalServiceUtil.deleteAssetEntryAssetCategoryRel
 				(entry.getEntryId(), statuses.get(0).getCategoryId());
     	AssetVocabularyHelper.addCategoryToAssetEntry(category, entry);
     }
@@ -821,7 +836,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 		case 23:
 		case 24:
 			return "<div class='pro-compteur'>" +
-						"<span class='pro-compt pro-compt-six'>" + this.getNbSupportsBoard() + "</span>" +
+						"<span class='pro-compt pro-compt-six' id='nbEntrySupports'>" + this.getNbSupportsBoard() + "</span>" +
 						"<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes") + "</p>" +
 					"</div>";
 		case 25:
@@ -832,7 +847,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 		case 31:
 		case 36:
 			return "<div class='pro-compteur'>" +
-					"<span class='pro-compt pro-compt-six'>" + this.getNbSupportsBoard() + "</span>" +
+					"<span class='pro-compt pro-compt-six' id='nbEntrySupports'>" + this.getNbSupportsBoard() + "</span>" +
 					"<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes") + "</p>" +
 					"<span>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes.laureat") + "</span>" +
 					"</div>";
@@ -845,14 +860,14 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 		case 49:
 		case 54:
 			return "<div class='pro-compteur'>" +
-					"<span class='pro-compt pro-compt-six'>" + this.getNbSupportsBoard() + "</span>" +
+					"<span class='pro-compt pro-compt-six' id='nbEntrySupports'>" + this.getNbSupportsBoard() + "</span>" +
 					"<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes") + "</p>" +
 					"<span>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.realized") + "</span>" +
 					"</div>";
 		case 55:
 		case 60:
 			return "<div class='pro-compteur'>" +
-					"<span class='pro-compt pro-compt-six'>" + this.getNbSupportsBoard() + "</span>" +
+					"<span class='pro-compt pro-compt-six' id='nbEntrySupports'>" + this.getNbSupportsBoard() + "</span>" +
 					"<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes") + "</p>" +
 					"<span>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.suspended") + "</span>" +
 					"</div>";

@@ -52,19 +52,6 @@ public class BudgetSupportLocalServiceUtil {
 	}
 
 	/**
-	 * Compter les soutiens d'un budget participatif donne
-	 *
-	 * @param budgetParticipatifId ID du budget participatif.
-	 * @return Nombre de soutiens
-	 */
-	public static int countBudgetSupportByBudgetParticipatifId(
-		long budgetParticipatifId) {
-
-		return getService().countBudgetSupportByBudgetParticipatifId(
-			budgetParticipatifId);
-	}
-
-	/**
 	 * Compter les soutiens négatifs d'un budget participatif donne
 	 *
 	 * @param budgetParticipatifId ID du budget participatif.
@@ -287,22 +274,6 @@ public class BudgetSupportLocalServiceUtil {
 	}
 
 	/**
-	 * Recuperer les soutiens d'un budgte et d'un utilisateur donne
-	 *
-	 * @param budgetParticipatifId ID du budget participatif.
-	 * @param publikUserId ID publik de l'utilsiateur
-	 * @return Liste des soutiens
-	 */
-	public static List<BudgetSupport>
-		getBudgetSupportByBudgetParticipatifIdAndPublikUserId(
-			long budgetParticipatifId, String publikUserId) {
-
-		return getService().
-			getBudgetSupportByBudgetParticipatifIdAndPublikUserId(
-				budgetParticipatifId, publikUserId);
-	}
-
-	/**
 	 * Recuperer les soutiens d'un utilisateur donne
 	 *
 	 * @param publikId ID publik de l'utilsiateur
@@ -327,6 +298,38 @@ public class BudgetSupportLocalServiceUtil {
 		throws PortalException {
 
 		return getService().getBudgetSupportByUuidAndGroupId(uuid, groupId);
+	}
+
+	/**
+	 * Recuperer les soutiens négatifs d'un budget et d'un utilisateur donne
+	 *
+	 * @param budgetParticipatifId ID du budget participatif.
+	 * @param publikUserId ID publik de l'utilsiateur
+	 * @return Liste des soutiens négatifs
+	 */
+	public static List<BudgetSupport>
+		getBudgetSupportNegatifByBudgetParticipatifIdAndPublikUserId(
+			long budgetParticipatifId, String publikUserId) {
+
+		return getService().
+			getBudgetSupportNegatifByBudgetParticipatifIdAndPublikUserId(
+				budgetParticipatifId, publikUserId);
+	}
+
+	/**
+	 * Recuperer les soutiens positifs d'un budget et d'un utilisateur donne
+	 *
+	 * @param budgetParticipatifId ID du budget participatif.
+	 * @param publikUserId ID publik de l'utilsiateur
+	 * @return Liste des soutiens positifs
+	 */
+	public static List<BudgetSupport>
+		getBudgetSupportPositifByBudgetParticipatifIdAndPublikUserId(
+			long budgetParticipatifId, String publikUserId) {
+
+		return getService().
+			getBudgetSupportPositifByBudgetParticipatifIdAndPublikUserId(
+				budgetParticipatifId, publikUserId);
 	}
 
 	/**

@@ -1003,15 +1003,15 @@ public class BudgetParticipatifWrapper
 	}
 
 	/**
-	 * Retourne le nombre de soutiens d'un utilisateur pour ce projet
+	 * Retourne le nombre de soutiens positifs d'un utilisateur pour ce projet
 	 */
 	@Override
-	public int getNbSupportOfUser(String publikUserId) {
-		return model.getNbSupportOfUser(publikUserId);
+	public int getNbPositiveSupportOfUser(String publikUserId) {
+		return model.getNbPositiveSupportOfUser(publikUserId);
 	}
 
 	/**
-	 * Retourne le nombre de soutiens d'un utilisateur pour la phase en cours, qu'importe le projet
+	 * Retourne le nombre de soutiens positif d'un utilisateur pour la phase en cours, qu'importe le projet
 	 */
 	@Override
 	public int getNbSupportOfUserInActivePhase(String publikUserId) {
@@ -1019,7 +1019,7 @@ public class BudgetParticipatifWrapper
 	}
 
 	/**
-	 * Retourne le nombre de soutien positifs et négatifs
+	 * Retourne le nombre de soutien positifs et négatifs pour ce budget
 	 */
 	@Override
 	public long getNbSupports() {
@@ -1037,7 +1037,7 @@ public class BudgetParticipatifWrapper
 	}
 
 	/**
-	 * Retourne le nombre de soutiens négatifs
+	 * Retourne le nombre de soutiens négatifs pour ce budget
 	 */
 	@Override
 	public long getNbSupportsNegatifs() {
@@ -1045,11 +1045,19 @@ public class BudgetParticipatifWrapper
 	}
 
 	/**
-	 * Retourne le nombre de soutiens positifs
+	 * Retourne le nombre de soutiens positifs pour ce budget
 	 */
 	@Override
 	public long getNbSupportsPositifs() {
 		return model.getNbSupportsPositifs();
+	}
+
+	/**
+	 * Retourne le nombre de soutiens négatifs d'un utilisateur pour la phase en cours, qu'importe le projet
+	 */
+	@Override
+	public int getNbUnsupportOfUserInActivePhase(String publikUserId) {
+		return model.getNbUnsupportOfUserInActivePhase(publikUserId);
 	}
 
 	/**
@@ -1536,9 +1544,6 @@ public class BudgetParticipatifWrapper
 
 	/**
 	 * Remplace le statut bp actuel par celui fournis en paramètre de la méthode
-	 *
-	 * @param budgetParticipatif
-	 * @param status
 	 */
 	@Override
 	public void setBPStatus(

@@ -13,9 +13,9 @@ create index IX_27A8292A on project_BudgetPhase (uuid_[$COLUMN_LENGTH:75$], comp
 create unique index IX_149CF22C on project_BudgetPhase (uuid_[$COLUMN_LENGTH:75$], groupId);
 
 create index IX_A7452AA4 on project_BudgetSupport (budgetParticipatifId, isNegatif);
-create index IX_528650AD on project_BudgetSupport (budgetParticipatifId, publikUserId[$COLUMN_LENGTH:75$]);
+create index IX_9C788CF9 on project_BudgetSupport (budgetParticipatifId, publikUserId[$COLUMN_LENGTH:75$], isNegatif);
 create index IX_193E1720 on project_BudgetSupport (groupId);
-create index IX_155DAB95 on project_BudgetSupport (publikUserId[$COLUMN_LENGTH:75$]);
+create index IX_EA62D111 on project_BudgetSupport (publikUserId[$COLUMN_LENGTH:75$], isNegatif);
 create index IX_AC32443E on project_BudgetSupport (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_D15AC240 on project_BudgetSupport (uuid_[$COLUMN_LENGTH:75$], groupId);
 

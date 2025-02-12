@@ -62,6 +62,30 @@ public class BudgetParticipatifLocalServiceWrapper
 	}
 
 	/**
+	 * Retourne le nombre de budgets participatifs suivis négativement par un utilisateur et une phase donnes
+	 */
+	@Override
+	public int countBudgetSupportedNegativelyByPublikUserInPhase(
+		String publikUserId, long budgetPhaseId) {
+
+		return _budgetParticipatifLocalService.
+			countBudgetSupportedNegativelyByPublikUserInPhase(
+				publikUserId, budgetPhaseId);
+	}
+
+	/**
+	 * Retourne le nombre de budgets participatifs suivis positivement par un utilisateur et une phase donnes
+	 */
+	@Override
+	public int countBudgetSupportedPositivelyByPublikUserInPhase(
+		String publikUserId, long budgetPhaseId) {
+
+		return _budgetParticipatifLocalService.
+			countBudgetSupportedPositivelyByPublikUserInPhase(
+				publikUserId, budgetPhaseId);
+	}
+
+	/**
 	 * Creates a new budget participatif with the primary key. Does not add the budget participatif to the database.
 	 *
 	 * @param budgetParticipatifId the primary key for the new budget participatif
@@ -440,6 +464,20 @@ public class BudgetParticipatifLocalServiceWrapper
 
 		return _budgetParticipatifLocalService.
 			getBudgetSupportedByPublikUserInPhase(publikUserId, budgetPhaseId);
+	}
+
+	/**
+	 * Retourne tous les budgets participatifs suivis par un utilisateur et une phase donnes
+	 */
+	@Override
+	public java.util.List
+		<eu.strasbourg.service.project.model.BudgetParticipatif>
+			getBudgetSupportedByPublikUserInPhase(
+				String publikUserId, long budgetPhaseId, boolean isNegative) {
+
+		return _budgetParticipatifLocalService.
+			getBudgetSupportedByPublikUserInPhase(
+				publikUserId, budgetPhaseId, isNegative);
 	}
 
 	/**

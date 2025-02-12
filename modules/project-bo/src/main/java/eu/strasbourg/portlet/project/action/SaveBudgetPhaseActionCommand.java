@@ -100,13 +100,25 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 			// ---------------------------------------------------------------
 			// -------------------------- Gestion de la phase ----------------
 			// ---------------------------------------------------------------
-			
-			// Label
-			Long numberOfVote = ParamUtil.getLong(request, "numberOfVote");
+
+			// Nombre de votes positifs
+			long numberOfVote = ParamUtil.getLong(request, "numberOfVote");
 			budgetPhase.setNumberOfVote(numberOfVote);
+
+			// Nombre de votes positif par budget
+			long maxVoteBudget = ParamUtil.getLong(request, "maxVoteBudget");
+			budgetPhase.setMaxVoteBudget(maxVoteBudget);
+
+			// Seuil de votes positifs pour activer les votes négatifs
+			long thresholdNegative = ParamUtil.getLong(request, "thresholdNegative");
+			budgetPhase.setThresholdNegative(thresholdNegative);
+
+			// Nombre de votes négatifs
+			long numberOfNegativeVote = ParamUtil.getLong(request, "numberOfNegativeVote");
+			budgetPhase.setNumberOfNegativeVote(numberOfNegativeVote);
 			
 			// Est active ?
-			Boolean isActive = ParamUtil.getBoolean(request, "isActive");
+			boolean isActive = ParamUtil.getBoolean(request, "isActive");
 			budgetPhase.setIsActive(isActive);
 			
 			// ---------------------------------------------------------------

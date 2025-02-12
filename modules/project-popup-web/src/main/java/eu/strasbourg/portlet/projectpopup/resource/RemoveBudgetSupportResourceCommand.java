@@ -48,9 +48,13 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
         // Initialisations respectives de : nombre de votes pour l'entite courante, le nombre de votes de l'utilisateur
         // pour l'entite courante, le nombre de votes de l'utilisateur, le nombre de votes pour la phase active
         int nbUserSupports = 0;
+        int nbUserUnsupports = 0;
         int nbUserEntrySupports = 0;
         int nbEntrySupports = 0;
         long nbSupportForActivePhase = 0;
+        long nbUnsupportForActivePhase = 0;
+        long nbUserSupportForEntry = 0;
+        long thresholdNegative = 0;
 		
 		// Recuperation de l'utilsiteur Publik ayant lance la demande
         PublikUser user = null;
@@ -61,41 +65,43 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
         
         // Recuperation du budget participatif en question
         BudgetParticipatif budgetParticipatif = null;
-        BudgetSupport budgetSupport = null;
         long entryID = ParamUtil.getLong(request, "entryId");
+        BudgetSupport budgetSupport = null;
         try {
             AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(entryID);
             budgetParticipatif = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(assetEntry.getClassPK());
+            // Recuperation du nombre de votes + de l'utilisateur
+            nbUserSupports = budgetParticipatif.getNbSupportOfUserInActivePhase(publikID);
+            // Recuperation du nombre de votes - de l'utilisateur
+            nbUserUnsupports = budgetParticipatif.getNbUnsupportOfUserInActivePhase(publikID);
+            // Recuperation du nombre de votes + de l'utilisateur pour l'entite courante
+            nbUserEntrySupports = budgetParticipatif.getNbPositiveSupportOfUser(publikID);
+            // Recuperation du nombre de votes + et - pour l'entite courante
+            nbEntrySupports = (int) budgetParticipatif.getNbSupports();
+            // Recuperation du nombre de votes + pour la phase
+            nbSupportForActivePhase = budgetParticipatif.getPhase().getNumberOfVote();
+            // Recuperation du nombre de votes - pour la phase
+            nbUnsupportForActivePhase = budgetParticipatif.getPhase().getNumberOfNegativeVote();
+            // Recuperation du nombre max de votes + pour l'entité pour un utilisateur
+            nbUserSupportForEntry = budgetParticipatif.getPhase().getMaxVoteBudget();
+            // Recuperation du seuil de votes + pour permettre les votes -
+            thresholdNegative = budgetParticipatif.getPhase().getThresholdNegative();
 
-            // Recuperation du budget support lié
-            List<BudgetSupport> budgetSupports = BudgetSupportLocalServiceUtil.getBudgetSupportByBudgetParticipatifIdAndPublikUserId(
+            // Recuperation du 1er budget support positif lié
+            budgetSupport = BudgetSupportLocalServiceUtil.getBudgetSupportPositifByBudgetParticipatifIdAndPublikUserId(
                     budgetParticipatif.getBudgetParticipatifId(),
-                    publikID);
-
-            if (!budgetSupports.isEmpty()) {
-                budgetSupport = budgetSupports.get(0);
-            }
+                    publikID).stream().findFirst().orElse(null);
         } catch (PortalException e1) {
             _log.error(e1);
         }
-        
+
+
         // Verification de la validite des informations
-        String message = validate(publikID, user, budgetParticipatif, budgetSupport);
+        String message = validate(publikID, user, budgetParticipatif, budgetSupport, nbUserUnsupports);
         if (message.equals("")) {
 
             if (budgetSupport != null) {
                 result = removeBudgetSupport(budgetSupport);
-            }
-
-            // Recuperation du nombre de vote de l'utilisateur pour l'entite courante
-            if (budgetParticipatif != null) {
-                nbUserEntrySupports = budgetParticipatif.getNbSupportOfUser(publikID);
-                nbEntrySupports = (int) budgetParticipatif.getNbSupports();
-                nbUserSupports =  BudgetParticipatifLocalServiceUtil.countBudgetSupportedByPublikUserInPhase(
-                        publikID,
-                        budgetParticipatif.getPhase().getBudgetPhaseId()
-                );
-                nbSupportForActivePhase = budgetParticipatif.getPhase().getNumberOfVote();
             }
         }
         
@@ -105,11 +111,15 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
         jsonResponse.put("message", message);
         
         JSONObject updatedSupportsInfo = JSONFactoryUtil.createJSONObject();
-        
+
         updatedSupportsInfo.put("nbUserSupports", nbUserSupports);
+        updatedSupportsInfo.put("nbUserUnsupports", nbUserUnsupports);
         updatedSupportsInfo.put("nbUserEntrySupports", nbUserEntrySupports);
         updatedSupportsInfo.put("nbEntrySupports", nbEntrySupports);
         updatedSupportsInfo.put("nbSupportForActivePhase", nbSupportForActivePhase);
+        updatedSupportsInfo.put("nbUnsupportForActivePhase", nbUnsupportForActivePhase);
+        updatedSupportsInfo.put("nbUserSupportForEntry", nbUserSupportForEntry);
+        updatedSupportsInfo.put("thresholdNegative", thresholdNegative);
         
         jsonResponse.put("updatedSupportsInfo", updatedSupportsInfo);
 
@@ -143,7 +153,7 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
 	 * du contexte fonctionnel de la requete (ex: vote possible, entite perime, etc)
 	 * @return Si la requete est tangible
 	 */
-	private String validate(String publikID, PublikUser user, BudgetParticipatif budgetParticipatif, BudgetSupport budgetSupport) {
+	private String validate(String publikID, PublikUser user, BudgetParticipatif budgetParticipatif, BudgetSupport budgetSupport, int nbUserUnsupports) {
 		
 		// Utilisateur
         if (publikID == null || publikID.isEmpty()) {
@@ -156,10 +166,15 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
         	}
         }
 
+        // Vote négatif
+        if (nbUserUnsupports > 0) {
+            return "Vous ne pouvez plus retirer votre vote apr\u00e8s avoir vot\u00e9 n\u00e9gativement";
+        }
+
         // Budget participatif
         if (budgetParticipatif != null) {
             if (!budgetParticipatif.isVotable()) {
-                return "Ce budget participatif n'est pas en phase de vote";
+                return "Ce budget participatif n\u0027est pas en phase de vote";
             }
         } else {
             return "Erreur lors de la recherche du budget participatif";

@@ -47,20 +47,6 @@ public class BudgetSupportLocalServiceWrapper
 	}
 
 	/**
-	 * Compter les soutiens d'un budget participatif donne
-	 *
-	 * @param budgetParticipatifId ID du budget participatif.
-	 * @return Nombre de soutiens
-	 */
-	@Override
-	public int countBudgetSupportByBudgetParticipatifId(
-		long budgetParticipatifId) {
-
-		return _budgetSupportLocalService.
-			countBudgetSupportByBudgetParticipatifId(budgetParticipatifId);
-	}
-
-	/**
 	 * Compter les soutiens négatifs d'un budget participatif donne
 	 *
 	 * @param budgetParticipatifId ID du budget participatif.
@@ -324,23 +310,6 @@ public class BudgetSupportLocalServiceWrapper
 	}
 
 	/**
-	 * Recuperer les soutiens d'un budgte et d'un utilisateur donne
-	 *
-	 * @param budgetParticipatifId ID du budget participatif.
-	 * @param publikUserId ID publik de l'utilsiateur
-	 * @return Liste des soutiens
-	 */
-	@Override
-	public java.util.List<eu.strasbourg.service.project.model.BudgetSupport>
-		getBudgetSupportByBudgetParticipatifIdAndPublikUserId(
-			long budgetParticipatifId, String publikUserId) {
-
-		return _budgetSupportLocalService.
-			getBudgetSupportByBudgetParticipatifIdAndPublikUserId(
-				budgetParticipatifId, publikUserId);
-	}
-
-	/**
 	 * Recuperer les soutiens d'un utilisateur donne
 	 *
 	 * @param publikId ID publik de l'utilsiateur
@@ -368,6 +337,40 @@ public class BudgetSupportLocalServiceWrapper
 
 		return _budgetSupportLocalService.getBudgetSupportByUuidAndGroupId(
 			uuid, groupId);
+	}
+
+	/**
+	 * Recuperer les soutiens négatifs d'un budget et d'un utilisateur donne
+	 *
+	 * @param budgetParticipatifId ID du budget participatif.
+	 * @param publikUserId ID publik de l'utilsiateur
+	 * @return Liste des soutiens négatifs
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetSupport>
+		getBudgetSupportNegatifByBudgetParticipatifIdAndPublikUserId(
+			long budgetParticipatifId, String publikUserId) {
+
+		return _budgetSupportLocalService.
+			getBudgetSupportNegatifByBudgetParticipatifIdAndPublikUserId(
+				budgetParticipatifId, publikUserId);
+	}
+
+	/**
+	 * Recuperer les soutiens positifs d'un budget et d'un utilisateur donne
+	 *
+	 * @param budgetParticipatifId ID du budget participatif.
+	 * @param publikUserId ID publik de l'utilsiateur
+	 * @return Liste des soutiens positifs
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.BudgetSupport>
+		getBudgetSupportPositifByBudgetParticipatifIdAndPublikUserId(
+			long budgetParticipatifId, String publikUserId) {
+
+		return _budgetSupportLocalService.
+			getBudgetSupportPositifByBudgetParticipatifIdAndPublikUserId(
+				budgetParticipatifId, publikUserId);
 	}
 
 	/**

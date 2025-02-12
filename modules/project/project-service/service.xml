@@ -799,9 +799,14 @@
 		<finder name="PublikUserId" return-type="Collection">
 			<finder-column name="publikUserId" />
 		</finder>
-		<finder name="BudgetParticipatifIdAndPublikUserId" return-type="Collection">
+		<finder name="PublikUserIdAndType" return-type="Collection">
+			<finder-column name="publikUserId" />
+			<finder-column name="isNegatif" />
+		</finder>
+		<finder name="BudgetParticipatifIdPublikUserIdAndType" return-type="Collection">
 			<finder-column name="budgetParticipatifId" />
 			<finder-column name="publikUserId" />
+			<finder-column name="isNegatif" />
 		</finder>
 		
 		<!-- References -->
