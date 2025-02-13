@@ -135,6 +135,7 @@ public class DashboardPortlet extends MVCPortlet {
          */
         List<BudgetParticipatif> budgetFiled = new ArrayList<>();
         List<BudgetParticipatif> budgetVoted = new ArrayList<>();
+        boolean showResetButton = false;
         String voteLeft = "";
         
         BudgetPhase activePhase  = BudgetPhaseLocalServiceUtil.getActivePhase(participerGroupId);
@@ -142,14 +143,18 @@ public class DashboardPortlet extends MVCPortlet {
         if (activePhase != null) {
         	budgetFiled = BudgetParticipatifLocalServiceUtil.getBudgetParticipatifByPublikUserID(publikId);
 	        budgetVoted = BudgetParticipatifLocalServiceUtil.getPublishedAndVotedByPublikUserInPhase(publikId, activePhase.getBudgetPhaseId());
+            int nbUserUnsupports = BudgetParticipatifLocalServiceUtil.countBudgetSupportedNegativelyByPublikUserInPhase(publikId, activePhase.getBudgetPhaseId());
+            if(nbUserUnsupports > 0)
+                showResetButton = true;
         }
         
         if(activePhase != null && activePhase.isInVotingPeriod())
-        	voteLeft = Integer.toString((int)activePhase.getNumberOfVote() - BudgetParticipatifLocalServiceUtil.countBudgetSupportedByPublikUserInPhase(publikId, activePhase.getBudgetPhaseId()));
+        	voteLeft = Integer.toString((int)activePhase.getNumberOfVote() - BudgetParticipatifLocalServiceUtil.countBudgetSupportedPositivelyByPublikUserInPhase(publikId, activePhase.getBudgetPhaseId()));
         
         request.setAttribute("budgetFiled", budgetFiled);
         request.setAttribute("budgetVoted", budgetVoted);
         request.setAttribute("voteLeft", voteLeft);
+        request.setAttribute("showResetButton", showResetButton);
 
 
         // Vérifie sur quel site nous sommes

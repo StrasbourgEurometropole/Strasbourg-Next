@@ -1454,6 +1454,208 @@ public class BudgetSupportUtil {
 	}
 
 	/**
+	 * Returns all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @return the matching budget supports
+	 */
+	public static List<BudgetSupport> findByBudgetParticipatifIdPublikUserId(
+		long budgetParticipatifId, String publikUserId) {
+
+		return getPersistence().findByBudgetParticipatifIdPublikUserId(
+			budgetParticipatifId, publikUserId);
+	}
+
+	/**
+	 * Returns a range of all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>BudgetSupportModelImpl</code>.
+	 * </p>
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param start the lower bound of the range of budget supports
+	 * @param end the upper bound of the range of budget supports (not inclusive)
+	 * @return the range of matching budget supports
+	 */
+	public static List<BudgetSupport> findByBudgetParticipatifIdPublikUserId(
+		long budgetParticipatifId, String publikUserId, int start, int end) {
+
+		return getPersistence().findByBudgetParticipatifIdPublikUserId(
+			budgetParticipatifId, publikUserId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>BudgetSupportModelImpl</code>.
+	 * </p>
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param start the lower bound of the range of budget supports
+	 * @param end the upper bound of the range of budget supports (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching budget supports
+	 */
+	public static List<BudgetSupport> findByBudgetParticipatifIdPublikUserId(
+		long budgetParticipatifId, String publikUserId, int start, int end,
+		OrderByComparator<BudgetSupport> orderByComparator) {
+
+		return getPersistence().findByBudgetParticipatifIdPublikUserId(
+			budgetParticipatifId, publikUserId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>BudgetSupportModelImpl</code>.
+	 * </p>
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param start the lower bound of the range of budget supports
+	 * @param end the upper bound of the range of budget supports (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching budget supports
+	 */
+	public static List<BudgetSupport> findByBudgetParticipatifIdPublikUserId(
+		long budgetParticipatifId, String publikUserId, int start, int end,
+		OrderByComparator<BudgetSupport> orderByComparator,
+		boolean useFinderCache) {
+
+		return getPersistence().findByBudgetParticipatifIdPublikUserId(
+			budgetParticipatifId, publikUserId, start, end, orderByComparator,
+			useFinderCache);
+	}
+
+	/**
+	 * Returns the first budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching budget support
+	 * @throws NoSuchBudgetSupportException if a matching budget support could not be found
+	 */
+	public static BudgetSupport findByBudgetParticipatifIdPublikUserId_First(
+			long budgetParticipatifId, String publikUserId,
+			OrderByComparator<BudgetSupport> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchBudgetSupportException {
+
+		return getPersistence().findByBudgetParticipatifIdPublikUserId_First(
+			budgetParticipatifId, publikUserId, orderByComparator);
+	}
+
+	/**
+	 * Returns the first budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching budget support, or <code>null</code> if a matching budget support could not be found
+	 */
+	public static BudgetSupport fetchByBudgetParticipatifIdPublikUserId_First(
+		long budgetParticipatifId, String publikUserId,
+		OrderByComparator<BudgetSupport> orderByComparator) {
+
+		return getPersistence().fetchByBudgetParticipatifIdPublikUserId_First(
+			budgetParticipatifId, publikUserId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching budget support
+	 * @throws NoSuchBudgetSupportException if a matching budget support could not be found
+	 */
+	public static BudgetSupport findByBudgetParticipatifIdPublikUserId_Last(
+			long budgetParticipatifId, String publikUserId,
+			OrderByComparator<BudgetSupport> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchBudgetSupportException {
+
+		return getPersistence().findByBudgetParticipatifIdPublikUserId_Last(
+			budgetParticipatifId, publikUserId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching budget support, or <code>null</code> if a matching budget support could not be found
+	 */
+	public static BudgetSupport fetchByBudgetParticipatifIdPublikUserId_Last(
+		long budgetParticipatifId, String publikUserId,
+		OrderByComparator<BudgetSupport> orderByComparator) {
+
+		return getPersistence().fetchByBudgetParticipatifIdPublikUserId_Last(
+			budgetParticipatifId, publikUserId, orderByComparator);
+	}
+
+	/**
+	 * Returns the budget supports before and after the current budget support in the ordered set where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 *
+	 * @param budgetSupportId the primary key of the current budget support
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next budget support
+	 * @throws NoSuchBudgetSupportException if a budget support with the primary key could not be found
+	 */
+	public static BudgetSupport[]
+			findByBudgetParticipatifIdPublikUserId_PrevAndNext(
+				long budgetSupportId, long budgetParticipatifId,
+				String publikUserId,
+				OrderByComparator<BudgetSupport> orderByComparator)
+		throws eu.strasbourg.service.project.exception.
+			NoSuchBudgetSupportException {
+
+		return getPersistence().
+			findByBudgetParticipatifIdPublikUserId_PrevAndNext(
+				budgetSupportId, budgetParticipatifId, publikUserId,
+				orderByComparator);
+	}
+
+	/**
+	 * Removes all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63; from the database.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 */
+	public static void removeByBudgetParticipatifIdPublikUserId(
+		long budgetParticipatifId, String publikUserId) {
+
+		getPersistence().removeByBudgetParticipatifIdPublikUserId(
+			budgetParticipatifId, publikUserId);
+	}
+
+	/**
+	 * Returns the number of budget supports where budgetParticipatifId = &#63; and publikUserId = &#63;.
+	 *
+	 * @param budgetParticipatifId the budget participatif ID
+	 * @param publikUserId the publik user ID
+	 * @return the number of matching budget supports
+	 */
+	public static int countByBudgetParticipatifIdPublikUserId(
+		long budgetParticipatifId, String publikUserId) {
+
+		return getPersistence().countByBudgetParticipatifIdPublikUserId(
+			budgetParticipatifId, publikUserId);
+	}
+
+	/**
 	 * Returns all the budget supports where budgetParticipatifId = &#63; and publikUserId = &#63; and isNegatif = &#63;.
 	 *
 	 * @param budgetParticipatifId the budget participatif ID

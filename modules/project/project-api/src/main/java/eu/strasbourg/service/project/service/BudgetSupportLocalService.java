@@ -253,6 +253,18 @@ public interface BudgetSupportLocalService
 		throws PortalException;
 
 	/**
+	 * Recuperer les soutiens d'un budget et d'un utilisateur donne
+	 *
+	 * @param budgetParticipatifId ID du budget participatif.
+	 * @param publikUserId ID publik de l'utilsiateur
+	 * @return Liste des soutiens positifs
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BudgetSupport>
+		getBudgetSupportByBudgetParticipatifIdAndPublikUserId(
+			long budgetParticipatifId, String publikUserId);
+
+	/**
 	 * Recuperer les soutiens d'un utilisateur donne
 	 *
 	 * @param publikId ID publik de l'utilsiateur

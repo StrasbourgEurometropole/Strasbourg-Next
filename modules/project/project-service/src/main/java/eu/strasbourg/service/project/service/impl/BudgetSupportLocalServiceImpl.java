@@ -117,6 +117,17 @@ public class BudgetSupportLocalServiceImpl extends BudgetSupportLocalServiceBase
     }
 
 	/**
+	 * Recuperer les soutiens d'un budget et d'un utilisateur donne
+	 * @param budgetParticipatifId ID du budget participatif.
+	 * @param publikUserId ID publik de l'utilsiateur
+	 * @return Liste des soutiens positifs
+	 */
+	@Override
+	public List<BudgetSupport> getBudgetSupportByBudgetParticipatifIdAndPublikUserId(long budgetParticipatifId, String publikUserId) {
+		return this.budgetSupportPersistence.findByBudgetParticipatifIdPublikUserId(budgetParticipatifId, publikUserId);
+	}
+
+	/**
 	 * Recuperer les soutiens positifs d'un budget et d'un utilisateur donne
 	 * @param budgetParticipatifId ID du budget participatif.
 	 * @param publikUserId ID publik de l'utilsiateur

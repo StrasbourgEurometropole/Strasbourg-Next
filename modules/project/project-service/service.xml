@@ -803,6 +803,10 @@
 			<finder-column name="publikUserId" />
 			<finder-column name="isNegatif" />
 		</finder>
+		<finder name="BudgetParticipatifIdPublikUserId" return-type="Collection">
+			<finder-column name="budgetParticipatifId" />
+			<finder-column name="publikUserId" />
+		</finder>
 		<finder name="BudgetParticipatifIdPublikUserIdAndType" return-type="Collection">
 			<finder-column name="budgetParticipatifId" />
 			<finder-column name="publikUserId" />

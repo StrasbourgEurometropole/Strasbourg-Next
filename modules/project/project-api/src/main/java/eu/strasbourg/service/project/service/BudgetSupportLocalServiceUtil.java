@@ -274,6 +274,22 @@ public class BudgetSupportLocalServiceUtil {
 	}
 
 	/**
+	 * Recuperer les soutiens d'un budget et d'un utilisateur donne
+	 *
+	 * @param budgetParticipatifId ID du budget participatif.
+	 * @param publikUserId ID publik de l'utilsiateur
+	 * @return Liste des soutiens positifs
+	 */
+	public static List<BudgetSupport>
+		getBudgetSupportByBudgetParticipatifIdAndPublikUserId(
+			long budgetParticipatifId, String publikUserId) {
+
+		return getService().
+			getBudgetSupportByBudgetParticipatifIdAndPublikUserId(
+				budgetParticipatifId, publikUserId);
+	}
+
+	/**
 	 * Recuperer les soutiens d'un utilisateur donne
 	 *
 	 * @param publikId ID publik de l'utilsiateur

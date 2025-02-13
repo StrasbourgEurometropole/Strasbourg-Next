@@ -102,6 +102,12 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
 
             if (budgetSupport != null) {
                 result = removeBudgetSupport(budgetSupport);
+                if(result) {
+                    // MaJ des compteurs
+                    nbUserSupports--;
+                    nbUserEntrySupports--;
+                    nbEntrySupports--;
+                }
             }
         }
         

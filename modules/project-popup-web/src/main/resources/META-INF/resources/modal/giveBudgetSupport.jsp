@@ -177,7 +177,6 @@
                     <!-- Bonton de soumission -->
                     <div class="centerButtonValidation">
                         <input id="supportBudgetSupport" type="submit" class="pro-btn-yellow" value="Voter">
-                        <input id="buttonCancel" type="reset" class="pro-btn-yellow" value="Annuler">
                     </div>
 
                 </form>
@@ -699,7 +698,7 @@
 	/*
 	* Lors d'un click sur les boutons confirmer/annuler des modals
 	*/
-    $('#modalQuitSupport #buttonConfirm, #modalConfirmSupport #buttonConfirm, #modalErrorSupport #buttonConfirm, #modalUnsupport #buttonCancel').click(function(event){
+    $('#modalQuitSupport #buttonConfirm, #modalConfirmSupport #buttonConfirm, #modalErrorSupport #buttonConfirm').click(function(event){
         $(this).parents('.pro-modal').modal('hide');
     });
 

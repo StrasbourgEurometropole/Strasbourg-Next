@@ -6,6 +6,11 @@
 </portlet:actionURL>
 <jsp:useBean id="uriHelper" class="eu.strasbourg.utils.UriHelper"/>
 
+<portlet:actionURL var="resetSupportsURL" name="resetSupports">
+	<portlet:param name="redirectURL" value="${redirectURL}" />
+	<portlet:param name="cmd" value="resetSupports" />
+</portlet:actionURL>
+
 <c:if test="${!isUserloggedIn}">
 	<script>
         $("#myModal").modal("show");
@@ -13,8 +18,35 @@
 </c:if>
 
 <c:if test="${isUserloggedIn}">
-	<div class="pro-bloc-dashboard">
 
+	<!-- MODAL DE PREMIER VOTE NEGATIF A UN BUDGET PARTICIPATIF -->
+	<!-- HTML pour la modal de contestation d'un budget participatif -->
+	<div class="pro-modal pro-bloc-pcs-form fade" id="modalReset" tabindex="-1" role="dialog" aria-labelledby="modalUnsupport">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+
+				<div class="pro-modal-top">
+					<h3><liferay-ui:message key="dashboard.modal.title"/></h3>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true"><span class="icon-multiply"></span></span>
+					</button>
+				</div>
+
+				<div class="pro-wrapper">
+					<h4></h4>
+
+					<form id="form-reset-budget-support" method="post" action="${resetSupportsURL}">
+						<!-- Bonton de soumission -->
+						<div class="centerButtonValidation">
+							<input id="resetSupports" type="submit" class="pro-btn-yellow" value="Valider">
+						</div>
+					</form>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	<div class="pro-bloc-dashboard">
 
 		<div class="container pro-wrapper-dashboard">
 
@@ -25,14 +57,16 @@
 						<liferay-ui:message key="dashboard.front.myactivity" />
 					</h1>
 					<div class="pro-user">
-						 <span><liferay-ui:message key="dashboard.front.welcome" />
-			    <span id="pro-user-name">
-			        <c:out value="${userConnected.get('first_name')}" escapeXml='true'/> <c:out value="${userConnected.get('last_name')}" escapeXml='true'/>
-			    </span></span>
+						<span><liferay-ui:message key="dashboard.front.welcome" />
+							<span id="pro-user-name">
+								<c:out value="${userConnected.get('first_name')}" escapeXml='true'/> <c:out value="${userConnected.get('last_name')}" escapeXml='true'/>
+							</span>
+						</span>
 						<a href="#pro-onglet-account">
 							<figure>
 								<img src="${userConnected.get('photo')}" width="40" height="40" alt="Nom de l'utilisateur" />
-							</figure> <span><liferay-ui:message key="dashboard.front.profil" /></span>
+							</figure>
+							<span><liferay-ui:message key="dashboard.front.profil" /></span>
 						</a>
 					</div>
 				</div>
@@ -40,100 +74,108 @@
 				<div class="col-lg-3 col-sm-6 col-xs-12">
 					<a href="#pro-link-listing-projet" class="pro-item pro-item-projet">
 						<div class="pro-item-center">
-							<span class="pro-number">${projectFollowedsCount}</span> <span
-								class="pro-txt"><liferay-ui:message
-									key="dashboard.front.project" /></span>
+							<span class="pro-number">${projectFollowedsCount}</span>
+							<span class="pro-txt"><liferay-ui:message key="dashboard.front.project" /></span>
 						</div>
 						<div class="pro-link-dashboard">
-							<span class="pro-txt"><liferay-ui:message
-									key="dashboard.front.event.goto" /></span>
+							<span class="pro-txt"><liferay-ui:message key="dashboard.front.event.goto" /></span>
 						</div>
-					</a> <a href="#pro-link-listing-event" class="pro-item pro-item-agenda">
+					</a>
+					<a href="#pro-link-listing-event" class="pro-item pro-item-agenda">
 						<div class="pro-item-center">
-							<span class="pro-number">${eventCount}</span> <span
-								class="pro-txt"><liferay-ui:message
-									key="dashboard.front.event" /></span>
+							<span class="pro-number">${eventCount}</span>
+							<span class="pro-txt"><liferay-ui:message key="dashboard.front.event" /></span>
 						</div>
 						<div class="pro-link-dashboard">
-							<span class="pro-txt"><liferay-ui:message
-									key="dashboard.front.event.goto" /></span>
+							<span class="pro-txt"><liferay-ui:message key="dashboard.front.event.goto" /></span>
 						</div>
 					</a>
 				</div>
-
 
 				<div class="col-lg-3 col-sm-6 col-xs-12">
 					<div class="pro-item pro-item-petition">
 						<div class="pro-item-center">
 							<span class="pro-number">${petitionsFiledCount+petitionSignedCount}</span>
-							<span class="pro-txt"><liferay-ui:message
-									key="dashboard.front.petition" /></span>
+							<span class="pro-txt"><liferay-ui:message key="dashboard.front.petition" /></span>
 						</div>
 						<div class="pro-link-dashboard">
-							<a href="#pro-link-listing-petition-signe" class="pro-txt"><strong>${petitionSignedCount}</strong>
-								<liferay-ui:message key="dashboard.front.petition.signed" /></a> <a
-								href="#pro-link-listing-petition-depose" class="pro-txt"><strong>${petitionsFiledCount}</strong>
-								<liferay-ui:message key="dashboard.front.petition.filed" /></a>
+							<a href="#pro-link-listing-petition-signe" class="pro-txt">
+								<strong>${petitionSignedCount}</strong>
+								<liferay-ui:message key="dashboard.front.petition.signed" />
+							</a>
+							<a href="#pro-link-listing-petition-depose" class="pro-txt">
+								<strong>${petitionsFiledCount}</strong>
+								<liferay-ui:message key="dashboard.front.petition.filed" />
+							</a>
 						</div>
 					</div>
 				</div>
 
-					<div class="col-lg-3 col-sm-6 col-xs-12">
-						<div class="pro-item pro-item-initiative">
-							<div class="pro-item-center">
-								<div>
-									<span class="icon-ico-initiative"></span> <span class="pro-txt"><liferay-ui:message
-											key="dashboard.front.initiative" /></span>
-								</div>
-							</div>
-							<div class="pro-bloc-link-dashboard">
-								<a href="#pro-link-listing-initiative-signe" class="pro-txt"><strong>${initiativeFiledsCount}</strong><span><liferay-ui:message
-											key="dashboard.front.initiative.signed" /></span></a> <a
-									href="#pro-link-listing-initiative-aide" class="pro-txt"><strong>${initiativeAidesCount}</strong><span><liferay-ui:message
-											key="dashboard.front.initiative.aidees" /></span></a>
+				<div class="col-lg-3 col-sm-6 col-xs-12">
+					<div class="pro-item pro-item-initiative">
+						<div class="pro-item-center">
+							<div>
+								<span class="icon-ico-initiative"></span>
+								<span class="pro-txt"><liferay-ui:message key="dashboard.front.initiative" /></span>
 							</div>
 						</div>
+						<div class="pro-bloc-link-dashboard">
+							<a href="#pro-link-listing-initiative-signe" class="pro-txt">
+								<strong>${initiativeFiledsCount}</strong>
+								<span><liferay-ui:message key="dashboard.front.initiative.signed" /></span>
+							</a>
+							<a href="#pro-link-listing-initiative-aide" class="pro-txt">
+								<strong>${initiativeAidesCount}</strong>
+								<span><liferay-ui:message key="dashboard.front.initiative.aidees" /></span>
+							</a>
+						</div>
 					</div>
-					<div class="col-lg-3 col-sm-6 col-xs-12">
-						<div class="pro-item pro-item-budget">
-							<div class="pro-item-center">
-								<p></p>
-							</div>
-							<div class="pro-title-budget">
-								<span class="pro-number">${budgetFiled.size() + budgetVoted.size()}</span>
-								<span class="pro-title"><liferay-ui:message
-										key="dashboard.front.budget" /></span>
-							</div>
+				</div>
 
-							<div class="pro-link-dashboard">
-								<a href="#pro-link-listing-projet-soumis" class="pro-txt">
-									<strong>${budgetFiled.size()}</strong>
-									<span><liferay-ui:message key="dashboard.front.budget.filed" /></span>
-								</a>
-								<a href="#pro-link-listing-projet-vote" class="pro-txt">
-									<strong>${budgetVoted.size()}</strong>
-									<span><liferay-ui:message key="dashboard.front.budget.voted" /></span>
+				<div class="col-lg-3 col-sm-6 col-xs-12">
+					<div class="pro-item pro-item-budget">
+						<div class="pro-item-center">
+							<p></p>
+						</div>
+						<div class="pro-title-budget">
+							<span class="pro-number">${budgetFiled.size() + budgetVoted.size()}</span>
+							<span class="pro-title"><liferay-ui:message key="dashboard.front.budget" /></span>
+						</div>
+
+						<div class="pro-link-dashboard">
+							<a href="#pro-link-listing-projet-soumis" class="pro-txt">
+								<strong>${budgetFiled.size()}</strong>
+								<span><liferay-ui:message key="dashboard.front.budget.filed" /></span>
+							</a>
+							<a href="#pro-link-listing-projet-vote" class="pro-txt">
+								<strong>${budgetVoted.size()}</strong>
+								<span><liferay-ui:message key="dashboard.front.budget.voted" /></span>
+							</a>
+						</div>
+
+						<c:if test="${voteLeft != ''}">
+							<div class="pro-info-vote">
+								<span>
+									<liferay-ui:message key="dashboard.front.budget.reliquat" />
+									<strong>
+										${voteLeft}
+										<liferay-ui:message key="dashboard.front.budget.reliquat2" />
+									</strong>
+								</span>
+							</div>
+						</c:if>
+
+						<c:if test="${showResetButton}">
+							<!-- Bonton de réinitialisation -->
+							<div class="pro-info-reset">
+								<a id="resetBudgetSupports" href="#popin" class="pro-btn-black " data-toggle="modal" data-target="#modalReset">
+									<liferay-ui:message key="dashboard.reset.support" />
 								</a>
 							</div>
-							<c:choose>
-								<c:when test="${voteLeft != ''}">
-									<div class="pro-info-vote">
-										<span>
-											<liferay-ui:message key="dashboard.front.budget.reliquat" />
-											<strong>
-												${voteLeft}
-												<liferay-ui:message key="dashboard.front.budget.reliquat2" /> 
-											</strong>
-										</span>
-									</div>
-								</c:when>
-								<c:otherwise>
-								</c:otherwise>
-							</c:choose>
-						</div>
+						</c:if>
 					</div>
+				</div>
 			</div>
-
 
 			<!-- ONGLET ACCOUNT -->
 			<div id="pro-onglet-account" class="pro-hide">
@@ -237,8 +279,6 @@
 		</div>
 	</div>
 
-
-	
 	<div class="pro-wrapper-list-dashboard">
 		<!-- LISTING DE TUILES -->
 		<!--     projets -->
@@ -759,8 +799,9 @@
 		
 	</div>
 
-	<a href="#backtop" class="pro-btn-back-top"><span
-		class="icon-ico-chevron-down"></span></a>
+	<a href="#backtop" class="pro-btn-back-top">
+		<span class="icon-ico-chevron-down"></span>
+	</a>
 </c:if>
 
 <style>
@@ -775,3 +816,23 @@
     }
 
 </style>
+
+<script type="text/javascript">
+
+	/*
+    * Lors du click sur le bouton de réinitialisation des votes
+    */
+	$(document).on("click", "[href='#resetBudgetSupports']", function(event) {
+		event.preventDefault();
+		$("#modalReset").modal('show');
+	});
+
+	/*
+    * Lors du click sur la validation de réinitialisation
+    */
+	$("#resetSupports").click(function(event){
+		event.preventDefault();
+		$("#form-reset-budget-support").submit();
+	});
+
+</script>
