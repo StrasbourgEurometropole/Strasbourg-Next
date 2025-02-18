@@ -21,7 +21,7 @@
 	}
 
 	.st-title-small {
-		@include ft($f_hx, 15px, 700, $c_white, 1);
+		@include ft($f_hx, 17px, 700, $c_white, 1);
 		@include letter-spacing(25);
 	}
 

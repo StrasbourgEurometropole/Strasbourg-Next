@@ -87,6 +87,19 @@
               ]
             },
             {
+              "name": "newtextColor",
+              "label": "Nouveau texte gris",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#d6e1ee",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "newtextColor"
+                }
+              ]
+            },
+            {
               "name": "blackColor",
               "label": "Ombres et picto",
               "type": "String",
