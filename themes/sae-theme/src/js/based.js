@@ -239,7 +239,7 @@
 			}, {
 		         // configuration
 		        offCanvas: {
-		            pageNodetype: "main"
+		            pageNodetype: "#wrapper > main"
 		        }
 		    });
 	
