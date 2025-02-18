@@ -576,9 +576,9 @@
         $('#nbEntrySupports').html(createCompt(textDiscover));
 
         // nombre de vote + et - pour la tooltip
-        var textTooltip = "<div class='tooltipHTML'>Votes positifs : " + updatedSupportsInfo.nbEntryPositivesSupports +
-            "<br/>Votes n&eacute;gatifs : " + updatedSupportsInfo.nbEntryNegativesSupports + "</div>";
-        $('.pro-compteur .icon-ico-info')[0].title = textTooltip;
+        var textTooltip = "<div id='tooltip' class='tooltipHTML'>Votes positifs : " + updatedSupportsInfo.nbEntryPositivesSupports +
+                "<br/>Votes n&eacute;gatifs : " + updatedSupportsInfo.nbEntryNegativesSupports + "</div>";
+        $('.pro-compteur .icon-ico-info')[0].innerHTML = textTooltip;
 
         if(updatedSupportsInfo.nbSupportForActivePhase !== undefined &&
             updatedSupportsInfo.nbUserSupports !== undefined) {

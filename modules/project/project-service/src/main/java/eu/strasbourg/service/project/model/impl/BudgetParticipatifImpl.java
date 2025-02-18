@@ -839,9 +839,9 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 						"<span class='pro-compt pro-compt-six' id='nbEntrySupports'>" +
 							this.getNbSupportsBoard() +
 						"</span>" +
-					"<span class='icon-ico-info' aria-labelledby='tooltip'>" +
-						"<div id='tooltip' class='tooltipHTML'>Votes positifs : " + this.getNbSupportsPositifs() + "<br/>Votes n&eacute;gatifs : " + this.getNbSupportsNegatifs() + "</div>" +
-					"</span>" +
+						"<span class='icon-ico-info' aria-labelledby='tooltip'>" +
+							"<div id='tooltip' class='tooltipHTML'>Votes positifs : " + this.getNbSupportsPositifs() + "<br/>Votes n&eacute;gatifs : " + this.getNbSupportsNegatifs() + "</div>" +
+						"</span>" +
 						"<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes") + "</p>" +
 					"</div>";
 		case 25:
