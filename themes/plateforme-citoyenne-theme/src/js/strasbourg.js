@@ -4606,6 +4606,179 @@
 
 }( document ) );
 !function(e){"use strict";var t=e(document),s=e(window),i="selectric",l=".sl",n=["a","e","i","o","u","n","c","y"],a=[/[\xE0-\xE5]/g,/[\xE8-\xEB]/g,/[\xEC-\xEF]/g,/[\xF2-\xF6]/g,/[\xF9-\xFC]/g,/[\xF1]/g,/[\xE7]/g,/[\xFD-\xFF]/g],o=function(t,s){var i=this;i.element=t,i.$element=e(t),i.state={multiple:!!i.$element.attr("multiple"),enabled:!1,opened:!1,currValue:-1,selectedIdx:-1,highlightedIdx:-1},i.eventTriggers={open:i.open,close:i.close,destroy:i.destroy,refresh:i.refresh,init:i.init},i.init(s)};o.prototype={utils:{isMobile:function(){return/android|ip(hone|od|ad)/i.test(navigator.userAgent)},escapeRegExp:function(e){return e.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")},replaceDiacritics:function(e){for(var t=a.length;t--;)e=e.toLowerCase().replace(a[t],n[t]);return e},format:function(e){var t=arguments;return(""+e).replace(/\{(?:(\d+)|(\w+))\}/g,function(e,s,i){return i&&t[1]?t[1][i]:t[s]})},nextEnabledItem:function(e,t){for(;e[t=(t+1)%e.length].disabled;);return t},previousEnabledItem:function(e,t){for(;e[t=(t>0?t:e.length)-1].disabled;);return t},toDash:function(e){return e.replace(/([a-z])([A-Z])/g,"$1-$2").toLowerCase()},triggerCallback:function(t,s){var l=s.element,n=s.options["on"+t],a=[l].concat([].slice.call(arguments).slice(1));e.isFunction(n)&&n.apply(l,a),e(l).trigger(i+"-"+this.toDash(t),a)},arrayToClassname:function(t){var s=e.grep(t,function(e){return!!e});return e.trim(s.join(" "))}},init:function(t){var s=this;if(s.options=e.extend(!0,{},e.fn[i].defaults,s.options,t),s.utils.triggerCallback("BeforeInit",s),s.destroy(!0),s.options.disableOnMobile&&s.utils.isMobile())s.disableOnMobile=!0;else{s.classes=s.getClassNames();var l=e("<input/>",{class:s.classes.input,readonly:s.utils.isMobile()}),n=e("<div/>",{class:s.classes.items,tabindex:-1}),a=e("<div/>",{class:s.classes.scroll}),o=e("<div/>",{class:s.classes.prefix,html:s.options.arrowButtonMarkup}),r=e("<span/>",{class:"label"}),p=s.$element.wrap("<div/>").parent().append(o.prepend(r),n,l),u=e("<div/>",{class:s.classes.hideselect});s.elements={input:l,items:n,itemsScroll:a,wrapper:o,label:r,outerWrapper:p},s.options.nativeOnMobile&&s.utils.isMobile()&&(s.elements.input=void 0,u.addClass(s.classes.prefix+"-is-native"),s.$element.on("change",function(){s.refresh()})),s.$element.on(s.eventTriggers).wrap(u),s.originalTabindex=s.$element.prop("tabindex"),s.$element.prop("tabindex",-1),s.populate(),s.activate(),s.utils.triggerCallback("Init",s)}},activate:function(){var e=this,t=e.elements.items.closest(":visible").children(":hidden").addClass(e.classes.tempshow),s=e.$element.width();t.removeClass(e.classes.tempshow),e.utils.triggerCallback("BeforeActivate",e),e.elements.outerWrapper.prop("class",e.utils.arrayToClassname([e.classes.wrapper,e.$element.prop("class").replace(/\S+/g,e.classes.prefix+"-$&"),e.options.responsive?e.classes.responsive:""])),e.options.inheritOriginalWidth&&s>0&&e.elements.outerWrapper.width(s),e.unbindEvents(),e.$element.prop("disabled")?(e.elements.outerWrapper.addClass(e.classes.disabled),e.elements.input&&e.elements.input.prop("disabled",!0)):(e.state.enabled=!0,e.elements.outerWrapper.removeClass(e.classes.disabled),e.$li=e.elements.items.removeAttr("style").find("li"),e.bindEvents()),e.utils.triggerCallback("Activate",e)},getClassNames:function(){var t=this,s=t.options.customClass,i={};return e.each("Input Items Open Disabled TempShow HideSelect Wrapper Focus Hover Responsive Above Scroll Group GroupLabel".split(" "),function(e,l){var n=s.prefix+l;i[l.toLowerCase()]=s.camelCase?n:t.utils.toDash(n)}),i.prefix=s.prefix,i},setLabel:function(){var t=this,s=t.options.labelBuilder;if(t.state.multiple){var i=e.isArray(t.state.currValue)?t.state.currValue:[t.state.currValue];i=0===i.length?[0]:i;var l=e.map(i,function(s){return e.grep(t.lookupItems,function(e){return e.index===s})[0]});l=e.grep(l,function(t){return l.length>1||0===l.length?""!==e.trim(t.value):t}),l=e.map(l,function(i){return e.isFunction(s)?s(i):t.utils.format(s,i)}),t.options.multiple.maxLabelEntries&&(l.length>=t.options.multiple.maxLabelEntries+1?(l=l.slice(0,t.options.multiple.maxLabelEntries)).push(e.isFunction(s)?s({text:"..."}):t.utils.format(s,{text:"..."})):l.slice(l.length-1)),t.elements.label.html(l.join(t.options.multiple.separator))}else{var n=t.lookupItems[t.state.currValue];t.elements.label.html(e.isFunction(s)?s(n):t.utils.format(s,n))}},populate:function(){var t=this,s=t.$element.children(),i=t.$element.find("option"),l=i.filter(":selected"),n=i.index(l),a=0,o=t.state.multiple?[]:0;l.length>1&&t.state.multiple&&(n=[],l.each(function(){n.push(e(this).index())})),t.state.currValue=~n?n:o,t.state.selectedIdx=t.state.currValue,t.state.highlightedIdx=t.state.currValue,t.items=[],t.lookupItems=[],s.length&&(s.each(function(s){var i=e(this);if(i.is("optgroup")){var l={element:i,label:i.prop("label"),groupDisabled:i.prop("disabled"),items:[]};i.children().each(function(s){var i=e(this);l.items[s]=t.getItemData(a,i,l.groupDisabled||i.prop("disabled")),t.lookupItems[a]=l.items[s],a++}),t.items[s]=l}else t.items[s]=t.getItemData(a,i,i.prop("disabled")),t.lookupItems[a]=t.items[s],a++}),t.setLabel(),t.elements.items.append(t.elements.itemsScroll.html(t.getItemsMarkup(t.items))))},getItemData:function(t,s,i){return{index:t,element:s,value:s.val(),className:s.prop("class"),text:s.html(),slug:e.trim(this.utils.replaceDiacritics(s.html())),selected:s.prop("selected"),disabled:i}},getItemsMarkup:function(t){var s=this,i="<ul>";return e.isFunction(s.options.listBuilder)&&s.options.listBuilder&&(t=s.options.listBuilder(t)),e.each(t,function(t,l){void 0!==l.label?(i+=s.utils.format('<ul class="{1}"><li class="{2}">{3}</li>',s.utils.arrayToClassname([s.classes.group,l.groupDisabled?"disabled":"",l.element.prop("class")]),s.classes.grouplabel,l.element.prop("label")),e.each(l.items,function(e,t){i+=s.getItemMarkup(t.index,t)}),i+="</ul>"):i+=s.getItemMarkup(l.index,l)}),i+"</ul>"},getItemMarkup:function(t,s){var i=this,l=i.options.optionsItemBuilder,n={value:s.value,text:s.text,slug:s.slug,index:s.index};return i.utils.format('<li data-index="{1}" class="{2}">{3}</li>',t,i.utils.arrayToClassname([s.className,t===i.items.length-1?"last":"",s.disabled?"disabled":"",s.selected?"selected":""]),e.isFunction(l)?i.utils.format(l(s),s):i.utils.format(l,n))},unbindEvents:function(){this.elements.wrapper.add(this.$element).add(this.elements.outerWrapper).add(this.elements.input).off(l)},bindEvents:function(){var t=this;t.elements.outerWrapper.on("mouseenter.sl mouseleave"+l,function(s){e(this).toggleClass(t.classes.hover,"mouseenter"===s.type),t.options.openOnHover&&(clearTimeout(t.closeTimer),"mouseleave"===s.type?t.closeTimer=setTimeout(e.proxy(t.close,t),t.options.hoverIntentTimeout):t.open())}),t.elements.wrapper.on("click"+l,function(e){t.state.opened?t.close():t.open(e)}),t.options.nativeOnMobile&&t.utils.isMobile()||(t.$element.on("focus"+l,function(){t.elements.input.focus()}),t.elements.input.prop({tabindex:t.originalTabindex,disabled:!1}).on("keydown"+l,e.proxy(t.handleKeys,t)).on("focusin"+l,function(e){t.elements.outerWrapper.addClass(t.classes.focus),t.elements.input.one("blur",function(){t.elements.input.blur()}),t.options.openOnFocus&&!t.state.opened&&t.open(e)}).on("focusout"+l,function(){t.elements.outerWrapper.removeClass(t.classes.focus)}).on("input propertychange",function(){var s=t.elements.input.val(),i=new RegExp("^"+t.utils.escapeRegExp(s),"i");clearTimeout(t.resetStr),t.resetStr=setTimeout(function(){t.elements.input.val("")},t.options.keySearchTimeout),s.length&&e.each(t.items,function(e,s){(!s.disabled&&i.test(s.text)||i.test(s.slug))&&t.highlight(e)})})),t.$li.on({mousedown:function(e){e.preventDefault(),e.stopPropagation()},click:function(){return t.select(e(this).data("index")),!1}})},handleKeys:function(t){var s=this,i=t.which,l=s.options.keys,n=e.inArray(i,l.previous)>-1,a=e.inArray(i,l.next)>-1,o=e.inArray(i,l.select)>-1,r=e.inArray(i,l.open)>-1,p=s.state.highlightedIdx,u=n&&0===p||a&&p+1===s.items.length,c=0;if(13!==i&&32!==i||t.preventDefault(),n||a){if(!s.options.allowWrap&&u)return;n&&(c=s.utils.previousEnabledItem(s.lookupItems,p)),a&&(c=s.utils.nextEnabledItem(s.lookupItems,p)),s.highlight(c)}if(o&&s.state.opened)return s.select(p),void(s.state.multiple&&s.options.multiple.keepMenuOpen||s.close());r&&!s.state.opened&&s.open()},refresh:function(){this.populate(),this.activate(),this.utils.triggerCallback("Refresh",this)},setOptionsDimensions:function(){var e=this,t=e.elements.items.closest(":visible").children(":hidden").addClass(e.classes.tempshow),s=e.options.maxHeight,i=e.elements.items.outerWidth(),l=e.elements.wrapper.outerWidth()-(i-e.elements.items.width());!e.options.expandToItemText||l>i?e.finalWidth=l:(e.elements.items.css("overflow","scroll"),e.elements.outerWrapper.width(9e4),e.finalWidth=e.elements.items.width(),e.elements.items.css("overflow",""),e.elements.outerWrapper.width("")),e.elements.items.width(e.finalWidth).height()>s&&e.elements.items.height(s),t.removeClass(e.classes.tempshow)},isInViewport:function(){var e=this,t=s.scrollTop(),i=s.height(),l=e.elements.outerWrapper.offset().top,n=e.elements.outerWrapper.outerHeight(),a=l+n+e.itemsHeight<=t+i,o=l-e.itemsHeight>t,r=!a&&o;e.elements.outerWrapper.toggleClass(e.classes.above,r)},detectItemVisibility:function(t){var s=this,i=s.$li.filter("[data-index]");s.state.multiple&&(t=e.isArray(t)&&0===t.length?0:t,t=e.isArray(t)?Math.min.apply(Math,t):t);var l=i.eq(t).outerHeight(),n=i[t].offsetTop,a=s.elements.itemsScroll.scrollTop(),o=n+2*l;s.elements.itemsScroll.scrollTop(o>a+s.itemsHeight?o-s.itemsHeight:n-l<a?n-l:a)},open:function(s){var n=this;if(n.options.nativeOnMobile&&n.utils.isMobile())return!1;n.utils.triggerCallback("BeforeOpen",n),s&&(s.preventDefault(),n.options.stopPropagation&&s.stopPropagation()),n.state.enabled&&(n.setOptionsDimensions(),e("."+n.classes.hideselect,"."+n.classes.open).children()[i]("close"),n.state.opened=!0,n.itemsHeight=n.elements.items.outerHeight(),n.itemsInnerHeight=n.elements.items.height(),n.elements.outerWrapper.addClass(n.classes.open),n.elements.input.val(""),s&&"focusin"!==s.type&&n.elements.input.focus(),setTimeout(function(){t.on("click"+l,e.proxy(n.close,n)).on("scroll"+l,e.proxy(n.isInViewport,n))},1),n.isInViewport(),n.options.preventWindowScroll&&t.on("mousewheel.sl DOMMouseScroll"+l,"."+n.classes.scroll,function(t){var s=t.originalEvent,i=e(this).scrollTop(),l=0;"detail"in s&&(l=-1*s.detail),"wheelDelta"in s&&(l=s.wheelDelta),"wheelDeltaY"in s&&(l=s.wheelDeltaY),"deltaY"in s&&(l=-1*s.deltaY),(i===this.scrollHeight-n.itemsInnerHeight&&l<0||0===i&&l>0)&&t.preventDefault()}),n.detectItemVisibility(n.state.selectedIdx),n.highlight(n.state.multiple?-1:n.state.selectedIdx),n.utils.triggerCallback("Open",n))},close:function(){var e=this;e.utils.triggerCallback("BeforeClose",e),t.off(l),e.elements.outerWrapper.removeClass(e.classes.open),e.state.opened=!1,e.utils.triggerCallback("Close",e)},change:function(){var t=this;t.utils.triggerCallback("BeforeChange",t),t.state.multiple?(e.each(t.lookupItems,function(e){t.lookupItems[e].selected=!1,t.$element.find("option").prop("selected",!1)}),e.each(t.state.selectedIdx,function(e,s){t.lookupItems[s].selected=!0,t.$element.find("option").eq(s).prop("selected",!0)}),t.state.currValue=t.state.selectedIdx,t.setLabel(),t.utils.triggerCallback("Change",t)):t.state.currValue!==t.state.selectedIdx&&(t.$element.prop("selectedIndex",t.state.currValue=t.state.selectedIdx).data("value",t.lookupItems[t.state.selectedIdx].text),t.setLabel(),t.utils.triggerCallback("Change",t))},highlight:function(e){var t=this,s=t.$li.filter("[data-index]").removeClass("highlighted");t.utils.triggerCallback("BeforeHighlight",t),void 0===e||-1===e||t.lookupItems[e].disabled||(s.eq(t.state.highlightedIdx=e).addClass("highlighted"),t.detectItemVisibility(e),t.utils.triggerCallback("Highlight",t))},select:function(t){var s=this,i=s.$li.filter("[data-index]");if(s.utils.triggerCallback("BeforeSelect",s,t),void 0!==t&&-1!==t&&!s.lookupItems[t].disabled){if(s.state.multiple){s.state.selectedIdx=e.isArray(s.state.selectedIdx)?s.state.selectedIdx:[s.state.selectedIdx];var l=e.inArray(t,s.state.selectedIdx);-1!==l?s.state.selectedIdx.splice(l,1):s.state.selectedIdx.push(t),i.removeClass("selected").filter(function(t){return-1!==e.inArray(t,s.state.selectedIdx)}).addClass("selected")}else i.removeClass("selected").eq(s.state.selectedIdx=t).addClass("selected");s.state.multiple&&s.options.multiple.keepMenuOpen||s.close(),s.change(),s.utils.triggerCallback("Select",s,t)}},destroy:function(e){var t=this;t.state&&t.state.enabled&&(t.elements.items.add(t.elements.wrapper).add(t.elements.input).remove(),e||t.$element.removeData(i).removeData("value"),t.$element.prop("tabindex",t.originalTabindex).off(l).off(t.eventTriggers).unwrap().unwrap(),t.state.enabled=!1)}},e.fn[i]=function(t){return this.each(function(){var s=e.data(this,i);s&&!s.disableOnMobile?"string"==typeof t&&s[t]?s[t]():s.init(t):e.data(this,i,new o(this,t))})},e.fn[i].defaults={onChange:function(t){e(t).change()},maxHeight:300,keySearchTimeout:500,arrowButtonMarkup:'<b class="button">&#x25be;</b>',disableOnMobile:!1,nativeOnMobile:!0,openOnFocus:!0,openOnHover:!1,hoverIntentTimeout:500,expandToItemText:!1,responsive:!1,preventWindowScroll:!0,inheritOriginalWidth:!1,allowWrap:!0,stopPropagation:!0,optionsItemBuilder:"{text}",labelBuilder:"{text}",listBuilder:!1,keys:{previous:[37,38],next:[39,40],select:[9,13,27],open:[13,32,37,38,39,40],close:[9,27]},customClass:{prefix:i,camelCase:!1},multiple:{separator:", ",keepMenuOpen:!0,maxLabelEntries:!1}}}(jQuery);!function(e){"use strict";var t=e(document),s=e(window),i="selectric",l=".sl",n=["a","e","i","o","u","n","c","y"],a=[/[\xE0-\xE5]/g,/[\xE8-\xEB]/g,/[\xEC-\xEF]/g,/[\xF2-\xF6]/g,/[\xF9-\xFC]/g,/[\xF1]/g,/[\xE7]/g,/[\xFD-\xFF]/g],o=function(t,s){var i=this;i.element=t,i.$element=e(t),i.state={multiple:!!i.$element.attr("multiple"),enabled:!1,opened:!1,currValue:-1,selectedIdx:-1,highlightedIdx:-1},i.eventTriggers={open:i.open,close:i.close,destroy:i.destroy,refresh:i.refresh,init:i.init},i.init(s)};o.prototype={utils:{isMobile:function(){return/android|ip(hone|od|ad)/i.test(navigator.userAgent)},escapeRegExp:function(e){return e.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")},replaceDiacritics:function(e){for(var t=a.length;t--;)e=e.toLowerCase().replace(a[t],n[t]);return e},format:function(e){var t=arguments;return(""+e).replace(/\{(?:(\d+)|(\w+))\}/g,function(e,s,i){return i&&t[1]?t[1][i]:t[s]})},nextEnabledItem:function(e,t){for(;e[t=(t+1)%e.length].disabled;);return t},previousEnabledItem:function(e,t){for(;e[t=(t>0?t:e.length)-1].disabled;);return t},toDash:function(e){return e.replace(/([a-z])([A-Z])/g,"$1-$2").toLowerCase()},triggerCallback:function(t,s){var l=s.element,n=s.options["on"+t],a=[l].concat([].slice.call(arguments).slice(1));e.isFunction(n)&&n.apply(l,a),e(l).trigger(i+"-"+this.toDash(t),a)},arrayToClassname:function(t){var s=e.grep(t,function(e){return!!e});return e.trim(s.join(" "))}},init:function(t){var s=this;if(s.options=e.extend(!0,{},e.fn[i].defaults,s.options,t),s.utils.triggerCallback("BeforeInit",s),s.destroy(!0),s.options.disableOnMobile&&s.utils.isMobile())s.disableOnMobile=!0;else{s.classes=s.getClassNames();var l=e("<input/>",{class:s.classes.input,readonly:s.utils.isMobile()}),n=e("<div/>",{class:s.classes.items,tabindex:-1}),a=e("<div/>",{class:s.classes.scroll}),o=e("<div/>",{class:s.classes.prefix,html:s.options.arrowButtonMarkup}),r=e("<span/>",{class:"label"}),p=s.$element.wrap("<div/>").parent().append(o.prepend(r),n,l),u=e("<div/>",{class:s.classes.hideselect});s.elements={input:l,items:n,itemsScroll:a,wrapper:o,label:r,outerWrapper:p},s.options.nativeOnMobile&&s.utils.isMobile()&&(s.elements.input=void 0,u.addClass(s.classes.prefix+"-is-native"),s.$element.on("change",function(){s.refresh()})),s.$element.on(s.eventTriggers).wrap(u),s.originalTabindex=s.$element.prop("tabindex"),s.$element.prop("tabindex",-1),s.populate(),s.activate(),s.utils.triggerCallback("Init",s)}},activate:function(){var e=this,t=e.elements.items.closest(":visible").children(":hidden").addClass(e.classes.tempshow),s=e.$element.width();t.removeClass(e.classes.tempshow),e.utils.triggerCallback("BeforeActivate",e),e.elements.outerWrapper.prop("class",e.utils.arrayToClassname([e.classes.wrapper,e.$element.prop("class").replace(/\S+/g,e.classes.prefix+"-$&"),e.options.responsive?e.classes.responsive:""])),e.options.inheritOriginalWidth&&s>0&&e.elements.outerWrapper.width(s),e.unbindEvents(),e.$element.prop("disabled")?(e.elements.outerWrapper.addClass(e.classes.disabled),e.elements.input&&e.elements.input.prop("disabled",!0)):(e.state.enabled=!0,e.elements.outerWrapper.removeClass(e.classes.disabled),e.$li=e.elements.items.removeAttr("style").find("li"),e.bindEvents()),e.utils.triggerCallback("Activate",e)},getClassNames:function(){var t=this,s=t.options.customClass,i={};return e.each("Input Items Open Disabled TempShow HideSelect Wrapper Focus Hover Responsive Above Scroll Group GroupLabel".split(" "),function(e,l){var n=s.prefix+l;i[l.toLowerCase()]=s.camelCase?n:t.utils.toDash(n)}),i.prefix=s.prefix,i},setLabel:function(){var t=this,s=t.options.labelBuilder;if(t.state.multiple){var i=e.isArray(t.state.currValue)?t.state.currValue:[t.state.currValue];i=0===i.length?[0]:i;var l=e.map(i,function(s){return e.grep(t.lookupItems,function(e){return e.index===s})[0]});l=e.grep(l,function(t){return l.length>1||0===l.length?""!==e.trim(t.value):t}),l=e.map(l,function(i){return e.isFunction(s)?s(i):t.utils.format(s,i)}),t.options.multiple.maxLabelEntries&&(l.length>=t.options.multiple.maxLabelEntries+1?(l=l.slice(0,t.options.multiple.maxLabelEntries)).push(e.isFunction(s)?s({text:"..."}):t.utils.format(s,{text:"..."})):l.slice(l.length-1)),t.elements.label.html(l.join(t.options.multiple.separator))}else{var n=t.lookupItems[t.state.currValue];t.elements.label.html(e.isFunction(s)?s(n):t.utils.format(s,n))}},populate:function(){var t=this,s=t.$element.children(),i=t.$element.find("option"),l=i.filter(":selected"),n=i.index(l),a=0,o=t.state.multiple?[]:0;l.length>1&&t.state.multiple&&(n=[],l.each(function(){n.push(e(this).index())})),t.state.currValue=~n?n:o,t.state.selectedIdx=t.state.currValue,t.state.highlightedIdx=t.state.currValue,t.items=[],t.lookupItems=[],s.length&&(s.each(function(s){var i=e(this);if(i.is("optgroup")){var l={element:i,label:i.prop("label"),groupDisabled:i.prop("disabled"),items:[]};i.children().each(function(s){var i=e(this);l.items[s]=t.getItemData(a,i,l.groupDisabled||i.prop("disabled")),t.lookupItems[a]=l.items[s],a++}),t.items[s]=l}else t.items[s]=t.getItemData(a,i,i.prop("disabled")),t.lookupItems[a]=t.items[s],a++}),t.setLabel(),t.elements.items.append(t.elements.itemsScroll.html(t.getItemsMarkup(t.items))))},getItemData:function(t,s,i){return{index:t,element:s,value:s.val(),className:s.prop("class"),text:s.html(),slug:e.trim(this.utils.replaceDiacritics(s.html())),selected:s.prop("selected"),disabled:i}},getItemsMarkup:function(t){var s=this,i="<ul>";return e.isFunction(s.options.listBuilder)&&s.options.listBuilder&&(t=s.options.listBuilder(t)),e.each(t,function(t,l){void 0!==l.label?(i+=s.utils.format('<ul class="{1}"><li class="{2}">{3}</li>',s.utils.arrayToClassname([s.classes.group,l.groupDisabled?"disabled":"",l.element.prop("class")]),s.classes.grouplabel,l.element.prop("label")),e.each(l.items,function(e,t){i+=s.getItemMarkup(t.index,t)}),i+="</ul>"):i+=s.getItemMarkup(l.index,l)}),i+"</ul>"},getItemMarkup:function(t,s){var i=this,l=i.options.optionsItemBuilder,n={value:s.value,text:s.text,slug:s.slug,index:s.index};return i.utils.format('<li data-index="{1}" class="{2}">{3}</li>',t,i.utils.arrayToClassname([s.className,t===i.items.length-1?"last":"",s.disabled?"disabled":"",s.selected?"selected":""]),e.isFunction(l)?i.utils.format(l(s),s):i.utils.format(l,n))},unbindEvents:function(){this.elements.wrapper.add(this.$element).add(this.elements.outerWrapper).add(this.elements.input).off(l)},bindEvents:function(){var t=this;t.elements.outerWrapper.on("mouseenter.sl mouseleave"+l,function(s){e(this).toggleClass(t.classes.hover,"mouseenter"===s.type),t.options.openOnHover&&(clearTimeout(t.closeTimer),"mouseleave"===s.type?t.closeTimer=setTimeout(e.proxy(t.close,t),t.options.hoverIntentTimeout):t.open())}),t.elements.wrapper.on("click"+l,function(e){t.state.opened?t.close():t.open(e)}),t.options.nativeOnMobile&&t.utils.isMobile()||(t.$element.on("focus"+l,function(){t.elements.input.focus()}),t.elements.input.prop({tabindex:t.originalTabindex,disabled:!1}).on("keydown"+l,e.proxy(t.handleKeys,t)).on("focusin"+l,function(e){t.elements.outerWrapper.addClass(t.classes.focus),t.elements.input.one("blur",function(){t.elements.input.blur()}),t.options.openOnFocus&&!t.state.opened&&t.open(e)}).on("focusout"+l,function(){t.elements.outerWrapper.removeClass(t.classes.focus)}).on("input propertychange",function(){var s=t.elements.input.val(),i=new RegExp("^"+t.utils.escapeRegExp(s),"i");clearTimeout(t.resetStr),t.resetStr=setTimeout(function(){t.elements.input.val("")},t.options.keySearchTimeout),s.length&&e.each(t.items,function(e,s){(!s.disabled&&i.test(s.text)||i.test(s.slug))&&t.highlight(e)})})),t.$li.on({mousedown:function(e){e.preventDefault(),e.stopPropagation()},click:function(){return t.select(e(this).data("index")),!1}})},handleKeys:function(t){var s=this,i=t.which,l=s.options.keys,n=e.inArray(i,l.previous)>-1,a=e.inArray(i,l.next)>-1,o=e.inArray(i,l.select)>-1,r=e.inArray(i,l.open)>-1,p=s.state.highlightedIdx,u=n&&0===p||a&&p+1===s.items.length,c=0;if(13!==i&&32!==i||t.preventDefault(),n||a){if(!s.options.allowWrap&&u)return;n&&(c=s.utils.previousEnabledItem(s.lookupItems,p)),a&&(c=s.utils.nextEnabledItem(s.lookupItems,p)),s.highlight(c)}if(o&&s.state.opened)return s.select(p),void(s.state.multiple&&s.options.multiple.keepMenuOpen||s.close());r&&!s.state.opened&&s.open()},refresh:function(){this.populate(),this.activate(),this.utils.triggerCallback("Refresh",this)},setOptionsDimensions:function(){var e=this,t=e.elements.items.closest(":visible").children(":hidden").addClass(e.classes.tempshow),s=e.options.maxHeight,i=e.elements.items.outerWidth(),l=e.elements.wrapper.outerWidth()-(i-e.elements.items.width());!e.options.expandToItemText||l>i?e.finalWidth=l:(e.elements.items.css("overflow","scroll"),e.elements.outerWrapper.width(9e4),e.finalWidth=e.elements.items.width(),e.elements.items.css("overflow",""),e.elements.outerWrapper.width("")),e.elements.items.width(e.finalWidth).height()>s&&e.elements.items.height(s),t.removeClass(e.classes.tempshow)},isInViewport:function(){var e=this,t=s.scrollTop(),i=s.height(),l=e.elements.outerWrapper.offset().top,n=e.elements.outerWrapper.outerHeight(),a=l+n+e.itemsHeight<=t+i,o=l-e.itemsHeight>t,r=!a&&o;e.elements.outerWrapper.toggleClass(e.classes.above,r)},detectItemVisibility:function(t){var s=this,i=s.$li.filter("[data-index]");s.state.multiple&&(t=e.isArray(t)&&0===t.length?0:t,t=e.isArray(t)?Math.min.apply(Math,t):t);var l=i.eq(t).outerHeight(),n=i[t].offsetTop,a=s.elements.itemsScroll.scrollTop(),o=n+2*l;s.elements.itemsScroll.scrollTop(o>a+s.itemsHeight?o-s.itemsHeight:n-l<a?n-l:a)},open:function(s){var n=this;if(n.options.nativeOnMobile&&n.utils.isMobile())return!1;n.utils.triggerCallback("BeforeOpen",n),s&&(s.preventDefault(),n.options.stopPropagation&&s.stopPropagation()),n.state.enabled&&(n.setOptionsDimensions(),e("."+n.classes.hideselect,"."+n.classes.open).children()[i]("close"),n.state.opened=!0,n.itemsHeight=n.elements.items.outerHeight(),n.itemsInnerHeight=n.elements.items.height(),n.elements.outerWrapper.addClass(n.classes.open),n.elements.input.val(""),s&&"focusin"!==s.type&&n.elements.input.focus(),setTimeout(function(){t.on("click"+l,e.proxy(n.close,n)).on("scroll"+l,e.proxy(n.isInViewport,n))},1),n.isInViewport(),n.options.preventWindowScroll&&t.on("mousewheel.sl DOMMouseScroll"+l,"."+n.classes.scroll,function(t){var s=t.originalEvent,i=e(this).scrollTop(),l=0;"detail"in s&&(l=-1*s.detail),"wheelDelta"in s&&(l=s.wheelDelta),"wheelDeltaY"in s&&(l=s.wheelDeltaY),"deltaY"in s&&(l=-1*s.deltaY),(i===this.scrollHeight-n.itemsInnerHeight&&l<0||0===i&&l>0)&&t.preventDefault()}),n.detectItemVisibility(n.state.selectedIdx),n.highlight(n.state.multiple?-1:n.state.selectedIdx),n.utils.triggerCallback("Open",n))},close:function(){var e=this;e.utils.triggerCallback("BeforeClose",e),t.off(l),e.elements.outerWrapper.removeClass(e.classes.open),e.state.opened=!1,e.utils.triggerCallback("Close",e)},change:function(){var t=this;t.utils.triggerCallback("BeforeChange",t),t.state.multiple?(e.each(t.lookupItems,function(e){t.lookupItems[e].selected=!1,t.$element.find("option").prop("selected",!1)}),e.each(t.state.selectedIdx,function(e,s){t.lookupItems[s].selected=!0,t.$element.find("option").eq(s).prop("selected",!0)}),t.state.currValue=t.state.selectedIdx,t.setLabel(),t.utils.triggerCallback("Change",t)):t.state.currValue!==t.state.selectedIdx&&(t.$element.prop("selectedIndex",t.state.currValue=t.state.selectedIdx).data("value",t.lookupItems[t.state.selectedIdx].text),t.setLabel(),t.utils.triggerCallback("Change",t))},highlight:function(e){var t=this,s=t.$li.filter("[data-index]").removeClass("highlighted");t.utils.triggerCallback("BeforeHighlight",t),void 0===e||-1===e||t.lookupItems[e].disabled||(s.eq(t.state.highlightedIdx=e).addClass("highlighted"),t.detectItemVisibility(e),t.utils.triggerCallback("Highlight",t))},select:function(t){var s=this,i=s.$li.filter("[data-index]");if(s.utils.triggerCallback("BeforeSelect",s,t),void 0!==t&&-1!==t&&!s.lookupItems[t].disabled){if(s.state.multiple){s.state.selectedIdx=e.isArray(s.state.selectedIdx)?s.state.selectedIdx:[s.state.selectedIdx];var l=e.inArray(t,s.state.selectedIdx);-1!==l?s.state.selectedIdx.splice(l,1):s.state.selectedIdx.push(t),i.removeClass("selected").filter(function(t){return-1!==e.inArray(t,s.state.selectedIdx)}).addClass("selected")}else i.removeClass("selected").eq(s.state.selectedIdx=t).addClass("selected");s.state.multiple&&s.options.multiple.keepMenuOpen||s.close(),s.change(),s.utils.triggerCallback("Select",s,t)}},destroy:function(e){var t=this;t.state&&t.state.enabled&&(t.elements.items.add(t.elements.wrapper).add(t.elements.input).remove(),e||t.$element.removeData(i).removeData("value"),t.$element.prop("tabindex",t.originalTabindex).off(l).off(t.eventTriggers).unwrap().unwrap(),t.state.enabled=!1)}},e.fn[i]=function(t){return this.each(function(){var s=e.data(this,i);s&&!s.disableOnMobile?"string"==typeof t&&s[t]?s[t]():s.init(t):e.data(this,i,new o(this,t))})},e.fn[i].defaults={onChange:function(t){e(t).change()},maxHeight:300,keySearchTimeout:500,arrowButtonMarkup:'<b class="button">&#x25be;</b>',disableOnMobile:!1,nativeOnMobile:!0,openOnFocus:!0,openOnHover:!1,hoverIntentTimeout:500,expandToItemText:!1,responsive:!1,preventWindowScroll:!0,inheritOriginalWidth:!1,allowWrap:!0,stopPropagation:!0,optionsItemBuilder:"{text}",labelBuilder:"{text}",listBuilder:!1,keys:{previous:[37,38],next:[39,40],select:[9,13,27],open:[13,32,37,38,39,40],close:[9,27]},customClass:{prefix:i,camelCase:!1},multiple:{separator:", ",keepMenuOpen:!0,maxLabelEntries:!1}}}(jQuery);
+
+/**
+AccessTooltip (modifié)
+A lightweight Javascript function to make the title attribute accessible for keyboard user
+
+GPL licence
+https://github.com/access42/AccessTooltip
+Copyright (c) 2015 Access42, access42.net
+**/
+
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&dn=gpl-3.0.txt GPL-v3-or-Later
+
+/*
+	*** Parameters *** 
+	- required objs : query selector for elements to set (tagName or any CSS selector)
+	- required tooltipClassName : tooltip CSS design classname
+	- required toolTipBetween : distance in pixels between the tooltip and the focused element
+	- optionnal tooltipUp : false to set the tooltip above, true to set over the focused element
+	- optionnal mouse : false to ignore, true to set mouse mode(replace native title by tooltip on mouseover)
+	- optionnal tempDelay : displaying delay in millisecondes ( O to ignore)
+	- optionnal useAriaDP : true to use the tooltip design pattern ARIA
+	- optionnal useEscClose : true to allow tooltip closed by ESC Key (note : true by default when useAriaDP is set)
+
+    *** implementation ***
+Insert this code right before the closing </body> element of your HTML document. 
+<script type="text/javascript" src="AccessTooltip.js"></script>
+<script type="text/javascript">
+	AccessTooltip({
+		objs : 'a, button, input, textarea, select',
+		tooltipClassName : 'access-tooltip',
+		toolTipBetween : 5,
+		toolTipUp : false,
+		mouse : true,
+		tempDelay : 4000,
+		useAriaDP : false,
+		useEscClose : true
+	});
+</script>
+Insert "aria-labelledby='tooltip'" and <div id='tooltip' class='tooltipHTML'> element with the tooltip text in the element where you need it.
+
+/* *** AccessTooltip *** */
+function AccessTooltip(options){
+
+	'use strict';
+	
+	/* set displaying delay */
+	var timeoutID;
+	/* IE11/windows8+ detection */
+	var unsupported = Unsupported();
+	/* set tooltip */
+	var divTooltip = document.createElement( 'DIV' );
+	document.body.appendChild( divTooltip );
+	divTooltip.setAttribute( 'id','AccessibleTooltip' );
+	divTooltip.setAttribute( 'class', options.tooltipClassName );
+	if ( options.useAriaDP ) divTooltip.setAttribute( 'role', 'tooltip' );
+	divTooltip.style.display = 'none';
+	/* set elements targeted */
+	var tabList = document.querySelectorAll(options.objs);
+	for ( var i = 0, len = tabList.length ; i < len ; i++ ){
+		if ( tabList[i].getElementsByClassName("tooltipHTML").length > 0 ) {
+			tabList[i].setAttribute('tabindex','0');
+			if( options.useAriaDP ) tabList[i].setAttribute('aria-describedby','AccessibleTooltip');
+			//set Event listeners
+			if( unsupported ){
+				tabList[i].addEventListener( 'focus',function(){
+					setTooltip( this );
+				},false);
+				tabList[i].addEventListener( 'blur', function(){
+					setTooltip( this, true );
+				},false);
+			}
+			//mouse option
+			if( options.mouse ){
+				tabList[i].addEventListener( 'mouseover',function(){
+					setTooltip( this, false );
+				},false);
+				tabList[i].addEventListener('mouseout',function(){
+					setTooltip( this, true );
+				},false);
+			}
+		}
+	}
+
+	/* *** AccessTooltip dependencies *** */
+	function setTooltip( obj, reset ){
+		if( reset ){
+			clearTooltip ();
+		}
+		else if( obj.getElementsByClassName("tooltipHTML").length > 0  ){
+			var txtTooltip = obj.getElementsByClassName("tooltipHTML")[0];
+			//Set tooltip
+			if( txtTooltip != '' ){
+				//position
+				var posRight = divTooltip.offsetLeft + divTooltip.offsetWidth;
+				var resetPosRight = 0;
+				var windowWidth=document.body.clientWidth;
+				var windowHeight=document.body.clientHeight;
+				if( posRight > windowWidth ) resetPosRight = posRight - windowWidth;
+				var setPos = options.toolTipBetween + obj.offsetHeight;
+				var toolTipTop = position( obj, 'y' ) + setPos;
+				if( options.toolTipUp) toolTipTop = position( obj, 'y' ) - setPos - 5;
+				divTooltip.style.top = toolTipTop + 'px';
+				divTooltip.style.left = position( obj, 'x' ) + obj.offsetWidth * 25/100 - resetPosRight + 'px';
+				divTooltip.style.display = 'block';
+				if( divTooltip.firstChild ) divTooltip.removeChild( divTooltip.firstChild );
+				divTooltip.appendChild( txtTooltip.cloneNode(true) );
+				if( options.tempDelay > 0){
+					timeoutID = setTimeout( function(){
+						if( divTooltip.firstChild ) {
+							divTooltip.removeChild( divTooltip.firstChild );
+							divTooltip.style.display = 'none';
+						}
+					}, options.tempDelay);
+				}
+				if( options.useAriaDP || options.useEscClose ) {
+					document.addEventListener( 'keydown', escClose, false );
+				}
+			}
+		}
+	}
+	function escClose( event ){
+		if( event.keyCode === 27 ){
+			if( divTooltip.firstChild ) {
+				divTooltip.removeChild( divTooltip.firstChild );
+				divTooltip.style.display = 'none';
+			}
+			document.removeEventListener( 'keydown', escClose , false );
+		}
+	}
+	function clearTooltip (){
+		if( divTooltip.firstChild ) {
+			divTooltip.removeChild( divTooltip.firstChild );
+			divTooltip.style.display = 'none';
+		}
+		clearTimeout(timeoutID); 
+	}
+
+	// obj position
+	function position( obj, coordinate){
+		var pos, parent = obj.offsetParent;
+		(coordinate === 'x') ? pos = obj.offsetLeft : pos = obj.offsetTop;
+		while( parent != null){
+			(coordinate === 'x') ? pos += parent.offsetLeft : pos += parent.offsetTop;
+			parent = parent.offsetParent;
+		}
+		return pos;
+	}
+
+	// IE11 on windows 8 is the only browser wich expose the title on keyboard focus
+	// Below a little trash, but sufficient, IE11/windows 8 filtering method
+	// filter is based on the new user agent string for IE11+
+	function Unsupported(){
+		var objUA = window.navigator.userAgent;
+		//If IE 11
+		if( objUA.indexOf('Trident') > 0 && objUA.indexOf('MSIE') < 0 ){
+			//If windows 7 then title keyboard focus is unsupported
+			if(objUA.indexOf('NT 6.1') > 0){
+				return true;
+			}
+			//If windows 8+ title keyboard focus is supported
+			else {
+			 return false;
+			}
+		}
+		//If not IE title keyboard focus is unsupported
+		else {
+		return true;
+		}
+	}
+};
+
+// @license-end
+
 ;(function () {
 	'use strict';
 
@@ -22022,1670 +22195,6 @@ $('.pro-bloc-video').each(function() {
 
 });
 
-if($('.pro-page-pacte').length > 0 || $('.pro-page-budget-participatif').length > 0){
-
-    var footer = $('footer').offset().top;
-    var windowH = $(window).height();
-    var barreFixed = $('.pro-bloc-prefooter');
-
-    $(window).on('scroll',function(){
-        if (window.pageYOffset-90 <= footer-windowH) {
-            barreFixed.addClass('pro-sticky-bar');
-        } else {
-            barreFixed.removeClass('pro-sticky-bar');
-        }
-    });
-
-}
-var bounds;
-var map;
-
-
-th_maps.addThemes('default', [
-    {
-        "featureType": "all",
-        "elementType": "labels.text.fill",
-        "stylers": [
-            {
-                "saturation": 36
-            },
-            {
-                "color": "#000000"
-            },
-            {
-                "lightness": 40
-            }
-        ]
-    },
-    {
-        "featureType": "all",
-        "elementType": "labels.text.stroke",
-        "stylers": [
-            {
-                "visibility": "on"
-            },
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 16
-            }
-        ]
-    },
-    {
-        "featureType": "all",
-        "elementType": "labels.icon",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "administrative",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "color": "#fefefe"
-            },
-            {
-                "lightness": 20
-            }
-        ]
-    },
-    {
-        "featureType": "administrative",
-        "elementType": "geometry.stroke",
-        "stylers": [
-            {
-                "color": "#fefefe"
-            },
-            {
-                "lightness": 17
-            },
-            {
-                "weight": 1.2
-            }
-        ]
-    },
-    {
-        "featureType": "landscape",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#f5f5f5"
-            },
-            {
-                "lightness": 20
-            }
-        ]
-    },
-    {
-        "featureType": "poi",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#f5f5f5"
-            },
-            {
-                "lightness": 21
-            }
-        ]
-    },
-    {
-        "featureType": "poi.park",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#dedede"
-            },
-            {
-                "lightness": 21
-            }
-        ]
-    },
-    {
-        "featureType": "road",
-        "elementType": "all",
-        "stylers": [
-            {
-                "visibility": "on"
-            },
-            {
-                "hue": "#2ad1a8"
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 17
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
-        "elementType": "geometry.stroke",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 29
-            },
-            {
-                "weight": 0.2
-            }
-        ]
-    },
-    {
-        "featureType": "road.arterial",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 18
-            }
-        ]
-    },
-    {
-        "featureType": "road.local",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 16
-            }
-        ]
-    },
-    {
-        "featureType": "transit",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#f2f2f2"
-            },
-            {
-                "lightness": 19
-            }
-        ]
-    },
-    {
-        "featureType": "water",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#e9e9e9"
-            },
-            {
-                "lightness": 17
-            }
-        ]
-    }
-]);
-
-
-var GetPosition = document.getElementById('cible');
-
-var zoomInButton = document.getElementById('pro-plus');
-var zoomOutButton = document.getElementById('pro-moins');
-
-
-/* MAP POUR LE LISTING DE LA PAGE EVENEMENT */
-function callbackMapListingEvent(macarte) {
-
-    var bounds = new google.maps.LatLngBounds();
-
-    $('.pro-bloc-listing-event > a').each(function () {
-        var geo = {lat: $(this).data('lat'), lng: $(this).data('lng')};
-        marker = th_maps.createMarker(macarte, geo, 'participation', 'projet');
-        bounds.extend(geo);
-
-        th_maps.createInfoWindow('<a target="_blank" href="' + $(this).attr('href') + '" id="map-inte-container" class="pro-bloc-card-map-event">' +
-            '<div class="map-inte-content">' +
-            '<div class="map-inte-header"><span class="pro-time">Publiée le <time datetime="2018-01-10">' + $('time', this).text() + '</time></span><p>' + $('p', this).text() + '</p></div>' +
-            '<div class="map-inte-content-text"><h3>' + $('h3', this).text() + '</h3>' +
-            '<span class="pro-btn-yellow">En savoir plus</span>' +
-            '</div></div></a>', marker, 250);
-    });
-
-    macarte.fitBounds(bounds);
-
-    th_maps.defaultOptions.zoomControlOptions = google.maps.ControlPosition.RIGHT_TOP;
-    th_maps.defaultOptions.mapTypeId = google.maps.MapTypeId.ROADMAP;
-
-}
-
-
-/* MAP POUR LES PAGES STANDARDS ET PROJET */
-function callbackCartePage(macarte) {
-    // ---------  Google map Zoom Button  --------- //
-    google.maps.event.addDomListener(zoomInButton, 'click', function (e) {
-        e.preventDefault();
-        macarte.setZoom(macarte.getZoom() + 1);
-    });
-
-    google.maps.event.addDomListener(zoomOutButton, 'click', function (e) {
-        e.preventDefault();
-        macarte.setZoom(macarte.getZoom() - 1);
-    });
-}
-
-
-/* MAP POUR LA CARTE INTERACTIVE */
-function callbackCarteInteractive(macarte) {
-
-    var bounds = new google.maps.LatLngBounds();
-
-    // ---------  Google map Zoom Button  --------- //
-    google.maps.event.addDomListener(zoomInButton, 'click', function (e) {
-        e.preventDefault();
-        macarte.setZoom(macarte.getZoom() + 1);
-    });
-
-    google.maps.event.addDomListener(zoomOutButton, 'click', function (e) {
-        e.preventDefault();
-        macarte.setZoom(macarte.getZoom() - 1);
-    });
-
-    markerParticipation = th_maps.createMarker(macarte, {lat: 48.5891137, lng: 7.7514801}, 'participation', 'marker');
-    markerEvent = th_maps.createMarker(macarte, {lat: 48.5991137, lng: 7.7414801}, 'event', 'marker');
-    markerParticipation2 = th_maps.createMarker(macarte, {lat: 48.5775591, lng: 7.7606211}, 'participation', 'marker');
-    markerPetition = th_maps.createMarker(macarte, {lat: 48.6022362, lng: 7.7382629}, 'petition', 'marker');
-    markerInitiative = th_maps.createMarker(macarte, {lat: 48.5822362, lng: 7.7682629}, 'initiative', 'marker');
-    markerProjet = th_maps.createMarker(macarte, {lat: 48.5922362, lng: 7.7862629}, 'projet', 'marker');
-    markerBudget = th_maps.createMarker(macarte, {lat: 48.6022362, lng: 7.7852629}, 'budget', 'marker');
-
-
-    contentParticipation = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.php" title="lien de la page" class="pro-bloc-card-participation' +
-        ' pro-theme-concertation"><div>' +
-        '<div class="pro-header-participation"><figure><img src="assets/images/medias/comm-sylvie.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
-        '<p>Participation publiée par :</p><p><strong>Ville de Strasbourg</strong></p>' +
-        '<div class="pro-info-top-right"><span class="pro-encart-theme">Information</span></div></div>' +
-        '<div class="pro-content-participation"><div class="pro-meta"><span>Quartier</span><span>Thématique</span><span>Type : Information</span><span>Statut</span><span>Nom du projet</span></div>' +
-        '<h3>Titre de la participation terminée<br>Sur deux lignes</h3>' +
-        '<span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div>' +
-        '<div class="pro-footer-participation pro-participation-deadline"><div class="pro-avis"><span class="pro-like">1808</span>' +
-        '<span class="pro-dislike">404</span></div><p>Participation terminée, merci de votre participation</p>' +
-        '</div></div></a></div>', markerParticipation, 247);
-
-
-    contentEvent = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-event.php" title="lien de la page" class="pro-bloc-card-event"><div>' +
-        '<div class="pro-header-event"><span class="pro-ico"><span class="icon-ico-conference"></span></span><span class="pro-time">Le <time datetime="2018-01-10">04 décembre 2017 à 11h00</time></span>' +
-        '<p>À : Espace des associations de Strasbourg au centre ville</p><h3>Titre de l’Évènement<br>Sur deux lignes</h3></div>' +
-        '<div class="pro-footer-event"><span class="pro-btn-action active">Je participe</span><span class="pro-number"><strong>4537</strong> Participants-es</span></div>' +
-        '</div></a></div>', markerEvent, 247);
-
-
-    // contentArticle = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="/detail-article.php" title="Lien vers la page (nom de la page)" class="pro-bloc-actu">' +
-    //     '<div class="img"><figure><img src="assets/images/medias/hp-projet-1.jpg" alt="Image agenda" width="360" height="174" class="fit-cover"/></figure></div>' +
-    //     '<div class="content"><span class="publication">Publiée le 04 décembre 2017</span><h3>Titre de l\'actualité<br>sur deux lignes</h3><p>Lorem ipsum dolor sit amet, consectetur...</p><span' +
-    //     ' class="link">Lire la suite</span></div>' +
-    //     '</a></div>',marker3,247);
-
-
-    contentParticipation2 = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.php" class="item pro-bloc-card-participation pro-theme-information"' +
-        ' data-linkall="a">' +
-        '<div><div class="pro-header-participation"><figure><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
-        '<p>Participation publiée par :</p><p><strong>Ville de Strasbourg</strong></p>' +
-        '<div class="pro-info-top-right"><span class="pro-encart-theme">Information</span></div></div>' +
-        '<div class="pro-content-participation"><div class="pro-meta"><span>Quartier</span><span>Thématique</span><span>Type : Information</span><span>Statut</span><span>Nom du projet</span></div>' +
-        '<h3>Titre de la participation<br>Sur deux lignes</h3>' +
-        '<span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div>' +
-        '<div class="pro-footer-participation"><span class="pro-form-style">Réagissez...</span></div>' +
-        '</div></a></div>', markerParticipation2, 247);
-
-
-    // contentVideo = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-video.php" class="pro-card-video">' +
-    //     '<div class="pro-header"><figure class="fit-cover"><img alt="" width="280" height="175" src="./assets/images/medias/homepage-instance.jpg"></figure><span' +
-    //     ' class="icon-ico-lecteur"></span></div>' +
-    //     '<div class="pro-meta-avis"><h3>Titre de la vidéo<br>sur deux lignes</h3>'+
-    //     '<div class="pro-avis"><span class="pro-like">0</span><span class="pro-dislike">0</span></div><span class="pro-view">125 vues</span>'+
-    //     '</div></a></div>',marker5,247);
-
-
-    contentPetition = th_maps.createInfoWindow('<div class="item pro-bloc-card-petition"><a href="detail-petition.php"><div class="pro-header-petition">' +
-        '<figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
-        '<p>Pétition publiée par :</p><p><strong>Sylvie M.</strong></p></div>' +
-        '<div class="pro-content-petition"><h3>Titre de la pétition<br>Sur deux lignes</h3><p>Pétition adressée à <u>la ville de Strasbourg</u></p> <span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div> ' +
-        '<div class="pro-footer-petition"><div class="pro-progress-bar"><div class="pro-progress-container"><div style="width:75%"></div></div><p class="pro-txt-progress"><strong>1500</strong> Signataire(s) sur 2000 nécessaires</p> ' +
-        '</div></div></a></div>', markerPetition, 247);
-
-    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-initiative"><a href="detail-initiative.php"><div class="wrapper-card-initiative"><div> ' +
-        '<div class="pro-header-initiative"><figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
-        '<p>Atelier publié par :</p><p><strong>Sylvie M.</strong></p></div> ' +
-        '<div class="pro-content-initiative">' +
-        '<h3>Titre de l’initiative<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' +
-        '</div></div>' +
-        '<div class="pro-footer-initiative"><div class="pro-avis"><span>188</span></div><p>Citoyens-nes ont proposé leur aide</p>' +
-        '</div></a></div>', markerInitiative, 247);
-
-    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-projet">' +
-        '<a href="detail-projet.php"><div class="pro-header-projet"><p>Nom du quartier concerné :</p><p><strong>Krutenau</strong></p></div> ' +
-        '<div class="pro-content-projet"><h3>Titre du projet<br>Sur deux lignes</h3>' +
-        '<div class="pro-wrap-thematique"><span>Thématique 1</span><span>Thématique 2</span></div></div> ' +
-        '<div class="pro-footer-projet"><p><strong>145</strong> Citoyens-nes suivent ce projet</p></div> ' +
-        '</a></div>', markerProjet, 247);
-
-    contentBudget = th_maps.createInfoWindow('<div class="item pro-bloc-card-budget pro-theme-faisabilite"><a href="detail-budget.php">' +
-        '<div class="pro-header-budget"><figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
-        '<p>Idée déposée par :</p><p><strong>Sylvie M.</strong></p><div class="pro-info-top-right"><span class="pro-encart-theme">En cours d’étude de faisabilité</span></div></div>' +
-        '<div class="pro-content-budget"><h3>Titre du budget participatif<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' +
-        '<div class="pro-footer-budget"><p><strong>1500</strong> Citoyens-nes soutiennent cette idée</p></div></a></div>', markerBudget, 247);
-
-
-
-    bounds.extend(markerParticipation.position);
-    bounds.extend(markerEvent.position);
-    bounds.extend(markerParticipation2.position);
-    bounds.extend(markerPetition.position);
-    bounds.extend(markerInitiative.position);
-    bounds.extend(markerProjet.position);
-    bounds.extend(markerBudget.position);
-    macarte.fitBounds(bounds);
-}
-
-
-th_maps.onLoad(function () {
-
-    th_maps.addMarkerIcon('participation', {
-        url: '' + document.location.origin + './assets/images/ico/ico-marker-participation.png',
-        scaledSize: new google.maps.Size(75, 95)
-    });
-
-    th_maps.addMarkerIcon('initiative', {
-        url: '' + document.location.origin + './assets/images/ico/ico-marker-initiative.png',
-        scaledSize: new google.maps.Size(75, 95)
-    });
-
-    th_maps.addMarkerIcon('projet', {
-        url: '' + document.location.origin + './assets/images/ico/ico-marker-projet.png',
-        scaledSize: new google.maps.Size(75, 95)
-    });
-
-    th_maps.addMarkerIcon('petition', {
-        url: '' + document.location.origin + './assets/images/ico/ico-marker-petition.png',
-        scaledSize: new google.maps.Size(75, 95)
-    });
-
-    th_maps.addMarkerIcon('event', {
-        url: '' + document.location.origin + './assets/images/ico/ico-marker-event.png',
-        scaledSize: new google.maps.Size(75, 95)
-    });
-
-    th_maps.addMarkerIcon('budget', {
-        url: '' + document.location.origin + './assets/images/ico/ico-marker-budgetparticipatif.png',
-        scaledSize: new google.maps.Size(75, 95)
-    });
-
-    th_maps.defaultOptions.zoomControlOptions = google.maps.ControlPosition.LEFT_CENTER;
-    th_maps.defaultOptions.mapTypeId = google.maps.MapTypeId.ROADMAP;
-});
-
-
-/* FILTRE POUR ENLEVER LES ELEMENTS PAR DEFAUT SUR LA GOOGLE MAPS SUR LES PAGES DE LISTING */
-function filterMapListing(options) {
-    options.mapTypeControl = false;
-    options.streetViewControl = false;
-    options.zoomControl = true;
-
-    options.zoomControlOptions = {position: google.maps.ControlPosition.LEFT_TOP};
-    options.mapTypeId = google.maps.MapTypeId.ROADMAP;
-
-    return options;
-}
-
-
-/* FILTRE POUR ENLEVER LES ELEMENTS PAR DEFAUT SUR LA GOOGLE MAPS SUR LA PAGE DE DETAIL SIT ET AGENDA */
-function filterMapDetail(options) {
-    options.mapTypeControl = false;
-    options.streetViewControl = false;
-    options.zoomControl = false;
-    return options;
-}
-
-
-function generateContentWindow(img, title) {
-    var content = '<div id="map-inte-container">' +
-        '<div class="map-inte-content">' +
-        '<div class="map-inte-header"><figure><img src="' + img + '" width="260" height="160" alt="Titre image" class="fit-cover img-carte-inte" /></figure></div>' +
-        '<div class="map-inte-content-text"><h2 class="title-map-inte">' + title + '</h2>' +
-        '<a href="#" class="basic-link">En savoir plus</a>' +
-        '</div></div></div>';
-    return content;
-}
-
-function init_thMaps() {
-    th_maps.init({
-        defaultOptions: {
-            zoom: 16,
-            center: {lat: 48.5692059, lng: 7.6920547},
-            disableDefaultUI: true,
-            streetViewControl: false,
-            zoomControl: true,
-        }
-    });
-}
-
-init_thMaps();
-// document.addEventListener('scroll', init_thMaps);
-
-$('#pro-btn-menu-map').click(function () {
-    $('.pro-wrapper-facette-carte').toggleClass('show-menu-map');
-    $('.pro-menu-carte-mobile').toggleClass('btn-map-active');
-})
-$(function()
-{
-	ar_menu();
-});
-
-function ar_menu()
-{
-	// mobile sidebar menu
-	$('.th-menu').click(function () {
-		if (!$(this).hasClass('open')) {
-			$(this).addClass('open');
-			$('nav').addClass('show');
-			$('#pro-shadow-bg').addClass('pro-display-block');
-			$('#pro-header').addClass('menu-open');
-			$('.social-share').css('opacity','0');
-		}
-		else {
-			$('#pro-shadow-bg').removeClass('pro-display-block');
-			$(this).removeClass('open');
-			$('#pro-header').removeClass('menu-open');
-			$('.social-share').css('opacity','1');
-			setTimeout(function () {
-				$('nav').removeClass('show');
-			}, 150);
-		}
-	});
-
-	$('#pro-shadow-bg').click(function () {
-		$(this).removeClass('pro-display-block');
-		$('nav').removeClass('show');
-		$('.th-menu').removeClass('open');
-		$('#pro-header').removeClass('menu-open');
-		$('#pro-header').removeClass('pro-wrapper-search-open');
-	});
-}
-
-
-$('.currentLang > a').on('focus',function(){
-	$('.is-focus-lang').removeClass('is-focus-lang');
-	$(this).parents().next().addClass('is-focus-lang');
-});
-
-
-function ready(fn) {
-	if (document.readyState !== 'loading') {
-		fn();
-	} else {
-		document.addEventListener('DOMContentLoaded', fn);
-	}
-}
-function adjusteSearch() {
-
-// Move Affiner la recherche on Tablet Portrait
-
-	if (window.innerWidth < 1100) {
-		$(".pro-inside-affine-search").prepend($('.pro-bloc-facette-participation'));
-		$('.pro-wrapper-nav').append($('.pro-top-header'));
-
-		$('.pro-affiner').on('click',function(){
-			$(this).next().toggleClass('is-display');
-			$(this).toggleClass('menu-is-display');
-		});
-	}
-	else {
-		if ($('.pro-bloc-texte-header').length > 0 && $('.pro-wrapper-aside').length > 0) {
-			var headerHeight = $('.pro-bloc-texte-header').outerHeight() - 50;;
-			if($('.search-header-wrapper').length > 0) {
-				headerHeight += $('.search-header-wrapper').outerHeight()
-			}
-			$('.pro-wrapper-aside').css('top', -headerHeight + 'px');
-		}
-	}
-}
-
-ready(adjusteSearch);
-
-var menuEmplacement = 0;
-var timeoutResizeMenuEmplacement = null;
-
-$(window).resize(function() {
-	clearTimeout(timeoutResizeMenuEmplacement);
-	timeoutResizeMenuEmplacement = setTimeout(moveMenuOnResize,500);
-});
-
-document.addEventListener('orientationchange', function () {
-	clearTimeout(timeoutResizeMenuEmplacement);
-	timeoutResizeMenuEmplacement = setTimeout(moveMenuOnResize,500);
-});
-
-function moveMenuOnResize(){
-	var wW = window.innerWidth;
-	if (wW < 1100 && menuEmplacement == 0) {
-		menuEmplacement = 1;
-		$(".pro-inside-affine-search").prepend($('.pro-bloc-facette-participation'));
-		$('.pro-wrapper-nav').append($('.pro-top-header'));
-	}
-	if (wW >= 1100 && menuEmplacement == 1) {
-		menuEmplacement = 0;
-		$('.pro-wrapper-aside').prepend($('.pro-bloc-facette-participation'));
-		$('.pro-wrapper-top-header').prepend($('.pro-top-header'));
-	}
-}
-
-/**
- * Profile picture
- * @author Daniel Salvagni <danielsalvagni@gmail.com>
- */
-
-
-
-if($('.pro-bloc-dashboard').length > 0) {
-
-    /**
-     * Turn the globals into local variables.
-     */
-    ;
-    (function (window, $, undefined) {
-        if (!window.profilePicture) {
-            window.profilePicture = profilePicture;
-        }
-
-        /**
-         * Component
-         */
-        function profilePicture(cssSelector, imageFilePath, options) {
-            var self = this;
-            /**
-             * Map the DOM elements
-             */
-            self.element = $(cssSelector);
-            self.canvas = $(cssSelector + ' .photo__frame .photo__canvas')[0];
-            self.photoImg = $(cssSelector + ' .photo__frame img');
-            self.photoHelper = $(cssSelector + ' .photo__helper');
-            self.photoLoading = $(cssSelector + ' .photo__frame .message.is-loading');
-            self.photoOptions = $(cssSelector + ' .photo__options');
-            self.photoFrame = $(cssSelector + ' .photo__frame');
-            self.photoArea = $(cssSelector + ' .photo');
-            self.zoomControl = $(cssSelector + ' input[type=range]');
-            /**
-             * Image info to post to the API
-             */
-            self.model = {
-                imageSrc: null,
-                width: null,
-                height: null,
-                originalWidth: null,
-                originalHeight: null,
-                y: null,
-                x: null,
-                zoom: 1,
-                cropWidth: null,
-                cropHeight: null
-            };
-
-
-            /**
-             * Plugin options
-             */
-            self.options = {};
-            /**
-             * Plugins defaults
-             */
-            self.defaults = {};
-            self.defaults.imageHelper = true;
-            self.defaults.imageHelperColor = 'rgba(255,255,255,.90)';
-            /**
-             * Callbacks
-             */
-            self.defaults.onChange = null;
-            self.defaults.onZoomChange = null;
-            self.defaults.onImageSizeChange = null;
-            self.defaults.onPositionChange = null;
-            self.defaults.onLoad = null;
-            self.defaults.onRemove = null;
-            self.defaults.onError = null;
-            /**
-             * Zoom default options
-             */
-            self.defaults.zoom = {
-                initialValue: 1,
-                minValue: 0.1,
-                maxValue: 2,
-                step: 0.01
-            };
-            /**
-             * Image default options
-             */
-            self.defaults.image = {
-                originalWidth: 0,
-                originalHeight: 0,
-                originaly: 0,
-                originalX: 0,
-                minWidth: 350,
-                minHeight: 350,
-                maxWidth: 1000,
-                maxHeight: 1000
-            };
-
-            /**
-             * Zoom controls
-             */
-            self.zoom = $(cssSelector + ' .zoom');
-
-            /**
-             * Call the constructor
-             */
-            init(cssSelector, imageFilePath, options);
-
-            /**
-             * Return public methods
-             */
-            return {
-                getData: getData,
-                getAsDataURL: getAsDataURL,
-                removeImage: removeImage
-            };
-
-
-            /**
-             * Constructor
-             * Register all components and options.
-             * Can load a preset image
-             */
-            function init(cssSelector, imageFilePath, options) {
-                /**
-                 * Start canvas
-                 */
-                self.canvas.width = self.photoFrame.outerWidth();
-                self.canvas.height = self.photoFrame.outerHeight();
-                self.canvasContext = self.canvas.getContext('2d');
-                /**
-                 * Show the right text
-                 */
-                if (isMobile()) {
-                    self.photoArea.addClass('is-mobile');
-                } else {
-                    self.photoArea.addClass('is-desktop');
-                }
-                /**
-                 * Merge the defaults with the user options
-                 */
-                self.options = $.extend({}, self.defaults, options);
-
-                /**
-                 * Enable/disable the image helper
-                 */
-                if (self.options.imageHelper) {
-                    registerImageHelper();
-                }
-
-                registerDropZoneEvents();
-                registerImageDragEvents();
-                registerZoomEvents();
-
-                /**
-                 * Start
-                 */
-                if (imageFilePath) {
-                    processFile(imageFilePath);
-                } else {
-                    self.photoArea.addClass('photo--empty');
-                }
-            }
-
-            /**
-             * Check if the user's device is a smartphone/tablet
-             */
-            function isMobile() {
-                return navigator.userAgent.match(/BlackBerry|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
-            }
-
-            /**
-             * Return the model
-             */
-            function getData() {
-                return model;
-            }
-
-            /**
-             * Set the model
-             */
-            function setModel(model) {
-                self.model = model;
-            }
-
-            /**
-             * Set the image to a canvas
-             */
-            function processFile(imageUrl) {
-                function isDataURL(s) {
-                    s = s.toString();
-                    return !!s.match(isDataURL.regex);
-                }
-
-                isDataURL.regex = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
-
-                var image = new Image();
-                if (!isDataURL(imageUrl)) {
-                    image.crossOrigin = 'anonymous';
-                }
-                self.photoArea.addClass('photo--loading');
-                image.onload = function () {
-                    var ratio,
-                        newH, newW,
-                        w = this.width, h = this.height;
-
-                    if (w < self.options.image.minWidth ||
-                        h < self.options.image.minHeight) {
-                        self.photoArea.addClass('photo--error--image-size photo--empty');
-                        setModel({});
-
-                        /**
-                         * Call the onError callback
-                         */
-                        if (typeof self.options.onError === 'function') {
-                            self.options.onError('image-size');
-                        }
-
-                        self.photoArea.removeClass('photo--loading');
-                        return;
-                    } else {
-                        self.photoArea.removeClass('photo--error--image-size');
-                    }
-
-                    self.photoArea.removeClass('photo--empty photo--error--file-type photo--loading');
-
-                    var frameRatio = self.options.image.maxHeight / self.options.image.maxWidth;
-                    var imageRatio = self.model.height / self.model.width;
-
-                    if (frameRatio > imageRatio) {
-                        newH = self.options.image.maxHeight;
-                        ratio = (newH / h);
-                        newW = parseFloat(w) * ratio;
-                    } else {
-                        newW = self.options.image.maxWidth;
-                        ratio = (newW / w);
-                        newH = parseFloat(h) * ratio;
-                    }
-                    h = newH;
-                    w = newW;
-
-                    self.model.imageSrc = image;
-                    self.model.originalHeight = h;
-                    self.model.originalWidth = w;
-                    self.model.height = h;
-                    self.model.width = w;
-                    self.model.cropWidth = self.photoFrame.outerWidth();
-                    self.model.cropHeight = self.photoFrame.outerHeight();
-                    self.model.x = 0;
-                    self.model.y = 0;
-                    self.photoOptions.removeClass('hide');
-                    fitToFrame();
-                    render();
-
-                    /**
-                     * Call the onLoad callback
-                     */
-                    if (typeof self.options.onLoad === 'function') {
-                        self.options.onLoad(self.model);
-                    }
-
-                };
-
-                image.src = imageUrl;
-            }
-
-            /**
-             * Remove the image and reset the component state
-             */
-            function removeImage() {
-                self.canvasContext.clearRect(0, 0, self.model.cropWidth, self.model.cropHeight);
-                self.canvasContext.save();
-                self.photoArea.addClass('photo--empty');
-                self.imageHelperCanvasContext.clearRect(0, 0, self.imageHelperCanvas.width, self.imageHelperCanvas.height);
-                self.imageHelperCanvasContext.save();
-                setModel({});
-
-                /**
-                 * Call the onRemove callback
-                 */
-                if (typeof self.options.onRemove === 'function') {
-                    self.options.onRemove(self.model);
-                }
-            }
-
-            /**
-             * Register the file drop zone events
-             */
-            function registerDropZoneEvents() {
-                var target = null;
-                /**
-                 * Stop event propagation to all dropzone related events.
-                 */
-                self.element.on('drag dragstart dragend dragover dragenter dragleave drop', function (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    e.originalEvent.dataTransfer.dropEffect = 'copy';
-                });
-
-                /**
-                 * Register the events when the file is out or dropped on the dropzone
-                 */
-                self.element.on('dragend dragleave drop', function (e) {
-                    if (target === e.target) {
-                        self.element.removeClass('is-dragover');
-                    }
-                });
-                /**
-                 * Register the events when the file is over the dropzone
-                 */
-                self.element.on('dragover dragenter', function (e) {
-                    target = e.target;
-                    self.element.addClass('is-dragover');
-                });
-                /**
-                 * On a file is selected, calls the readFile method.
-                 * It is allowed to select just one file - we're forcing it here.
-                 */
-                self.element.on('change', 'input[type=file]', function (e) {
-                    if (this.files && this.files.length) {
-                        readFile(this.files[0]);
-                        this.value = '';
-                    }
-                });
-                /**
-                 * Handle the click to the hidden input file so we can browser files.
-                 */
-                self.element.on('click', '.photo--empty .photo__frame', function (e) {
-                    $(cssSelector + ' input[type=file]').trigger('click');
-
-                });
-                /**
-                 * Register the remove action to the remove button.
-                 */
-                self.element.on('click', '.remove', function (e) {
-                    removeImage();
-                });
-                /**
-                 * Register the drop element to the container component
-                 */
-                self.element.on('drop', function (e) {
-                    readFile(e.originalEvent.dataTransfer.files[0]);
-                });
-
-
-                /**
-                 * Only into the DropZone scope.
-                 * Read a file using the FileReader API.
-                 * Validates file type.
-                 */
-                function readFile(file) {
-                    self.photoArea.removeClass('photo--error photo--error--file-type photo--error-image-size');
-                    /**
-                     * Validate file type
-                     */
-                    if (!file.type.match('image.*')) {
-                        self.photoArea.addClass('photo--error--file-type');
-                        /**
-                         * Call the onError callback
-                         */
-                        if (typeof self.options.onError === 'function') {
-                            self.options.onError('file-type');
-                        }
-                        return;
-                    }
-
-                    var reader;
-                    reader = new FileReader();
-                    reader.onloadstart = function () {
-                        self.photoArea.addClass('photo--loading');
-                    }
-                    reader.onloadend = function (data) {
-                        self.photoImg.css({left: 0, top: 0});
-                        var base64Image = data.target.result;
-                        processFile(base64Image, file.type);
-                    }
-                    reader.onerror = function () {
-                        self.photoArea.addClass('photo--error');
-                        /**
-                         * Call the onError callback
-                         */
-                        if (typeof self.options.onError === 'function') {
-                            self.options.onError('unknown');
-                        }
-                    }
-                    reader.readAsDataURL(file);
-                }
-            }
-
-            /**
-             * Register the image drag events
-             */
-            function registerImageDragEvents() {
-                var $dragging, x, y, clientX, clientY;
-                if (self.options.imageHelper) {
-                    self.photoHelper.on("mousedown touchstart", dragStart)
-                        .css('cursor', 'move');
-                } else {
-                    self.photoFrame.on("mousedown touchstart", dragStart);
-                }
-
-                /**
-                 * Stop dragging
-                 */
-                $(window).on("mouseup touchend", function (e) {
-                    if ($dragging) {
-                        /**
-                         * Call the onPositionChange callback
-                         */
-                        if (typeof self.options.onPositionChange === 'function') {
-                            self.options.onPositionChange(self.model);
-                        }
-                        /**
-                         * Call the onChange callback
-                         */
-                        if (typeof self.options.onChange === 'function') {
-                            self.options.onChange(self.model);
-                        }
-                    }
-                    $dragging = null;
-                });
-                /**
-                 * Drag the image inside the container
-                 */
-                $(window).on("mousemove touchmove", function (e) {
-
-                    if ($dragging) {
-                        e.preventDefault();
-                        var refresh = false;
-                        clientX = e.clientX;
-                        clientY = e.clientY;
-                        if (e.touches) {
-                            clientX = e.touches[0].clientX
-                            clientY = e.touches[0].clientY
-                        }
-
-                        var dy = (clientY) - y;
-                        var dx = (clientX) - x;
-                        dx = Math.min(dx, 0);
-                        dy = Math.min(dy, 0);
-                        /**
-                         * Limit the area to drag horizontally
-                         */
-                        if (self.model.width + dx >= self.model.cropWidth) {
-                            self.model.x = dx;
-                            refresh = true;
-                        }
-                        if (self.model.height + dy >= self.model.cropHeight) {
-                            self.model.y = dy;
-                            refresh = true;
-                        }
-                        if (refresh) {
-                            render();
-                        }
-                    }
-                    ;
-                });
-
-                function dragStart(e) {
-                    $dragging = true;
-                    clientX = e.clientX;
-                    clientY = e.clientY;
-                    if (e.touches) {
-                        clientX = e.touches[0].clientX
-                        clientY = e.touches[0].clientY
-                    }
-                    x = clientX - self.model.x;
-                    y = clientY - self.model.y;
-                }
-            }
-
-            /**
-             * Register the zoom control events
-             */
-            function registerZoomEvents() {
-
-                self.zoomControl
-                    .attr('min', self.options.zoom.minValue)
-                    .attr('max', self.options.zoom.maxValue)
-                    .attr('step', self.options.zoom.step)
-                    .val(self.options.zoom.initialValue)
-                    .on('input', zoomChange);
-
-                function zoomChange(e) {
-                    self.model.zoom = Number(this.value);
-                    updateZoomIndicator();
-                    scaleImage();
-                    /**
-                     * Call the onPositionChange callback
-                     */
-                    if (typeof self.options.onZoomChange === 'function') {
-                        self.options.onZoomChange(self.model);
-                    }
-                }
-            }
-
-            /**
-             * Set the image to the center of the frame
-             */
-            function centerImage() {
-                var x = Math.abs(self.model.x - ((self.model.width - self.model.cropWidth) / 2));
-                var y = Math.abs(self.model.y - ((self.model.height - self.model.cropHeight) / 2));
-                x = self.model.x - x;
-                y = self.model.y - y;
-                x = Math.min(x, 0);
-                y = Math.min(y, 0);
-
-                if (self.model.width + (x) < self.model.cropWidth) {
-                    /**
-                     * Calculates to handle the empty space on the right side
-                     */
-                    x = Math.abs((self.model.width - self.model.cropWidth)) * -1;
-                }
-                if (self.model.height + (y) < self.model.cropHeight) {
-                    /**
-                     * Calculates to handle the empty space on bottom
-                     */
-                    y = Math.abs((self.model.height - self.model.cropHeight)) * -1;
-                }
-                self.model.x = x;
-                self.model.y = y;
-            }
-
-            /**
-             * Calculates the new image's position based in its new size
-             */
-            function getPosition(newWidth, newHeight) {
-
-                var deltaY = (self.model.y - (self.model.cropHeight / 2)) / self.model.height;
-                var deltaX = (self.model.x - (self.model.cropWidth / 2)) / self.model.width;
-                var y = (deltaY * newHeight + (self.model.cropHeight / 2));
-                var x = (deltaX * newWidth + (self.model.cropWidth / 2));
-
-                x = Math.min(x, 0);
-                y = Math.min(y, 0);
-
-                if (newWidth + (x) < self.model.cropWidth) {
-                    /**
-                     * Calculates to handle the empty space on the right side
-                     */
-                    x = Math.abs((newWidth - self.model.cropWidth)) * -1;
-
-                }
-                if (newHeight + (y) < self.model.cropHeight) {
-                    /**
-                     * Calculates to handle the empty space on bottom
-                     */
-                    y = Math.abs((newHeight - self.model.cropHeight)) * -1;
-                }
-                return {x: x, y: y};
-            }
-
-            /**
-             * Resize the image
-             */
-            function scaleImage() {
-                /**
-                 * Calculates the image position to keep it centered
-                 */
-                var newWidth = self.model.originalWidth * self.model.zoom;
-                var newHeight = self.model.originalHeight * self.model.zoom;
-
-                var position = getPosition(newWidth, newHeight);
-
-                /**
-                 * Set the model
-                 */
-                self.model.width = newWidth;
-                self.model.height = newHeight;
-                self.model.x = position.x;
-                self.model.y = position.y;
-                updateZoomIndicator();
-                render();
-
-                /**
-                 * Call the onImageSizeChange callback
-                 */
-                if (typeof self.options.onImageSizeChange === 'function') {
-                    self.options.onImageSizeChange(self.model);
-                }
-            }
-
-            /**
-             * Updates the icon state from the slider
-             */
-            function updateZoomIndicator() {
-                /**
-                 * Updates the zoom icon state
-                 */
-                if (self.model.zoom.toFixed(2) == Number(self.zoomControl.attr('min')).toFixed(2)) {
-                    self.zoomControl.addClass('zoom--minValue');
-                } else {
-                    self.zoomControl.removeClass('zoom--minValue');
-                }
-                if (self.model.zoom.toFixed(2) == Number(self.zoomControl.attr('max')).toFixed(2)) {
-                    self.zoomControl.addClass('zoom--maxValue');
-                } else {
-                    self.zoomControl.removeClass('zoom--maxValue');
-                }
-            }
-
-            /**
-             * Resize and position the image to fit into the frame
-             */
-            function fitToFrame() {
-                var newHeight, newWidth, scaleRatio;
-
-                var frameRatio = self.model.cropHeight / self.model.cropWidth;
-                var imageRatio = self.model.height / self.model.width;
-
-                if (frameRatio > imageRatio) {
-                    newHeight = self.model.cropHeight;
-                    scaleRatio = (newHeight / self.model.height);
-                    newWidth = parseFloat(self.model.width) * scaleRatio;
-                } else {
-                    newWidth = self.model.cropWidth;
-                    scaleRatio = (newWidth / self.model.width);
-                    newHeight = parseFloat(self.model.height) * scaleRatio;
-                }
-                self.model.zoom = scaleRatio;
-
-                self.zoomControl
-                    .attr('min', scaleRatio)
-                    .attr('max', self.options.zoom.maxValue - scaleRatio)
-                    .val(scaleRatio);
-
-                self.model.height = newHeight;
-                self.model.width = newWidth;
-                updateZoomIndicator();
-                centerImage();
-            }
-
-            /**
-             * Update image's position and size
-             */
-            function render() {
-                self.canvasContext.clearRect(0, 0, self.model.cropWidth, self.model.cropHeight);
-                self.canvasContext.save();
-                self.canvasContext.globalCompositeOperation = "destination-over";
-                self.canvasContext.drawImage(self.model.imageSrc, self.model.x, self.model.y, self.model.width, self.model.height);
-                self.canvasContext.restore();
-
-                if (self.options.imageHelper) {
-                    updateHelper();
-                }
-                /**
-                 * Call the onChange callback
-                 */
-                if (typeof self.options.onChange === 'function') {
-                    self.options.onChange(self.model);
-                }
-            }
-
-            /**
-             * Updates the image helper attributes
-             */
-            function updateHelper() {
-                var x = self.model.x + self.photoFrame.position().left;
-                var y = self.model.y + self.photoFrame.position().top;
-                /**
-                 * Clear
-                 */
-                self.imageHelperCanvasContext.clearRect(0, 0, self.imageHelperCanvas.width, self.imageHelperCanvas.height);
-                self.imageHelperCanvasContext.save();
-                self.imageHelperCanvasContext.globalCompositeOperation = "destination-over";
-                /**
-                 * Draw the helper
-                 */
-                self.imageHelperCanvasContext.beginPath();
-                self.imageHelperCanvasContext.rect(0, 0, self.imageHelperCanvas.width, self.imageHelperCanvas.height);
-                self.imageHelperCanvasContext.fillStyle = self.options.imageHelperColor;
-                self.imageHelperCanvasContext.fill('evenodd');
-                /**
-                 * Draw the image
-                 */
-                self.imageHelperCanvasContext.drawImage(self.model.imageSrc, x, y, self.model.width, self.model.height);
-                self.imageHelperCanvasContext.restore();
-            }
-
-            /**
-             * Creates the canvas for the image helper
-             */
-            function registerImageHelper() {
-                var canvas = document.createElement('canvas');
-                canvas.className = "canvas--helper";
-                canvas.width = self.photoHelper.outerWidth();
-                canvas.height = self.photoHelper.outerHeight();
-
-                self.photoHelper.prepend(canvas);
-
-                self.imageHelperCanvas = canvas;
-                self.imageHelperCanvasContext = canvas.getContext('2d');
-                self.imageHelperCanvasContext.mozImageSmoothingEnabled = false;
-                self.imageHelperCanvasContext.msImageSmoothingEnabled = false;
-                self.imageHelperCanvasContext.imageSmoothingEnabled = false;
-            }
-
-            /**
-             * Return the image cropped as Base64 data URL
-             */
-            function getAsDataURL(quality) {
-                if (!quality) {
-                    quality = 1;
-                }
-                return self.canvas.toDataURL(quality);
-            }
-        }
-    })(window, jQuery);
-
-
-    $(function () {
-
-        /**
-         * DEMO
-         */
-        var p = new profilePicture('.profile', null,
-            {
-                imageHelper: true,
-                onRemove: function (type) {
-                    $('.preview').hide().attr('src', '');
-                },
-                onError: function (type) {
-                    console.log('Error type: ' + type);
-                }
-            });
-
-
-        $('#previewBtn').on('click', function () {
-            $('.preview').show().attr('src', p.getAsDataURL());
-        });
-
-
-    });
-
-}
-// Lancement du script de ObjectFit
-objectFitImages('.fit-cover img');
-
-
-/* Detect the scroll of the page and animate the menu */
-$(window).on('scroll', function (e) {
-    var st = $(this).scrollTop();
-
-    if (st > 100) {
-        $("#th-global").addClass("is-scrolled");
-        $('.social-share').addClass('fadein');
-    }
-    else {
-        $("#th-global").removeClass("is-scrolled");
-        $('.social-share').removeClass('fadein');
-    }
-});
-
-
-var lastscrolltop = 0;
-var lastIsDirTop = 0;
-document.addEventListener('scroll', function () {
-    var st = $(document).scrollTop();
-    if (st < lastscrolltop && lastIsDirTop == 0) {
-        lastIsDirTop = 1;
-        $("#th-global").addClass('scrolldir-top', true);
-    }
-    if (st > lastscrolltop && lastIsDirTop == 1) {
-        lastIsDirTop = 0;
-        $("#th-global").removeClass('scrolldir-top', true);
-    }
-    lastscrolltop = st;
-});
-
-
-// Disabled CTA
-$('.pro-btn-disabled').on('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-});
-
-// Pour les compteurs dans les pages de détail
-var textDiscover = $('.pro-compt').first().text();
-$('.pro-compt').html(createCompt(textDiscover));
-
-function createCompt(textDiscover){
-    var textDiscoverWrapped = '';
-    var isNumber = false;
-    for (var i = 0; i != textDiscover.length; i++) {
-        if(textDiscover[i] == '0' && !isNumber) {
-            textDiscoverWrapped += '<span style="color: #c5c6c8;">' + textDiscover[i] + '</span>';
-        }
-        else {
-            if(textDiscover[i] != '-') {
-                isNumber = true;
-            }
-            textDiscoverWrapped += '<span>' + textDiscover[i] + '</span>';
-        }
-
-    }
-    return textDiscoverWrapped;
-}
-
-// Changer le texte du bouton Suivre ce Projet - Page Détail projet
-$("[href='#pro-follow-project']").click(function (e) {
-    if(!$(this).hasClass('pro-btn-disabled')){
-        e.preventDefault();
-        if ($(this).hasClass('active')) {
-            $(this).removeClass('active').text('Suivre ce projet');
-        }
-        else {
-            $(this).addClass('active').text('Projet Suivi');
-        }
-    }
-});
-
-
-if ($("[href='#backtop']").length) {
-    var scrollTrigger = 200, // px
-        backToTop = function () {
-            var scrollTop = $(window).scrollTop();
-            if (scrollTop > scrollTrigger) {
-                $("[href='#backtop']").addClass('show');
-            } else {
-                $("[href='#backtop']").removeClass('show');
-            }
-        };
-    backToTop();
-    $(window).on('scroll', function () {
-        backToTop();
-    });
-    $("[href='#backtop']").on('click', function (e) {
-        e.preventDefault();
-        $('html,body').animate({
-            scrollTop: 0
-        }, 700);
-    });
-}
-
-
-$("[href='#pro-onglet-account']").on('click', function (e) {
-    e.preventDefault();
-    $('#pro-onglet-activite').addClass('pro-hide');
-    $('#pro-onglet-account').removeClass('pro-hide');
-});
-
-$("[href='#pro-onglet-activite']").on('click', function (e) {
-    e.preventDefault();
-    $('#pro-onglet-activite').removeClass('pro-hide');
-    $('#pro-onglet-account').addClass('pro-hide');
-});
-
-
-$('.modal-dialog').each(function(){
-    new SimpleBar($(this)[0]);
-});
-$('a[href^="#pro-link"]').bind('click.smoothscroll',function (e) {
-    if(!$(this).hasClass('pro-btn-disabled')){
-        e.preventDefault();
-        var target = this.hash,
-            $target = $(target);
-
-        var pos = $target.offset().top - 120;
-
-        $('html, body').stop().animate( {
-            'scrollTop': pos
-        }, 600, 'swing', function () {
-            window.location.hash = pos;
-        } );
-    }
-} );
-/* --------------------------- */
-/* --------------------------- */
-
-/* SCRIPT POUR OWL CAROUSEL OPACIFY */
-
-/* --------------------------- */
-/* --------------------------- */
-
-function opacifySlider() {
-    $('.owl-opacify').on('translated.owl.carousel', function () {
-        var $el = $(this);
-        opacifyOffSlide($el);
-        $el.removeClass('translate');
-
-    }).on('translate.owl.carousel drag.owl.carousel', function () {
-        $(this).addClass('translate');
-    }).on('initialized.owl.carousel', function () {
-        var $el = $(this);
-        opacifyOffSlide($el);
-    });
-}
-opacifySlider();
-
-function opacifyOffSlide($el) {
-    var elOffset = $el.offset();
-    var left = elOffset.left;
-    var width = $el.width();
-    var right = left + width;
-
-    var slides = [];
-
-    $('.owl-item', $el).each(function () {
-        $slide = $(this);
-        var o = $slide.offset();
-        var w = $slide.width();
-
-        if (o.left < left) {
-            slides.push(this);
-        }
-        if (o.left + w > right) {
-            slides.push(this);
-        }
-    }).removeClass('opacify');
-
-    $(slides).addClass('opacify');
-
-}
-// End Change comportement OwlCarousel
-
-
-/**
- * prend en charge automatiquement les options suivantes en balise data :
- *
- * items,
- * loop,
- * margin, center, autowidth, autoheight,
- * nav, dots,
- * autoplay, autoplayTimeout, autoplayHoverPause, autoplaySpeed
- *
- */
-
-
-$('.owl-cards').each(function () {
-
-    if ($(this).find('.item').length > 0) {
-        var _self = $(this);
-
-        var options = {
-            loop: false,
-            margin: 30,
-            dots: true,
-            nav: true,
-            items: 4,
-            // autoHeight:true,
-            autoWidth: true,
-            navText: ["<span class='icon-ico-chevron-left'></span>", "<span class='icon-ico-chevron-right'></span>"]
-        };
-
-        var data = _self.data();
-
-        $.each(data, function (key, data) {
-
-            if (key.match(/(items|loop|margin|center|autoWidth|autoheight|nav|dots|autoplay|autoplayspeed)/gi)) {
-                options[key] = data;
-            }
-
-        });
-        _self.on('initialized.owl.carousel', function (event) {
-            // Do something
-            $('.owl-stage', _self).attr('data-anim', 'top-stack');
-        });
-
-        _self.owlCarousel(options);
-    }
-
-});
-
-
-$('.owl-slider').each(function () {
-
-    var _self = $(this);
-
-    var options = {
-        items: 1,
-        loop: true,
-        singleItem: true,
-        margin: 0,
-        nav: true,
-        dots: true,
-        navText: ["", ""],
-        autoplay: false,
-        autoplayTimeout: 4000,
-    };
-
-    var data = _self.data();
-
-    $.each(data, function (key, data) {
-
-        if (key.match(/(items|loop|margin|center|autoWidth|autoheight|nav|dots|autoplay|autoplayspeed)/gi)) {
-            options[key] = data;
-        }
-
-    });
-
-    _self.on('initialized.owl.carousel', function (event) {
-        // Do something
-        $('.owl-stage', _self).attr('data-anim', 'top-stack');
-    });
-
-    _self.owlCarousel(options);
-
-});
-
-
-$('.owl-timeline').each(function () {
-
-    var _self = $(this);
-
-
-    var options = {
-            items: 3,
-            loop: false,
-            margin: 0,
-            startPosition: 1,
-            responsive: {
-                0: {
-                    items: 2
-                },
-                992: {
-                    items: 3
-                },
-                1300: {
-                    items: 3
-                }
-            },
-            nav: true,
-            dots: false,
-            center: true,
-            mouseDrag: false,
-            touchDrag: false,
-            navText: ["<span class='icon-ico-chevron-left'></span>", "<span class='icon-ico-chevron-right'></span>"],
-            autoplay: false,
-            autoplayTimeout: 4000
-        }
-        ;
-
-    var data = _self.data();
-
-    $.each(data, function (key, data) {
-
-        if (key.match(/(items|loop|margin|center|autoWidth|autoheight|nav|dots|autoplay|autoplayspeed)/gi)) {
-            options[key] = data;
-        }
-
-    });
-
-    _self.on('initialized.owl.carousel', function (event) {
-        // Do something
-        $('.owl-stage', _self).attr('data-anim', 'top-stack');
-    });
-
-    _self.on('changed.owl.carousel', function (event) {
-        rangerSliderValue = event.item.index + 1;
-        if (rangerSliderValue < 1) {
-
-            rangerSliderValue = 1;
-        }
-        $('#myRange').val(rangerSliderValue);
-    });
-
-    _self.owlCarousel(options);
-
-    $('#myRange').on('change', function () {
-        _self.trigger('to.owl.carousel', (parseInt($('#myRange').val()) - 1));
-    });
-
-
-});
-function isIE(){
-    if (navigator.userAgent.match(/trident/gi) || navigator.appName == 'Microsoft Internet Explorer') {
-        return true;
-    }
-    return false;
-}
-
-function isTouchDevice() {
-    return 'ontouchstart' in document.documentElement;
-}
-
-function isNoHover(){
-    if(isTouchDevice() && document.body.clientWidth <= 1280){
-        return true;
-    }
-    return false;
-}
-
-if (isTouchDevice()) {
-    $('.lang > .sub-menu').addClass('sub-lang-mobile');
-    $('#lang-mobile').addClass('is-display');
-}
-
-
-var isiPad = navigator.userAgent.match(/iPad/i) != null;
-
-
-if (isiPad) {
-    $('body').addClass('on-ipad');
-}
-
-
-if (isIE()) {
-    document.getElementsByTagName('body')[0].className += ' ie';
-}
-
-if (isNoHover()) {
-    document.getElementsByTagName('body')[0].className += ' no-hover';
-}
 (function (factory) {
     factory(window.L);
 }(function (L) {
@@ -26525,10 +25034,1674 @@ if (isNoHover()) {
 
 })));
 //# sourceMappingURL=leaflet.markercluster-src.js.map
+if($('.pro-page-pacte').length > 0 || $('.pro-page-budget-participatif').length > 0){
+
+    var footer = $('footer').offset().top;
+    var windowH = $(window).height();
+    var barreFixed = $('.pro-bloc-prefooter');
+
+    $(window).on('scroll',function(){
+        if (window.pageYOffset-90 <= footer-windowH) {
+            barreFixed.addClass('pro-sticky-bar');
+        } else {
+            barreFixed.removeClass('pro-sticky-bar');
+        }
+    });
+
+}
+var bounds;
+var map;
+
+
+th_maps.addThemes('default', [
+    {
+        "featureType": "all",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "saturation": 36
+            },
+            {
+                "color": "#000000"
+            },
+            {
+                "lightness": 40
+            }
+        ]
+    },
+    {
+        "featureType": "all",
+        "elementType": "labels.text.stroke",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "color": "#ffffff"
+            },
+            {
+                "lightness": 16
+            }
+        ]
+    },
+    {
+        "featureType": "all",
+        "elementType": "labels.icon",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#fefefe"
+            },
+            {
+                "lightness": 20
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#fefefe"
+            },
+            {
+                "lightness": 17
+            },
+            {
+                "weight": 1.2
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#f5f5f5"
+            },
+            {
+                "lightness": 20
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#f5f5f5"
+            },
+            {
+                "lightness": 21
+            }
+        ]
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#dedede"
+            },
+            {
+                "lightness": 21
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "hue": "#2ad1a8"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            },
+            {
+                "lightness": 17
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            },
+            {
+                "lightness": 29
+            },
+            {
+                "weight": 0.2
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            },
+            {
+                "lightness": 18
+            }
+        ]
+    },
+    {
+        "featureType": "road.local",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            },
+            {
+                "lightness": 16
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#f2f2f2"
+            },
+            {
+                "lightness": 19
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#e9e9e9"
+            },
+            {
+                "lightness": 17
+            }
+        ]
+    }
+]);
+
+
+var GetPosition = document.getElementById('cible');
+
+var zoomInButton = document.getElementById('pro-plus');
+var zoomOutButton = document.getElementById('pro-moins');
+
+
+/* MAP POUR LE LISTING DE LA PAGE EVENEMENT */
+function callbackMapListingEvent(macarte) {
+
+    var bounds = new google.maps.LatLngBounds();
+
+    $('.pro-bloc-listing-event > a').each(function () {
+        var geo = {lat: $(this).data('lat'), lng: $(this).data('lng')};
+        marker = th_maps.createMarker(macarte, geo, 'participation', 'projet');
+        bounds.extend(geo);
+
+        th_maps.createInfoWindow('<a target="_blank" href="' + $(this).attr('href') + '" id="map-inte-container" class="pro-bloc-card-map-event">' +
+            '<div class="map-inte-content">' +
+            '<div class="map-inte-header"><span class="pro-time">Publiée le <time datetime="2018-01-10">' + $('time', this).text() + '</time></span><p>' + $('p', this).text() + '</p></div>' +
+            '<div class="map-inte-content-text"><h3>' + $('h3', this).text() + '</h3>' +
+            '<span class="pro-btn-yellow">En savoir plus</span>' +
+            '</div></div></a>', marker, 250);
+    });
+
+    macarte.fitBounds(bounds);
+
+    th_maps.defaultOptions.zoomControlOptions = google.maps.ControlPosition.RIGHT_TOP;
+    th_maps.defaultOptions.mapTypeId = google.maps.MapTypeId.ROADMAP;
+
+}
+
+
+/* MAP POUR LES PAGES STANDARDS ET PROJET */
+function callbackCartePage(macarte) {
+    // ---------  Google map Zoom Button  --------- //
+    google.maps.event.addDomListener(zoomInButton, 'click', function (e) {
+        e.preventDefault();
+        macarte.setZoom(macarte.getZoom() + 1);
+    });
+
+    google.maps.event.addDomListener(zoomOutButton, 'click', function (e) {
+        e.preventDefault();
+        macarte.setZoom(macarte.getZoom() - 1);
+    });
+}
+
+
+/* MAP POUR LA CARTE INTERACTIVE */
+function callbackCarteInteractive(macarte) {
+
+    var bounds = new google.maps.LatLngBounds();
+
+    // ---------  Google map Zoom Button  --------- //
+    google.maps.event.addDomListener(zoomInButton, 'click', function (e) {
+        e.preventDefault();
+        macarte.setZoom(macarte.getZoom() + 1);
+    });
+
+    google.maps.event.addDomListener(zoomOutButton, 'click', function (e) {
+        e.preventDefault();
+        macarte.setZoom(macarte.getZoom() - 1);
+    });
+
+    markerParticipation = th_maps.createMarker(macarte, {lat: 48.5891137, lng: 7.7514801}, 'participation', 'marker');
+    markerEvent = th_maps.createMarker(macarte, {lat: 48.5991137, lng: 7.7414801}, 'event', 'marker');
+    markerParticipation2 = th_maps.createMarker(macarte, {lat: 48.5775591, lng: 7.7606211}, 'participation', 'marker');
+    markerPetition = th_maps.createMarker(macarte, {lat: 48.6022362, lng: 7.7382629}, 'petition', 'marker');
+    markerInitiative = th_maps.createMarker(macarte, {lat: 48.5822362, lng: 7.7682629}, 'initiative', 'marker');
+    markerProjet = th_maps.createMarker(macarte, {lat: 48.5922362, lng: 7.7862629}, 'projet', 'marker');
+    markerBudget = th_maps.createMarker(macarte, {lat: 48.6022362, lng: 7.7852629}, 'budget', 'marker');
+
+
+    contentParticipation = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.php" title="lien de la page" class="pro-bloc-card-participation' +
+        ' pro-theme-concertation"><div>' +
+        '<div class="pro-header-participation"><figure><img src="assets/images/medias/comm-sylvie.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
+        '<p>Participation publiée par :</p><p><strong>Ville de Strasbourg</strong></p>' +
+        '<div class="pro-info-top-right"><span class="pro-encart-theme">Information</span></div></div>' +
+        '<div class="pro-content-participation"><div class="pro-meta"><span>Quartier</span><span>Thématique</span><span>Type : Information</span><span>Statut</span><span>Nom du projet</span></div>' +
+        '<h3>Titre de la participation terminée<br>Sur deux lignes</h3>' +
+        '<span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div>' +
+        '<div class="pro-footer-participation pro-participation-deadline"><div class="pro-avis"><span class="pro-like">1808</span>' +
+        '<span class="pro-dislike">404</span></div><p>Participation terminée, merci de votre participation</p>' +
+        '</div></div></a></div>', markerParticipation, 247);
+
+
+    contentEvent = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-event.php" title="lien de la page" class="pro-bloc-card-event"><div>' +
+        '<div class="pro-header-event"><span class="pro-ico"><span class="icon-ico-conference"></span></span><span class="pro-time">Le <time datetime="2018-01-10">04 décembre 2017 à 11h00</time></span>' +
+        '<p>À : Espace des associations de Strasbourg au centre ville</p><h3>Titre de l’Évènement<br>Sur deux lignes</h3></div>' +
+        '<div class="pro-footer-event"><span class="pro-btn-action active">Je participe</span><span class="pro-number"><strong>4537</strong> Participants-es</span></div>' +
+        '</div></a></div>', markerEvent, 247);
+
+
+    // contentArticle = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="/detail-article.php" title="Lien vers la page (nom de la page)" class="pro-bloc-actu">' +
+    //     '<div class="img"><figure><img src="assets/images/medias/hp-projet-1.jpg" alt="Image agenda" width="360" height="174" class="fit-cover"/></figure></div>' +
+    //     '<div class="content"><span class="publication">Publiée le 04 décembre 2017</span><h3>Titre de l\'actualité<br>sur deux lignes</h3><p>Lorem ipsum dolor sit amet, consectetur...</p><span' +
+    //     ' class="link">Lire la suite</span></div>' +
+    //     '</a></div>',marker3,247);
+
+
+    contentParticipation2 = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-participation.php" class="item pro-bloc-card-participation pro-theme-information"' +
+        ' data-linkall="a">' +
+        '<div><div class="pro-header-participation"><figure><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
+        '<p>Participation publiée par :</p><p><strong>Ville de Strasbourg</strong></p>' +
+        '<div class="pro-info-top-right"><span class="pro-encart-theme">Information</span></div></div>' +
+        '<div class="pro-content-participation"><div class="pro-meta"><span>Quartier</span><span>Thématique</span><span>Type : Information</span><span>Statut</span><span>Nom du projet</span></div>' +
+        '<h3>Titre de la participation<br>Sur deux lignes</h3>' +
+        '<span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div>' +
+        '<div class="pro-footer-participation"><span class="pro-form-style">Réagissez...</span></div>' +
+        '</div></a></div>', markerParticipation2, 247);
+
+
+    // contentVideo = th_maps.createInfoWindow('<div class="pro-vignette-map-inte"><a href="detail-video.php" class="pro-card-video">' +
+    //     '<div class="pro-header"><figure class="fit-cover"><img alt="" width="280" height="175" src="./assets/images/medias/homepage-instance.jpg"></figure><span' +
+    //     ' class="icon-ico-lecteur"></span></div>' +
+    //     '<div class="pro-meta-avis"><h3>Titre de la vidéo<br>sur deux lignes</h3>'+
+    //     '<div class="pro-avis"><span class="pro-like">0</span><span class="pro-dislike">0</span></div><span class="pro-view">125 vues</span>'+
+    //     '</div></a></div>',marker5,247);
+
+
+    contentPetition = th_maps.createInfoWindow('<div class="item pro-bloc-card-petition"><a href="detail-petition.php"><div class="pro-header-petition">' +
+        '<figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
+        '<p>Pétition publiée par :</p><p><strong>Sylvie M.</strong></p></div>' +
+        '<div class="pro-content-petition"><h3>Titre de la pétition<br>Sur deux lignes</h3><p>Pétition adressée à <u>la ville de Strasbourg</u></p> <span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time> / <span class="pro-duree">Fin dans 11 jours</span></span></div> ' +
+        '<div class="pro-footer-petition"><div class="pro-progress-bar"><div class="pro-progress-container"><div style="width:75%"></div></div><p class="pro-txt-progress"><strong>1500</strong> Signataire(s) sur 2000 nécessaires</p> ' +
+        '</div></div></a></div>', markerPetition, 247);
+
+    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-initiative"><a href="detail-initiative.php"><div class="wrapper-card-initiative"><div> ' +
+        '<div class="pro-header-initiative"><figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
+        '<p>Atelier publié par :</p><p><strong>Sylvie M.</strong></p></div> ' +
+        '<div class="pro-content-initiative">' +
+        '<h3>Titre de l’initiative<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' +
+        '</div></div>' +
+        '<div class="pro-footer-initiative"><div class="pro-avis"><span>188</span></div><p>Citoyens-nes ont proposé leur aide</p>' +
+        '</div></a></div>', markerInitiative, 247);
+
+    contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-projet">' +
+        '<a href="detail-projet.php"><div class="pro-header-projet"><p>Nom du quartier concerné :</p><p><strong>Krutenau</strong></p></div> ' +
+        '<div class="pro-content-projet"><h3>Titre du projet<br>Sur deux lignes</h3>' +
+        '<div class="pro-wrap-thematique"><span>Thématique 1</span><span>Thématique 2</span></div></div> ' +
+        '<div class="pro-footer-projet"><p><strong>145</strong> Citoyens-nes suivent ce projet</p></div> ' +
+        '</a></div>', markerProjet, 247);
+
+    contentBudget = th_maps.createInfoWindow('<div class="item pro-bloc-card-budget pro-theme-faisabilite"><a href="detail-budget.php">' +
+        '<div class="pro-header-budget"><figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
+        '<p>Idée déposée par :</p><p><strong>Sylvie M.</strong></p><div class="pro-info-top-right"><span class="pro-encart-theme">En cours d’étude de faisabilité</span></div></div>' +
+        '<div class="pro-content-budget"><h3>Titre du budget participatif<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' +
+        '<div class="pro-footer-budget"><p><strong>1500</strong> Citoyens-nes soutiennent cette idée</p></div></a></div>', markerBudget, 247);
+
+
+
+    bounds.extend(markerParticipation.position);
+    bounds.extend(markerEvent.position);
+    bounds.extend(markerParticipation2.position);
+    bounds.extend(markerPetition.position);
+    bounds.extend(markerInitiative.position);
+    bounds.extend(markerProjet.position);
+    bounds.extend(markerBudget.position);
+    macarte.fitBounds(bounds);
+}
+
+
+th_maps.onLoad(function () {
+
+    th_maps.addMarkerIcon('participation', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-participation.png',
+        scaledSize: new google.maps.Size(75, 95)
+    });
+
+    th_maps.addMarkerIcon('initiative', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-initiative.png',
+        scaledSize: new google.maps.Size(75, 95)
+    });
+
+    th_maps.addMarkerIcon('projet', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-projet.png',
+        scaledSize: new google.maps.Size(75, 95)
+    });
+
+    th_maps.addMarkerIcon('petition', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-petition.png',
+        scaledSize: new google.maps.Size(75, 95)
+    });
+
+    th_maps.addMarkerIcon('event', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-event.png',
+        scaledSize: new google.maps.Size(75, 95)
+    });
+
+    th_maps.addMarkerIcon('budget', {
+        url: '' + document.location.origin + './assets/images/ico/ico-marker-budgetparticipatif.png',
+        scaledSize: new google.maps.Size(75, 95)
+    });
+
+    th_maps.defaultOptions.zoomControlOptions = google.maps.ControlPosition.LEFT_CENTER;
+    th_maps.defaultOptions.mapTypeId = google.maps.MapTypeId.ROADMAP;
+});
+
+
+/* FILTRE POUR ENLEVER LES ELEMENTS PAR DEFAUT SUR LA GOOGLE MAPS SUR LES PAGES DE LISTING */
+function filterMapListing(options) {
+    options.mapTypeControl = false;
+    options.streetViewControl = false;
+    options.zoomControl = true;
+
+    options.zoomControlOptions = {position: google.maps.ControlPosition.LEFT_TOP};
+    options.mapTypeId = google.maps.MapTypeId.ROADMAP;
+
+    return options;
+}
+
+
+/* FILTRE POUR ENLEVER LES ELEMENTS PAR DEFAUT SUR LA GOOGLE MAPS SUR LA PAGE DE DETAIL SIT ET AGENDA */
+function filterMapDetail(options) {
+    options.mapTypeControl = false;
+    options.streetViewControl = false;
+    options.zoomControl = false;
+    return options;
+}
+
+
+function generateContentWindow(img, title) {
+    var content = '<div id="map-inte-container">' +
+        '<div class="map-inte-content">' +
+        '<div class="map-inte-header"><figure><img src="' + img + '" width="260" height="160" alt="Titre image" class="fit-cover img-carte-inte" /></figure></div>' +
+        '<div class="map-inte-content-text"><h2 class="title-map-inte">' + title + '</h2>' +
+        '<a href="#" class="basic-link">En savoir plus</a>' +
+        '</div></div></div>';
+    return content;
+}
+
+function init_thMaps() {
+    th_maps.init({
+        defaultOptions: {
+            zoom: 16,
+            center: {lat: 48.5692059, lng: 7.6920547},
+            disableDefaultUI: true,
+            streetViewControl: false,
+            zoomControl: true,
+        }
+    });
+}
+
+init_thMaps();
+// document.addEventListener('scroll', init_thMaps);
+
+$('#pro-btn-menu-map').click(function () {
+    $('.pro-wrapper-facette-carte').toggleClass('show-menu-map');
+    $('.pro-menu-carte-mobile').toggleClass('btn-map-active');
+})
+$(function()
+{
+	ar_menu();
+});
+
+function ar_menu()
+{
+	// mobile sidebar menu
+	$('.th-menu').click(function () {
+		if (!$(this).hasClass('open')) {
+			$(this).addClass('open');
+			$('nav').addClass('show');
+			$('#pro-shadow-bg').addClass('pro-display-block');
+			$('#pro-header').addClass('menu-open');
+			$('.social-share').css('opacity','0');
+		}
+		else {
+			$('#pro-shadow-bg').removeClass('pro-display-block');
+			$(this).removeClass('open');
+			$('#pro-header').removeClass('menu-open');
+			$('.social-share').css('opacity','1');
+			setTimeout(function () {
+				$('nav').removeClass('show');
+			}, 150);
+		}
+	});
+
+	$('#pro-shadow-bg').click(function () {
+		$(this).removeClass('pro-display-block');
+		$('nav').removeClass('show');
+		$('.th-menu').removeClass('open');
+		$('#pro-header').removeClass('menu-open');
+		$('#pro-header').removeClass('pro-wrapper-search-open');
+	});
+}
+
+
+$('.currentLang > a').on('focus',function(){
+	$('.is-focus-lang').removeClass('is-focus-lang');
+	$(this).parents().next().addClass('is-focus-lang');
+});
+
+
+function ready(fn) {
+	if (document.readyState !== 'loading') {
+		fn();
+	} else {
+		document.addEventListener('DOMContentLoaded', fn);
+	}
+}
+function adjusteSearch() {
+
+// Move Affiner la recherche on Tablet Portrait
+
+	if (window.innerWidth < 1100) {
+		$(".pro-inside-affine-search").prepend($('.pro-bloc-facette-participation'));
+		$('.pro-wrapper-nav').append($('.pro-top-header'));
+
+		$('.pro-affiner').on('click',function(){
+			$(this).next().toggleClass('is-display');
+			$(this).toggleClass('menu-is-display');
+		});
+	}
+	else {
+		if ($('.pro-bloc-texte-header').length > 0 && $('.pro-wrapper-aside').length > 0) {
+			var headerHeight = $('.pro-bloc-texte-header').outerHeight() - 50;;
+			if($('.search-header-wrapper').length > 0) {
+				headerHeight += $('.search-header-wrapper').outerHeight()
+			}
+			$('.pro-wrapper-aside').css('top', -headerHeight + 'px');
+		}
+	}
+}
+
+ready(adjusteSearch);
+
+var menuEmplacement = 0;
+var timeoutResizeMenuEmplacement = null;
+
+$(window).resize(function() {
+	clearTimeout(timeoutResizeMenuEmplacement);
+	timeoutResizeMenuEmplacement = setTimeout(moveMenuOnResize,500);
+});
+
+document.addEventListener('orientationchange', function () {
+	clearTimeout(timeoutResizeMenuEmplacement);
+	timeoutResizeMenuEmplacement = setTimeout(moveMenuOnResize,500);
+});
+
+function moveMenuOnResize(){
+	var wW = window.innerWidth;
+	if (wW < 1100 && menuEmplacement == 0) {
+		menuEmplacement = 1;
+		$(".pro-inside-affine-search").prepend($('.pro-bloc-facette-participation'));
+		$('.pro-wrapper-nav').append($('.pro-top-header'));
+	}
+	if (wW >= 1100 && menuEmplacement == 1) {
+		menuEmplacement = 0;
+		$('.pro-wrapper-aside').prepend($('.pro-bloc-facette-participation'));
+		$('.pro-wrapper-top-header').prepend($('.pro-top-header'));
+	}
+}
+
+/**
+ * Profile picture
+ * @author Daniel Salvagni <danielsalvagni@gmail.com>
+ */
+
+
+
+if($('.pro-bloc-dashboard').length > 0) {
+
+    /**
+     * Turn the globals into local variables.
+     */
+    ;
+    (function (window, $, undefined) {
+        if (!window.profilePicture) {
+            window.profilePicture = profilePicture;
+        }
+
+        /**
+         * Component
+         */
+        function profilePicture(cssSelector, imageFilePath, options) {
+            var self = this;
+            /**
+             * Map the DOM elements
+             */
+            self.element = $(cssSelector);
+            self.canvas = $(cssSelector + ' .photo__frame .photo__canvas')[0];
+            self.photoImg = $(cssSelector + ' .photo__frame img');
+            self.photoHelper = $(cssSelector + ' .photo__helper');
+            self.photoLoading = $(cssSelector + ' .photo__frame .message.is-loading');
+            self.photoOptions = $(cssSelector + ' .photo__options');
+            self.photoFrame = $(cssSelector + ' .photo__frame');
+            self.photoArea = $(cssSelector + ' .photo');
+            self.zoomControl = $(cssSelector + ' input[type=range]');
+            /**
+             * Image info to post to the API
+             */
+            self.model = {
+                imageSrc: null,
+                width: null,
+                height: null,
+                originalWidth: null,
+                originalHeight: null,
+                y: null,
+                x: null,
+                zoom: 1,
+                cropWidth: null,
+                cropHeight: null
+            };
+
+
+            /**
+             * Plugin options
+             */
+            self.options = {};
+            /**
+             * Plugins defaults
+             */
+            self.defaults = {};
+            self.defaults.imageHelper = true;
+            self.defaults.imageHelperColor = 'rgba(255,255,255,.90)';
+            /**
+             * Callbacks
+             */
+            self.defaults.onChange = null;
+            self.defaults.onZoomChange = null;
+            self.defaults.onImageSizeChange = null;
+            self.defaults.onPositionChange = null;
+            self.defaults.onLoad = null;
+            self.defaults.onRemove = null;
+            self.defaults.onError = null;
+            /**
+             * Zoom default options
+             */
+            self.defaults.zoom = {
+                initialValue: 1,
+                minValue: 0.1,
+                maxValue: 2,
+                step: 0.01
+            };
+            /**
+             * Image default options
+             */
+            self.defaults.image = {
+                originalWidth: 0,
+                originalHeight: 0,
+                originaly: 0,
+                originalX: 0,
+                minWidth: 350,
+                minHeight: 350,
+                maxWidth: 1000,
+                maxHeight: 1000
+            };
+
+            /**
+             * Zoom controls
+             */
+            self.zoom = $(cssSelector + ' .zoom');
+
+            /**
+             * Call the constructor
+             */
+            init(cssSelector, imageFilePath, options);
+
+            /**
+             * Return public methods
+             */
+            return {
+                getData: getData,
+                getAsDataURL: getAsDataURL,
+                removeImage: removeImage
+            };
+
+
+            /**
+             * Constructor
+             * Register all components and options.
+             * Can load a preset image
+             */
+            function init(cssSelector, imageFilePath, options) {
+                /**
+                 * Start canvas
+                 */
+                self.canvas.width = self.photoFrame.outerWidth();
+                self.canvas.height = self.photoFrame.outerHeight();
+                self.canvasContext = self.canvas.getContext('2d');
+                /**
+                 * Show the right text
+                 */
+                if (isMobile()) {
+                    self.photoArea.addClass('is-mobile');
+                } else {
+                    self.photoArea.addClass('is-desktop');
+                }
+                /**
+                 * Merge the defaults with the user options
+                 */
+                self.options = $.extend({}, self.defaults, options);
+
+                /**
+                 * Enable/disable the image helper
+                 */
+                if (self.options.imageHelper) {
+                    registerImageHelper();
+                }
+
+                registerDropZoneEvents();
+                registerImageDragEvents();
+                registerZoomEvents();
+
+                /**
+                 * Start
+                 */
+                if (imageFilePath) {
+                    processFile(imageFilePath);
+                } else {
+                    self.photoArea.addClass('photo--empty');
+                }
+            }
+
+            /**
+             * Check if the user's device is a smartphone/tablet
+             */
+            function isMobile() {
+                return navigator.userAgent.match(/BlackBerry|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
+            }
+
+            /**
+             * Return the model
+             */
+            function getData() {
+                return model;
+            }
+
+            /**
+             * Set the model
+             */
+            function setModel(model) {
+                self.model = model;
+            }
+
+            /**
+             * Set the image to a canvas
+             */
+            function processFile(imageUrl) {
+                function isDataURL(s) {
+                    s = s.toString();
+                    return !!s.match(isDataURL.regex);
+                }
+
+                isDataURL.regex = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
+
+                var image = new Image();
+                if (!isDataURL(imageUrl)) {
+                    image.crossOrigin = 'anonymous';
+                }
+                self.photoArea.addClass('photo--loading');
+                image.onload = function () {
+                    var ratio,
+                        newH, newW,
+                        w = this.width, h = this.height;
+
+                    if (w < self.options.image.minWidth ||
+                        h < self.options.image.minHeight) {
+                        self.photoArea.addClass('photo--error--image-size photo--empty');
+                        setModel({});
+
+                        /**
+                         * Call the onError callback
+                         */
+                        if (typeof self.options.onError === 'function') {
+                            self.options.onError('image-size');
+                        }
+
+                        self.photoArea.removeClass('photo--loading');
+                        return;
+                    } else {
+                        self.photoArea.removeClass('photo--error--image-size');
+                    }
+
+                    self.photoArea.removeClass('photo--empty photo--error--file-type photo--loading');
+
+                    var frameRatio = self.options.image.maxHeight / self.options.image.maxWidth;
+                    var imageRatio = self.model.height / self.model.width;
+
+                    if (frameRatio > imageRatio) {
+                        newH = self.options.image.maxHeight;
+                        ratio = (newH / h);
+                        newW = parseFloat(w) * ratio;
+                    } else {
+                        newW = self.options.image.maxWidth;
+                        ratio = (newW / w);
+                        newH = parseFloat(h) * ratio;
+                    }
+                    h = newH;
+                    w = newW;
+
+                    self.model.imageSrc = image;
+                    self.model.originalHeight = h;
+                    self.model.originalWidth = w;
+                    self.model.height = h;
+                    self.model.width = w;
+                    self.model.cropWidth = self.photoFrame.outerWidth();
+                    self.model.cropHeight = self.photoFrame.outerHeight();
+                    self.model.x = 0;
+                    self.model.y = 0;
+                    self.photoOptions.removeClass('hide');
+                    fitToFrame();
+                    render();
+
+                    /**
+                     * Call the onLoad callback
+                     */
+                    if (typeof self.options.onLoad === 'function') {
+                        self.options.onLoad(self.model);
+                    }
+
+                };
+
+                image.src = imageUrl;
+            }
+
+            /**
+             * Remove the image and reset the component state
+             */
+            function removeImage() {
+                self.canvasContext.clearRect(0, 0, self.model.cropWidth, self.model.cropHeight);
+                self.canvasContext.save();
+                self.photoArea.addClass('photo--empty');
+                self.imageHelperCanvasContext.clearRect(0, 0, self.imageHelperCanvas.width, self.imageHelperCanvas.height);
+                self.imageHelperCanvasContext.save();
+                setModel({});
+
+                /**
+                 * Call the onRemove callback
+                 */
+                if (typeof self.options.onRemove === 'function') {
+                    self.options.onRemove(self.model);
+                }
+            }
+
+            /**
+             * Register the file drop zone events
+             */
+            function registerDropZoneEvents() {
+                var target = null;
+                /**
+                 * Stop event propagation to all dropzone related events.
+                 */
+                self.element.on('drag dragstart dragend dragover dragenter dragleave drop', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.originalEvent.dataTransfer.dropEffect = 'copy';
+                });
+
+                /**
+                 * Register the events when the file is out or dropped on the dropzone
+                 */
+                self.element.on('dragend dragleave drop', function (e) {
+                    if (target === e.target) {
+                        self.element.removeClass('is-dragover');
+                    }
+                });
+                /**
+                 * Register the events when the file is over the dropzone
+                 */
+                self.element.on('dragover dragenter', function (e) {
+                    target = e.target;
+                    self.element.addClass('is-dragover');
+                });
+                /**
+                 * On a file is selected, calls the readFile method.
+                 * It is allowed to select just one file - we're forcing it here.
+                 */
+                self.element.on('change', 'input[type=file]', function (e) {
+                    if (this.files && this.files.length) {
+                        readFile(this.files[0]);
+                        this.value = '';
+                    }
+                });
+                /**
+                 * Handle the click to the hidden input file so we can browser files.
+                 */
+                self.element.on('click', '.photo--empty .photo__frame', function (e) {
+                    $(cssSelector + ' input[type=file]').trigger('click');
+
+                });
+                /**
+                 * Register the remove action to the remove button.
+                 */
+                self.element.on('click', '.remove', function (e) {
+                    removeImage();
+                });
+                /**
+                 * Register the drop element to the container component
+                 */
+                self.element.on('drop', function (e) {
+                    readFile(e.originalEvent.dataTransfer.files[0]);
+                });
+
+
+                /**
+                 * Only into the DropZone scope.
+                 * Read a file using the FileReader API.
+                 * Validates file type.
+                 */
+                function readFile(file) {
+                    self.photoArea.removeClass('photo--error photo--error--file-type photo--error-image-size');
+                    /**
+                     * Validate file type
+                     */
+                    if (!file.type.match('image.*')) {
+                        self.photoArea.addClass('photo--error--file-type');
+                        /**
+                         * Call the onError callback
+                         */
+                        if (typeof self.options.onError === 'function') {
+                            self.options.onError('file-type');
+                        }
+                        return;
+                    }
+
+                    var reader;
+                    reader = new FileReader();
+                    reader.onloadstart = function () {
+                        self.photoArea.addClass('photo--loading');
+                    }
+                    reader.onloadend = function (data) {
+                        self.photoImg.css({left: 0, top: 0});
+                        var base64Image = data.target.result;
+                        processFile(base64Image, file.type);
+                    }
+                    reader.onerror = function () {
+                        self.photoArea.addClass('photo--error');
+                        /**
+                         * Call the onError callback
+                         */
+                        if (typeof self.options.onError === 'function') {
+                            self.options.onError('unknown');
+                        }
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            /**
+             * Register the image drag events
+             */
+            function registerImageDragEvents() {
+                var $dragging, x, y, clientX, clientY;
+                if (self.options.imageHelper) {
+                    self.photoHelper.on("mousedown touchstart", dragStart)
+                        .css('cursor', 'move');
+                } else {
+                    self.photoFrame.on("mousedown touchstart", dragStart);
+                }
+
+                /**
+                 * Stop dragging
+                 */
+                $(window).on("mouseup touchend", function (e) {
+                    if ($dragging) {
+                        /**
+                         * Call the onPositionChange callback
+                         */
+                        if (typeof self.options.onPositionChange === 'function') {
+                            self.options.onPositionChange(self.model);
+                        }
+                        /**
+                         * Call the onChange callback
+                         */
+                        if (typeof self.options.onChange === 'function') {
+                            self.options.onChange(self.model);
+                        }
+                    }
+                    $dragging = null;
+                });
+                /**
+                 * Drag the image inside the container
+                 */
+                $(window).on("mousemove touchmove", function (e) {
+
+                    if ($dragging) {
+                        e.preventDefault();
+                        var refresh = false;
+                        clientX = e.clientX;
+                        clientY = e.clientY;
+                        if (e.touches) {
+                            clientX = e.touches[0].clientX
+                            clientY = e.touches[0].clientY
+                        }
+
+                        var dy = (clientY) - y;
+                        var dx = (clientX) - x;
+                        dx = Math.min(dx, 0);
+                        dy = Math.min(dy, 0);
+                        /**
+                         * Limit the area to drag horizontally
+                         */
+                        if (self.model.width + dx >= self.model.cropWidth) {
+                            self.model.x = dx;
+                            refresh = true;
+                        }
+                        if (self.model.height + dy >= self.model.cropHeight) {
+                            self.model.y = dy;
+                            refresh = true;
+                        }
+                        if (refresh) {
+                            render();
+                        }
+                    }
+                    ;
+                });
+
+                function dragStart(e) {
+                    $dragging = true;
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                    if (e.touches) {
+                        clientX = e.touches[0].clientX
+                        clientY = e.touches[0].clientY
+                    }
+                    x = clientX - self.model.x;
+                    y = clientY - self.model.y;
+                }
+            }
+
+            /**
+             * Register the zoom control events
+             */
+            function registerZoomEvents() {
+
+                self.zoomControl
+                    .attr('min', self.options.zoom.minValue)
+                    .attr('max', self.options.zoom.maxValue)
+                    .attr('step', self.options.zoom.step)
+                    .val(self.options.zoom.initialValue)
+                    .on('input', zoomChange);
+
+                function zoomChange(e) {
+                    self.model.zoom = Number(this.value);
+                    updateZoomIndicator();
+                    scaleImage();
+                    /**
+                     * Call the onPositionChange callback
+                     */
+                    if (typeof self.options.onZoomChange === 'function') {
+                        self.options.onZoomChange(self.model);
+                    }
+                }
+            }
+
+            /**
+             * Set the image to the center of the frame
+             */
+            function centerImage() {
+                var x = Math.abs(self.model.x - ((self.model.width - self.model.cropWidth) / 2));
+                var y = Math.abs(self.model.y - ((self.model.height - self.model.cropHeight) / 2));
+                x = self.model.x - x;
+                y = self.model.y - y;
+                x = Math.min(x, 0);
+                y = Math.min(y, 0);
+
+                if (self.model.width + (x) < self.model.cropWidth) {
+                    /**
+                     * Calculates to handle the empty space on the right side
+                     */
+                    x = Math.abs((self.model.width - self.model.cropWidth)) * -1;
+                }
+                if (self.model.height + (y) < self.model.cropHeight) {
+                    /**
+                     * Calculates to handle the empty space on bottom
+                     */
+                    y = Math.abs((self.model.height - self.model.cropHeight)) * -1;
+                }
+                self.model.x = x;
+                self.model.y = y;
+            }
+
+            /**
+             * Calculates the new image's position based in its new size
+             */
+            function getPosition(newWidth, newHeight) {
+
+                var deltaY = (self.model.y - (self.model.cropHeight / 2)) / self.model.height;
+                var deltaX = (self.model.x - (self.model.cropWidth / 2)) / self.model.width;
+                var y = (deltaY * newHeight + (self.model.cropHeight / 2));
+                var x = (deltaX * newWidth + (self.model.cropWidth / 2));
+
+                x = Math.min(x, 0);
+                y = Math.min(y, 0);
+
+                if (newWidth + (x) < self.model.cropWidth) {
+                    /**
+                     * Calculates to handle the empty space on the right side
+                     */
+                    x = Math.abs((newWidth - self.model.cropWidth)) * -1;
+
+                }
+                if (newHeight + (y) < self.model.cropHeight) {
+                    /**
+                     * Calculates to handle the empty space on bottom
+                     */
+                    y = Math.abs((newHeight - self.model.cropHeight)) * -1;
+                }
+                return {x: x, y: y};
+            }
+
+            /**
+             * Resize the image
+             */
+            function scaleImage() {
+                /**
+                 * Calculates the image position to keep it centered
+                 */
+                var newWidth = self.model.originalWidth * self.model.zoom;
+                var newHeight = self.model.originalHeight * self.model.zoom;
+
+                var position = getPosition(newWidth, newHeight);
+
+                /**
+                 * Set the model
+                 */
+                self.model.width = newWidth;
+                self.model.height = newHeight;
+                self.model.x = position.x;
+                self.model.y = position.y;
+                updateZoomIndicator();
+                render();
+
+                /**
+                 * Call the onImageSizeChange callback
+                 */
+                if (typeof self.options.onImageSizeChange === 'function') {
+                    self.options.onImageSizeChange(self.model);
+                }
+            }
+
+            /**
+             * Updates the icon state from the slider
+             */
+            function updateZoomIndicator() {
+                /**
+                 * Updates the zoom icon state
+                 */
+                if (self.model.zoom.toFixed(2) == Number(self.zoomControl.attr('min')).toFixed(2)) {
+                    self.zoomControl.addClass('zoom--minValue');
+                } else {
+                    self.zoomControl.removeClass('zoom--minValue');
+                }
+                if (self.model.zoom.toFixed(2) == Number(self.zoomControl.attr('max')).toFixed(2)) {
+                    self.zoomControl.addClass('zoom--maxValue');
+                } else {
+                    self.zoomControl.removeClass('zoom--maxValue');
+                }
+            }
+
+            /**
+             * Resize and position the image to fit into the frame
+             */
+            function fitToFrame() {
+                var newHeight, newWidth, scaleRatio;
+
+                var frameRatio = self.model.cropHeight / self.model.cropWidth;
+                var imageRatio = self.model.height / self.model.width;
+
+                if (frameRatio > imageRatio) {
+                    newHeight = self.model.cropHeight;
+                    scaleRatio = (newHeight / self.model.height);
+                    newWidth = parseFloat(self.model.width) * scaleRatio;
+                } else {
+                    newWidth = self.model.cropWidth;
+                    scaleRatio = (newWidth / self.model.width);
+                    newHeight = parseFloat(self.model.height) * scaleRatio;
+                }
+                self.model.zoom = scaleRatio;
+
+                self.zoomControl
+                    .attr('min', scaleRatio)
+                    .attr('max', self.options.zoom.maxValue - scaleRatio)
+                    .val(scaleRatio);
+
+                self.model.height = newHeight;
+                self.model.width = newWidth;
+                updateZoomIndicator();
+                centerImage();
+            }
+
+            /**
+             * Update image's position and size
+             */
+            function render() {
+                self.canvasContext.clearRect(0, 0, self.model.cropWidth, self.model.cropHeight);
+                self.canvasContext.save();
+                self.canvasContext.globalCompositeOperation = "destination-over";
+                self.canvasContext.drawImage(self.model.imageSrc, self.model.x, self.model.y, self.model.width, self.model.height);
+                self.canvasContext.restore();
+
+                if (self.options.imageHelper) {
+                    updateHelper();
+                }
+                /**
+                 * Call the onChange callback
+                 */
+                if (typeof self.options.onChange === 'function') {
+                    self.options.onChange(self.model);
+                }
+            }
+
+            /**
+             * Updates the image helper attributes
+             */
+            function updateHelper() {
+                var x = self.model.x + self.photoFrame.position().left;
+                var y = self.model.y + self.photoFrame.position().top;
+                /**
+                 * Clear
+                 */
+                self.imageHelperCanvasContext.clearRect(0, 0, self.imageHelperCanvas.width, self.imageHelperCanvas.height);
+                self.imageHelperCanvasContext.save();
+                self.imageHelperCanvasContext.globalCompositeOperation = "destination-over";
+                /**
+                 * Draw the helper
+                 */
+                self.imageHelperCanvasContext.beginPath();
+                self.imageHelperCanvasContext.rect(0, 0, self.imageHelperCanvas.width, self.imageHelperCanvas.height);
+                self.imageHelperCanvasContext.fillStyle = self.options.imageHelperColor;
+                self.imageHelperCanvasContext.fill('evenodd');
+                /**
+                 * Draw the image
+                 */
+                self.imageHelperCanvasContext.drawImage(self.model.imageSrc, x, y, self.model.width, self.model.height);
+                self.imageHelperCanvasContext.restore();
+            }
+
+            /**
+             * Creates the canvas for the image helper
+             */
+            function registerImageHelper() {
+                var canvas = document.createElement('canvas');
+                canvas.className = "canvas--helper";
+                canvas.width = self.photoHelper.outerWidth();
+                canvas.height = self.photoHelper.outerHeight();
+
+                self.photoHelper.prepend(canvas);
+
+                self.imageHelperCanvas = canvas;
+                self.imageHelperCanvasContext = canvas.getContext('2d');
+                self.imageHelperCanvasContext.mozImageSmoothingEnabled = false;
+                self.imageHelperCanvasContext.msImageSmoothingEnabled = false;
+                self.imageHelperCanvasContext.imageSmoothingEnabled = false;
+            }
+
+            /**
+             * Return the image cropped as Base64 data URL
+             */
+            function getAsDataURL(quality) {
+                if (!quality) {
+                    quality = 1;
+                }
+                return self.canvas.toDataURL(quality);
+            }
+        }
+    })(window, jQuery);
+
+
+    $(function () {
+
+        /**
+         * DEMO
+         */
+        var p = new profilePicture('.profile', null,
+            {
+                imageHelper: true,
+                onRemove: function (type) {
+                    $('.preview').hide().attr('src', '');
+                },
+                onError: function (type) {
+                    console.log('Error type: ' + type);
+                }
+            });
+
+
+        $('#previewBtn').on('click', function () {
+            $('.preview').show().attr('src', p.getAsDataURL());
+        });
+
+
+    });
+
+}
+// Lancement du script de ObjectFit
+objectFitImages('.fit-cover img');
+
+
+/* Detect the scroll of the page and animate the menu */
+$(window).on('scroll', function (e) {
+    var st = $(this).scrollTop();
+
+    if (st > 100) {
+        $("#th-global").addClass("is-scrolled");
+        $('.social-share').addClass('fadein');
+    }
+    else {
+        $("#th-global").removeClass("is-scrolled");
+        $('.social-share').removeClass('fadein');
+    }
+});
+
+
+var lastscrolltop = 0;
+var lastIsDirTop = 0;
+document.addEventListener('scroll', function () {
+    var st = $(document).scrollTop();
+    if (st < lastscrolltop && lastIsDirTop == 0) {
+        lastIsDirTop = 1;
+        $("#th-global").addClass('scrolldir-top', true);
+    }
+    if (st > lastscrolltop && lastIsDirTop == 1) {
+        lastIsDirTop = 0;
+        $("#th-global").removeClass('scrolldir-top', true);
+    }
+    lastscrolltop = st;
+});
+
+
+// Disabled CTA
+$('.pro-btn-disabled').on('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+});
+
+// Pour les compteurs dans les pages de détail
+var textDiscover = $('.pro-compt').first().text();
+$('.pro-compt').html(createCompt(textDiscover));
+
+function createCompt(textDiscover){
+    var textDiscoverWrapped = '';
+    var isNumber = false;
+    for (var i = 0; i != textDiscover.length; i++) {
+        if(textDiscover[i] == '0' && !isNumber) {
+            textDiscoverWrapped += '<span style="color: #c5c6c8;">' + textDiscover[i] + '</span>';
+        }
+        else {
+            if(textDiscover[i] != '-') {
+                isNumber = true;
+            }
+            textDiscoverWrapped += '<span>' + textDiscover[i] + '</span>';
+        }
+
+    }
+    return textDiscoverWrapped;
+}
+
+// Changer le texte du bouton Suivre ce Projet - Page Détail projet
+$("[href='#pro-follow-project']").click(function (e) {
+    if(!$(this).hasClass('pro-btn-disabled')){
+        e.preventDefault();
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active').text('Suivre ce projet');
+        }
+        else {
+            $(this).addClass('active').text('Projet Suivi');
+        }
+    }
+});
+
+
+if ($("[href='#backtop']").length) {
+    var scrollTrigger = 200, // px
+        backToTop = function () {
+            var scrollTop = $(window).scrollTop();
+            if (scrollTop > scrollTrigger) {
+                $("[href='#backtop']").addClass('show');
+            } else {
+                $("[href='#backtop']").removeClass('show');
+            }
+        };
+    backToTop();
+    $(window).on('scroll', function () {
+        backToTop();
+    });
+    $("[href='#backtop']").on('click', function (e) {
+        e.preventDefault();
+        $('html,body').animate({
+            scrollTop: 0
+        }, 700);
+    });
+}
+
+
+$("[href='#pro-onglet-account']").on('click', function (e) {
+    e.preventDefault();
+    $('#pro-onglet-activite').addClass('pro-hide');
+    $('#pro-onglet-account').removeClass('pro-hide');
+});
+
+$("[href='#pro-onglet-activite']").on('click', function (e) {
+    e.preventDefault();
+    $('#pro-onglet-activite').removeClass('pro-hide');
+    $('#pro-onglet-account').addClass('pro-hide');
+});
+
+
+$('.modal-dialog').each(function(){
+    new SimpleBar($(this)[0]);
+});
+$('a[href^="#pro-link"]').bind('click.smoothscroll',function (e) {
+    if(!$(this).hasClass('pro-btn-disabled')){
+        e.preventDefault();
+        var target = this.hash,
+            $target = $(target);
+
+        var pos = $target.offset().top - 120;
+
+        $('html, body').stop().animate( {
+            'scrollTop': pos
+        }, 600, 'swing', function () {
+            window.location.hash = pos;
+        } );
+    }
+} );
+/* --------------------------- */
+/* --------------------------- */
+
+/* SCRIPT POUR OWL CAROUSEL OPACIFY */
+
+/* --------------------------- */
+/* --------------------------- */
+
+function opacifySlider() {
+    $('.owl-opacify').on('translated.owl.carousel', function () {
+        var $el = $(this);
+        opacifyOffSlide($el);
+        $el.removeClass('translate');
+
+    }).on('translate.owl.carousel drag.owl.carousel', function () {
+        $(this).addClass('translate');
+    }).on('initialized.owl.carousel', function () {
+        var $el = $(this);
+        opacifyOffSlide($el);
+    });
+}
+opacifySlider();
+
+function opacifyOffSlide($el) {
+    var elOffset = $el.offset();
+    var left = elOffset.left;
+    var width = $el.width();
+    var right = left + width;
+
+    var slides = [];
+
+    $('.owl-item', $el).each(function () {
+        $slide = $(this);
+        var o = $slide.offset();
+        var w = $slide.width();
+
+        if (o.left < left) {
+            slides.push(this);
+        }
+        if (o.left + w > right) {
+            slides.push(this);
+        }
+    }).removeClass('opacify');
+
+    $(slides).addClass('opacify');
+
+}
+// End Change comportement OwlCarousel
+
+
+/**
+ * prend en charge automatiquement les options suivantes en balise data :
+ *
+ * items,
+ * loop,
+ * margin, center, autowidth, autoheight,
+ * nav, dots,
+ * autoplay, autoplayTimeout, autoplayHoverPause, autoplaySpeed
+ *
+ */
+
+
+$('.owl-cards').each(function () {
+
+    if ($(this).find('.item').length > 0) {
+        var _self = $(this);
+
+        var options = {
+            loop: false,
+            margin: 30,
+            dots: true,
+            nav: true,
+            items: 4,
+            // autoHeight:true,
+            autoWidth: true,
+            navText: ["<span class='icon-ico-chevron-left'></span>", "<span class='icon-ico-chevron-right'></span>"]
+        };
+
+        var data = _self.data();
+
+        $.each(data, function (key, data) {
+
+            if (key.match(/(items|loop|margin|center|autoWidth|autoheight|nav|dots|autoplay|autoplayspeed)/gi)) {
+                options[key] = data;
+            }
+
+        });
+        _self.on('initialized.owl.carousel', function (event) {
+            // Do something
+            $('.owl-stage', _self).attr('data-anim', 'top-stack');
+        });
+
+        _self.owlCarousel(options);
+    }
+
+});
+
+
+$('.owl-slider').each(function () {
+
+    var _self = $(this);
+
+    var options = {
+        items: 1,
+        loop: true,
+        singleItem: true,
+        margin: 0,
+        nav: true,
+        dots: true,
+        navText: ["", ""],
+        autoplay: false,
+        autoplayTimeout: 4000,
+    };
+
+    var data = _self.data();
+
+    $.each(data, function (key, data) {
+
+        if (key.match(/(items|loop|margin|center|autoWidth|autoheight|nav|dots|autoplay|autoplayspeed)/gi)) {
+            options[key] = data;
+        }
+
+    });
+
+    _self.on('initialized.owl.carousel', function (event) {
+        // Do something
+        $('.owl-stage', _self).attr('data-anim', 'top-stack');
+    });
+
+    _self.owlCarousel(options);
+
+});
+
+
+$('.owl-timeline').each(function () {
+
+    var _self = $(this);
+
+
+    var options = {
+            items: 3,
+            loop: false,
+            margin: 0,
+            startPosition: 1,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                992: {
+                    items: 3
+                },
+                1300: {
+                    items: 3
+                }
+            },
+            nav: true,
+            dots: false,
+            center: true,
+            mouseDrag: false,
+            touchDrag: false,
+            navText: ["<span class='icon-ico-chevron-left'></span>", "<span class='icon-ico-chevron-right'></span>"],
+            autoplay: false,
+            autoplayTimeout: 4000
+        }
+        ;
+
+    var data = _self.data();
+
+    $.each(data, function (key, data) {
+
+        if (key.match(/(items|loop|margin|center|autoWidth|autoheight|nav|dots|autoplay|autoplayspeed)/gi)) {
+            options[key] = data;
+        }
+
+    });
+
+    _self.on('initialized.owl.carousel', function (event) {
+        // Do something
+        $('.owl-stage', _self).attr('data-anim', 'top-stack');
+    });
+
+    _self.on('changed.owl.carousel', function (event) {
+        rangerSliderValue = event.item.index + 1;
+        if (rangerSliderValue < 1) {
+
+            rangerSliderValue = 1;
+        }
+        $('#myRange').val(rangerSliderValue);
+    });
+
+    _self.owlCarousel(options);
+
+    $('#myRange').on('change', function () {
+        _self.trigger('to.owl.carousel', (parseInt($('#myRange').val()) - 1));
+    });
+
+
+});
+function isIE(){
+    if (navigator.userAgent.match(/trident/gi) || navigator.appName == 'Microsoft Internet Explorer') {
+        return true;
+    }
+    return false;
+}
+
+function isTouchDevice() {
+    return 'ontouchstart' in document.documentElement;
+}
+
+function isNoHover(){
+    if(isTouchDevice() && document.body.clientWidth <= 1280){
+        return true;
+    }
+    return false;
+}
+
+if (isTouchDevice()) {
+    $('.lang > .sub-menu').addClass('sub-lang-mobile');
+    $('#lang-mobile').addClass('is-display');
+}
+
+
+var isiPad = navigator.userAgent.match(/iPad/i) != null;
+
+
+if (isiPad) {
+    $('body').addClass('on-ipad');
+}
+
+
+if (isIE()) {
+    document.getElementsByTagName('body')[0].className += ' ie';
+}
+
+if (isNoHover()) {
+    document.getElementsByTagName('body')[0].className += ' no-hover';
+}
 /*
 * Gestion des likes/dislikes
 */
-$(document).on("click", "[href$='-approuv'], [href$='like-pro']", function(e) {
+$(document).on("click", "[href$='-approuv'], [href$='like-pro']", function (e) {
 
     e.preventDefault();
     e.stopPropagation();
@@ -26537,7 +26710,7 @@ $(document).on("click", "[href$='-approuv'], [href$='like-pro']", function(e) {
     var element = $(this);
 
     // L'élément a t-il un affiche du compteur en texte ou en span ?
-    var counterType = $(this).attr('href').endsWith('-approuv') ? "span" : "text" ;
+    var counterType = $(this).attr('href').endsWith('-approuv') ? "span" : "text";
 
     // Récupération des attributs du like
     var title = $(this).data("title");
@@ -26556,11 +26729,11 @@ $(document).on("click", "[href$='-approuv'], [href$='like-pro']", function(e) {
             entityId: entityid,
             entityGroupId: entitygroupid
         },
-        function(obj) {
+        function (obj) {
             // En cas de succès, on effectue la modification des éléments visuels
             // selon la réponse et le type de l'élément
             if (obj.hasOwnProperty('success')) {
-                switch(obj['success']) {
+                switch (obj['success']) {
                     case "like added":
                         element.toggleClass('active');
                         if (counterType === "span") {
@@ -26638,7 +26811,7 @@ $(document).on("click", "[href$='-approuv'], [href$='like-pro']", function(e) {
 /*
 * Gestion des participation à un événement
 */
-$(document).on("click", "[href='#Participe'], span[name^='#Participe']", function(e) {
+$(document).on("click", "[href='#Participe'], span[name^='#Participe']", function (e) {
 
     e.preventDefault();
     e.stopPropagation();
@@ -26657,7 +26830,7 @@ $(document).on("click", "[href='#Participe'], span[name^='#Participe']", functio
         var nbDigits = stringNum.length;
         stringNum = "0".repeat(6 - nbDigits) + stringNum;
         for (i = 1; i <= 6; i++) {
-            $('.pro-compt span:nth-child('+i+')').text(stringNum[i-1]);
+            $('.pro-compt span:nth-child(' + i + ')').text(stringNum[i - 1]);
         }
     }
 
@@ -26668,11 +26841,11 @@ $(document).on("click", "[href='#Participe'], span[name^='#Participe']", functio
             eventId: eventid,
             groupId: groupid
         },
-        function(obj) {
+        function (obj) {
             // En cas de succès, on effectue la modification des éléments visuels
             // selon la réponse et le type de l'élément
             if (obj.hasOwnProperty('success')) {
-                switch(obj['success']) {
+                switch (obj['success']) {
                     case "participation added":
                         element.toggleClass('active');
                         if (elementType === "a")
@@ -26712,7 +26885,7 @@ $(document).on("click", "[href='#Participe'], span[name^='#Participe']", functio
 /*
 * Demande de signature du pacte
 */
-$(document).on("click", "[name='#Pact-sign']", function(e) {
+$(document).on("click", "[name='#Pact-sign']", function (e) {
     e.preventDefault();
     e.stopPropagation();
     $("#myModal").modal();
@@ -26721,7 +26894,7 @@ $(document).on("click", "[name='#Pact-sign']", function(e) {
 /*
 * Demande de signature du pacte
 */
-$(document).on("click", "[name='#IsBanned']", function(e) {
+$(document).on("click", "[name='#IsBanned']", function (e) {
     e.preventDefault();
     e.stopPropagation();
     $("#modalBanned").modal();
@@ -26730,7 +26903,7 @@ $(document).on("click", "[name='#IsBanned']", function(e) {
 /*
 * Gestion des suivi de projets
 */
-$(document).on("click", "[href='#Suivre'], span[name^='#Suivre']", function(e) {
+$(document).on("click", "[href='#Suivre'], span[name^='#Suivre']", function (e) {
 
     e.preventDefault();
     e.stopPropagation();
@@ -26749,7 +26922,7 @@ $(document).on("click", "[href='#Suivre'], span[name^='#Suivre']", function(e) {
         var nbDigits = stringNum.length;
         stringNum = "0".repeat(6 - nbDigits) + stringNum;
         for (i = 1; i <= 6; i++) {
-            $('.pro-compt span:nth-child('+i+')').text(stringNum[i-1]);
+            $('.pro-compt span:nth-child(' + i + ')').text(stringNum[i - 1]);
         }
     }
 
@@ -26760,11 +26933,11 @@ $(document).on("click", "[href='#Suivre'], span[name^='#Suivre']", function(e) {
             projectId: projectid,
             groupId: groupid
         },
-        function(obj) {
+        function (obj) {
             // En cas de succès, on effectue la modification des éléments visuels
             // selon la réponse et le type de l'élément
             if (obj.hasOwnProperty('success')) {
-                switch(obj['success']) {
+                switch (obj['success']) {
                     case "follower added":
                         element.toggleClass('active');
                         element.text("Projet suivi");
@@ -26800,8 +26973,8 @@ $(document).on("click", "[href='#Suivre'], span[name^='#Suivre']", function(e) {
 });
 
 /**
-* Retourne une map Leaflet configurée pour la plateforme citoyenne
-*/
+ * Retourne une map Leaflet configurée pour la plateforme citoyenne
+ */
 function getLeafletMap() {
 
     //Création de la carte au centre de strasbourg
@@ -26829,10 +27002,10 @@ function getLeafletMap() {
 
 
 /**
-* Retourne l'icone de marqueur selon le type de l'entité
-*/
+ * Retourne l'icone de marqueur selon le type de l'entité
+ */
 function getMarkerIcon(entityType) {
-    
+
     var entityType = (typeof entityType !== 'undefined') ? entityType : "default";
 
     switch (entityType) {
@@ -26900,23 +27073,23 @@ function getMarkerIcon(entityType) {
 
 
 /**
-* Retourne le marqueurs de leaflet sur le listing des événements
-*/
+ * Retourne le marqueurs de leaflet sur le listing des événements
+ */
 function getEventListingMarker(mercators, link, publishDate, place, title) {
     var eventMarkerIcon = getMarkerIcon("event");
     var marker = L.marker(mercators, {icon: eventMarkerIcon})
 
     marker.bindPopup(
         '<a target="_blank" href="' + link + '" id="map-inte-container">' +
-            '<div class="map-inte-content">' +
-                '<div class="map-inte-header">' +
-                    '<span class="pro-time">' + publishDate + '</time></span>' +
-                    '<p>' + place + '</p>' +
-                '</div>' +
-                '<div class="map-inte-content-text"><h3>' + title + '</h3>' +
-                    '<span class="pro-btn-yellow">En savoir plus</span>' +
-                '</div>' +
-            '</div> ' +
+        '<div class="map-inte-content">' +
+        '<div class="map-inte-header">' +
+        '<span class="pro-time">' + publishDate + '</time></span>' +
+        '<p>' + place + '</p>' +
+        '</div>' +
+        '<div class="map-inte-content-text"><h3>' + title + '</h3>' +
+        '<span class="pro-btn-yellow">En savoir plus</span>' +
+        '</div>' +
+        '</div> ' +
         '</a>'
     );
 
@@ -26924,30 +27097,30 @@ function getEventListingMarker(mercators, link, publishDate, place, title) {
 }
 
 /**
-* Retourne le marqueurs de leaflet d'un projet sur la carte intéractive
-*/
+ * Retourne le marqueurs de leaflet d'un projet sur la carte intéractive
+ */
 function getProjectMarker(project, mercators) {
     var projectMarkerIcon = getMarkerIcon("project");
     var marker = L.marker(mercators, {icon: projectMarkerIcon});
-    
+
     marker.bindPopup(
         '<div class="item pro-bloc-card-projet" data-linkall="a">' +
-            '<a href="' + project.link + '"><div class="pro-header-projet">' +
-                '<p>Quartier(s) concerné(s) :</p><p><strong>' + project.districtLabel + '</strong></p></div> ' +
-                '<div class="pro-content-projet"><h3>' + project.title + '</h3>' +
-                '<div class="pro-wrap-thematique"><span>' + project.thematicsLabel + '</span></div></div> ' +
-                '<div class="pro-footer-projet"><p><strong>' + project.nbFollowers + '</strong> Citoyens-nes suivent ce projet</p></div> ' +
-            '</a>' + 
+        '<a href="' + project.link + '"><div class="pro-header-projet">' +
+        '<p>Quartier(s) concerné(s) :</p><p><strong>' + project.districtLabel + '</strong></p></div> ' +
+        '<div class="pro-content-projet"><h3>' + project.title + '</h3>' +
+        '<div class="pro-wrap-thematique"><span>' + project.thematicsLabel + '</span></div></div> ' +
+        '<div class="pro-footer-projet"><p><strong>' + project.nbFollowers + '</strong> Citoyens-nes suivent ce projet</p></div> ' +
+        '</a>' +
         '</div>'
-        ,{maxHeight: 240, minWidth: 330, maxWidth: 350}
+        , {maxHeight: 240, minWidth: 330, maxWidth: 350}
     );
 
     return marker;
 }
 
 /**
-* Retourne le marqueurs de leaflet d'une particiaption sur la carte intéractive
-*/
+ * Retourne le marqueurs de leaflet d'une particiaption sur la carte intéractive
+ */
 function getParticipationMarker(participation, mercators) {
 
     var participationMarkerIcon = getMarkerIcon("participation");
@@ -26956,48 +27129,48 @@ function getParticipationMarker(participation, mercators) {
     var footerContent = '';
 
     if (participation.statusCode === "soon_arrived") {
-        footerContent = 
-            '<div class="pro-footer-participation pro-participation-soon">' + 
-                '<div class="pro-avis"><span class="pro-like">' + participation.nbLikes + '</span><span class="pro-dislike">' + participation.nbDislikes + '</span></div>' + 
-                '<p>Bientôt disponible</p>' +
+        footerContent =
+            '<div class="pro-footer-participation pro-participation-soon">' +
+            '<div class="pro-avis"><span class="pro-like">' + participation.nbLikes + '</span><span class="pro-dislike">' + participation.nbDislikes + '</span></div>' +
+            '<p>Bientôt disponible</p>' +
             '</div>';
     } else if (participation.statusCode === "finished") {
-        footerContent = 
-            '<div class="pro-footer-participation pro-participation-deadline">' + 
-                '<div class="pro-avis"><span class="pro-like">' + participation.nbLikes + '</span><span class="pro-dislike">' + participation.nbDislikes + '</span></div>' + 
-                '<p>Participation terminée, merci de votre participation</p>' +
+        footerContent =
+            '<div class="pro-footer-participation pro-participation-deadline">' +
+            '<div class="pro-avis"><span class="pro-like">' + participation.nbLikes + '</span><span class="pro-dislike">' + participation.nbDislikes + '</span></div>' +
+            '<p>Participation terminée, merci de votre participation</p>' +
             '</div>';
     } else {
         footerContent = '<div class="pro-footer-participation"><span class="pro-form-style">Réagissez...</span></div>';
     }
 
-    var colorHack = 
+    var colorHack =
         '<style style="display: none" >' +
-            '.type-color-hexa-' + participation.typeColor + '>div:before {' +
-                'background:#'+ participation.typeColor + ' !important;' +
-            '}' +
+        '.type-color-hexa-' + participation.typeColor + '>div:before {' +
+        'background:#' + participation.typeColor + ' !important;' +
+        '}' +
         '</style>';
 
     marker.bindPopup(
         '<div class="pro-vignette-map-inte">' +
-            '<a href="' + participation.link + '" class="item pro-bloc-card-participation pro-theme-information type-color-hexa-' + participation.typeColor + '" data-linkall="a">' +
-            '<div>' +
-                '<div class="pro-header-participation">' + 
-                    '<figure><img src="' + participation.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
-                    '<p>Participation publiée par :</p><p><strong>' + participation.author + '</strong></p>' +
-                    '<div class="pro-info-top-right"><span class="pro-encart-theme" style="background : #' + participation.typeColor + '">' + participation.typeLabel + '</span></div>' +
-                '</div>' +
-                '<div class="pro-content-participation">' +
-                    '<div class="pro-meta"><span>' + participation.districtsLabel + '</span><span>' + participation.thematicsLabel + '</span>' +
-                    '<span>' + participation.statusLabel + '</span><span>' + participation.projectName + '</span></div>' +
-                    '<h3>' + participation.title + '</h3>' +
-                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + participation.createDate + '</time>' +
-                    ' / <span class="pro-duree">' + participation.statusDetailLabel + '</span></span></div>' +
-                    footerContent +
-            '</div></a>' + 
-        '</div>' + 
+        '<a href="' + participation.link + '" class="item pro-bloc-card-participation pro-theme-information type-color-hexa-' + participation.typeColor + '" data-linkall="a">' +
+        '<div>' +
+        '<div class="pro-header-participation">' +
+        '<figure><img src="' + participation.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/></figure>' +
+        '<p>Participation publiée par :</p><p><strong>' + participation.author + '</strong></p>' +
+        '<div class="pro-info-top-right"><span class="pro-encart-theme" style="background : #' + participation.typeColor + '">' + participation.typeLabel + '</span></div>' +
+        '</div>' +
+        '<div class="pro-content-participation">' +
+        '<div class="pro-meta"><span>' + participation.districtsLabel + '</span><span>' + participation.thematicsLabel + '</span>' +
+        '<span>' + participation.statusLabel + '</span><span>' + participation.projectName + '</span></div>' +
+        '<h3>' + participation.title + '</h3>' +
+        '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + participation.createDate + '</time>' +
+        ' / <span class="pro-duree">' + participation.statusDetailLabel + '</span></span></div>' +
+        footerContent +
+        '</div></a>' +
+        '</div>' +
         colorHack
-        ,{maxHeight: 280, minWidth: 477, maxWidth: 487}
+        , {maxHeight: 280, minWidth: 477, maxWidth: 487}
     );
 
     return marker;
@@ -27005,8 +27178,8 @@ function getParticipationMarker(participation, mercators) {
 }
 
 /**
-* Retourne le marqueurs de leaflet d'un événement sur la carte intéractive
-*/
+ * Retourne le marqueurs de leaflet d'un événement sur la carte intéractive
+ */
 function getEventMarker(event) {
     //mercators, link, publishDate, place, title, isUserPart, nbPart) {
 
@@ -27016,29 +27189,29 @@ function getEventMarker(event) {
     var activePart = event.isUserPart ? "active" : "";
 
     marker.bindPopup(
-        '<div class="pro-vignette-map-inte">' + 
-            '<a href="' + event.link + '" title="lien de la page" class="pro-bloc-card-event"><div>' +
-                '<div class="pro-header-event">' +
-                    '<span class="pro-ico"><span class="icon-ico-conference"></span></span>' +
-                    '<span class="pro-time">' + event.firstDate + '</time></span>' +
-                    '<p>À : ' + event.completeAddress + '</p>' +
-                    '<h3>' + event.title.fr_FR + '</h3>' +
-                '</div>' +
-                '<div class="pro-footer-event">' +
-                    '<span class="pro-btn-action ' + activePart + '">Je participe</span>' +
-                    '<span class="pro-number"><strong>' + event.nbPart + '</strong> Participant(s)</span>' +
-                '</div>' +
-            '</div></a>' +
+        '<div class="pro-vignette-map-inte">' +
+        '<a href="' + event.link + '" title="lien de la page" class="pro-bloc-card-event"><div>' +
+        '<div class="pro-header-event">' +
+        '<span class="pro-ico"><span class="icon-ico-conference"></span></span>' +
+        '<span class="pro-time">' + event.firstDate + '</time></span>' +
+        '<p>À : ' + event.completeAddress + '</p>' +
+        '<h3>' + event.title.fr_FR + '</h3>' +
+        '</div>' +
+        '<div class="pro-footer-event">' +
+        '<span class="pro-btn-action ' + activePart + '">Je participe</span>' +
+        '<span class="pro-number"><strong>' + event.nbPart + '</strong> Participant(s)</span>' +
+        '</div>' +
+        '</div></a>' +
         '</div>'
-        ,{maxHeight: 270, minWidth: 441, maxWidth: 451}
+        , {maxHeight: 270, minWidth: 441, maxWidth: 451}
     );
 
     return marker;
 }
 
 /**
-* Retourne le marqueurs de leaflet d'une pétition sur la carte intéractive
-*/
+ * Retourne le marqueurs de leaflet d'une pétition sur la carte intéractive
+ */
 function getPetitionMarker(petition, mercators) {
 
     var petitionMarkerIcon = getMarkerIcon("petition");
@@ -27046,25 +27219,25 @@ function getPetitionMarker(petition, mercators) {
 
     marker.bindPopup(
         '<div class="item pro-bloc-card-petition"><a href="' + petition.link + '">' +
-            '<div class="pro-header-petition">' +
-                '<figure role="group">' +
-                    '<img src="' + petition.authorImageURL + '" width="40" height="40" alt="Image petition"/>' +
-                '</figure>' +
-                '<p>Pétition publiée par :</p><p><strong>' + petition.author + '</strong></p>' +
-            '</div>' +
-            '<div class="pro-content-petition">' +
-                '<h3>' + petition.title + '</h3><p>Pétition adressée à <u>Ville de Strasbourg</u></p>' +
-                '<span class="pro-time">Publiée le <time datetime="' + petition.publicationDate + '">' + petition.publicationDate +
-                '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
-            '</div> ' +
-            '<div class="pro-footer-petition">' +
-                '<div class="pro-progress-bar">' +
-                    '<div class="pro-progress-container"><div style="width:' + petition.pourcentageSignature +'%"></div>' +
-                '</div>' +
-                '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p> ' +
-            '</div>' +
+        '<div class="pro-header-petition">' +
+        '<figure role="group">' +
+        '<img src="' + petition.authorImageURL + '" width="40" height="40" alt="Image petition"/>' +
+        '</figure>' +
+        '<p>Pétition publiée par :</p><p><strong>' + petition.author + '</strong></p>' +
+        '</div>' +
+        '<div class="pro-content-petition">' +
+        '<h3>' + petition.title + '</h3><p>Pétition adressée à <u>Ville de Strasbourg</u></p>' +
+        '<span class="pro-time">Publiée le <time datetime="' + petition.publicationDate + '">' + petition.publicationDate +
+        '</time> / <span class="pro-duree">' + petition.proDureeFR + '</span></span>' +
+        '</div> ' +
+        '<div class="pro-footer-petition">' +
+        '<div class="pro-progress-bar">' +
+        '<div class="pro-progress-container"><div style="width:' + petition.pourcentageSignature + '%"></div>' +
+        '</div>' +
+        '<p class="pro-txt-progress"><strong>' + petition.nombreSignature + '</strong> Signataire(s) sur ' + petition.quotaSignature + ' nécessaires</p> ' +
+        '</div>' +
         '</div></a></div>'
-        ,{maxHeight: 240, minWidth: 330, maxWidth: 350}
+        , {maxHeight: 240, minWidth: 330, maxWidth: 350}
     );
 
     return marker;
@@ -27082,19 +27255,19 @@ function getSaisineMarker(saisineObservatoire, mercators) {
     console.log("saisine marker. createDate=" + saisineObservatoire.createDate);
     marker.bindPopup(
         '<div class="item pro-bloc-card-petition"><a href="' + saisineObservatoire.link + '">' +
-            '<div class="pro-header-petition">' +
-                '<figure role="group">' +
-                    '<img src="' + saisineObservatoire.authorImageURL + '" width="40" height="40" alt="Image saisine"/>' +
-                '</figure>' +
-                '<p>Saisine publiée par :</p><p><strong>' + saisineObservatoire.author + '</strong></p>' +
-            '</div>' +
-            '<div class="pro-content-petition">' +
-                '<h3>' + saisineObservatoire.title + '</h3><p>Saisine adressée à <u>Ville de Strasbourg</u></p>' +
-                '<span class="pro-time">Publiée le <time datetime="' + saisineObservatoire.createDate + '">' + saisineObservatoire.createDate +
-                '</time></span>' +
-            '</div> ' +
-            '</a></div>'
-        ,{maxHeight: 240, minWidth: 330, maxWidth: 350}
+        '<div class="pro-header-petition">' +
+        '<figure role="group">' +
+        '<img src="' + saisineObservatoire.authorImageURL + '" width="40" height="40" alt="Image saisine"/>' +
+        '</figure>' +
+        '<p>Saisine publiée par :</p><p><strong>' + saisineObservatoire.author + '</strong></p>' +
+        '</div>' +
+        '<div class="pro-content-petition">' +
+        '<h3>' + saisineObservatoire.title + '</h3><p>Saisine adressée à <u>Ville de Strasbourg</u></p>' +
+        '<span class="pro-time">Publiée le <time datetime="' + saisineObservatoire.createDate + '">' + saisineObservatoire.createDate +
+        '</time></span>' +
+        '</div> ' +
+        '</a></div>'
+        , {maxHeight: 240, minWidth: 330, maxWidth: 350}
     );
 
     return marker;
@@ -27102,80 +27275,77 @@ function getSaisineMarker(saisineObservatoire, mercators) {
 }
 
 /**
-* Retourne le marqueurs de leaflet d'un budget participatif sur la carte intéractive
-*/
+ * Retourne le marqueurs de leaflet d'un budget participatif sur la carte intéractive
+ */
 function getBudgetParticipatifMarker(budgetParticipatif, mercators) {
 
     var budgetParticipatifMarkerIcon = getMarkerIcon("budget-participatif");
     var marker = L.marker(mercators, {icon: budgetParticipatifMarkerIcon});
-	
-	var footer = "";
-	var cssClassBPStatus = "";
-	
-	if(budgetParticipatif.isNotDoable)
-	{
-		footer = "<p>Ce projet a été étudié et déclaré \"" + budgetParticipatif.BPStatus + "\"</p>";
-		cssClassBPStatus = "pro-theme-non-faisable";
-	}
-	else
-	{
+
+    var footer = "";
+    var cssClassBPStatus = "";
+
+    if (budgetParticipatif.isNotDoable) {
+        footer = "<p>Ce projet a été étudié et déclaré \"" + budgetParticipatif.BPStatus + "\"</p>";
+        cssClassBPStatus = "pro-theme-non-faisable";
+    } else {
 
         footer = "<p><strong>" + budgetParticipatif.nbSupports + "</strong> vote(s) pour ce projet</p>";
         cssClassBPStatus = "pro-theme-faisable";
-	}
-	
+    }
+
     marker.bindPopup(
         '<div class="item pro-bloc-card-budget ' + cssClassBPStatus + '">' +
-            '<a href="' + budgetParticipatif.link + '">' +
-                '<div class="pro-header-budget">' +
-                    '<figure role="group">' + 
-                        '<img src="' + budgetParticipatif.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' + 
-                    '</figure>' +
-                    '<p>Projet déposé par :</p><p><strong>' + budgetParticipatif.author + '</strong></p>' +
-                    '<div class="pro-info-top-right">' + 
-                        '<span class="pro-encart-theme" style="background:#' + budgetParticipatif.BPStatusColor + ';">' + budgetParticipatif.BPStatus + '</span>' + 
-                    '</div>' + 
-                '</div>' +
-                '<div class="pro-content-budget">' + 
-                    '<h3>' + budgetParticipatif.title + '</h3>' + 
-                    '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + budgetParticipatif.publicationDate + '</time></span>' + 
-                '</div> ' +            
-                '<div class="pro-footer-budget">' + footer +                    
-                '</div>' +
-            '</a>' +
+        '<a href="' + budgetParticipatif.link + '">' +
+        '<div class="pro-header-budget">' +
+        '<figure role="group">' +
+        '<img src="' + budgetParticipatif.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' +
+        '</figure>' +
+        '<p>Projet déposé par :</p><p><strong>' + budgetParticipatif.author + '</strong></p>' +
+        '<div class="pro-info-top-right">' +
+        '<span class="pro-encart-theme" style="background:#' + budgetParticipatif.BPStatusColor + ';">' + budgetParticipatif.BPStatus + '</span>' +
+        '</div>' +
+        '</div>' +
+        '<div class="pro-content-budget">' +
+        '<h3>' + budgetParticipatif.title + '</h3>' +
+        '<span class="pro-time">Publiée le <time datetime="2018-01-10">' + budgetParticipatif.publicationDate + '</time></span>' +
+        '</div> ' +
+        '<div class="pro-footer-budget">' + footer +
+        '</div>' +
+        '</a>' +
         '</div>'
-        ,{maxHeight: 350, minWidth: 330, maxWidth: 350}
+        , {maxHeight: 350, minWidth: 330, maxWidth: 350}
     );
 
     return marker;
 }
 
 /**
-* Retourne le marqueurs de leaflet d'une initiative sur la carte intéractive
-*/
+ * Retourne le marqueurs de leaflet d'une initiative sur la carte intéractive
+ */
 function getInitiativeMarker(initiative, mercators) {
 
     var initiativeMarkerIcon = getMarkerIcon("initiative");
     var marker = L.marker(mercators, {icon: initiativeMarkerIcon});
 
     marker.bindPopup(
-        '<div class="item pro-bloc-card-initiative">' + 
-            '<a href="' + initiative.link + '">' + 
-                '<div class="wrapper-card-initiative"><div> ' +
-                '<div class="pro-header-initiative">' + 
-                    '<figure role="group"><img src="' + initiative.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
-                    '<p>Atelier publié par :</p><p><strong>' + initiative.author + '</strong></p>' +
-                '</div> ' +
-                '<div class="pro-content-initiative">' +
-                    '<h3>' + initiative.title + '</h3>' +
-                    '<span class="pro-time">Publié le <time datetime="' + initiative.unformatedPublishedDate + '">' + initiative.publishedDate + '</time></span>' +
-                '</div> ' + 
-                '</div></div>' +
-                '<div class="pro-footer-initiative"><div class="pro-avis"><span>' + initiative.nbHelps + '</span></div><p>Citoyens-nes ont proposé leur aide</p>' +
-                '</div>' +
-            '</a>' +
+        '<div class="item pro-bloc-card-initiative">' +
+        '<a href="' + initiative.link + '">' +
+        '<div class="wrapper-card-initiative"><div> ' +
+        '<div class="pro-header-initiative">' +
+        '<figure role="group"><img src="' + initiative.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
+        '<p>Atelier publié par :</p><p><strong>' + initiative.author + '</strong></p>' +
+        '</div> ' +
+        '<div class="pro-content-initiative">' +
+        '<h3>' + initiative.title + '</h3>' +
+        '<span class="pro-time">Publié le <time datetime="' + initiative.unformatedPublishedDate + '">' + initiative.publishedDate + '</time></span>' +
+        '</div> ' +
+        '</div></div>' +
+        '<div class="pro-footer-initiative"><div class="pro-avis"><span>' + initiative.nbHelps + '</span></div><p>Citoyens-nes ont proposé leur aide</p>' +
+        '</div>' +
+        '</a>' +
         '</div>'
-        ,{maxHeight: 350, minWidth: 330, maxWidth: 350}
+        , {maxHeight: 350, minWidth: 330, maxWidth: 350}
     );
 
     return marker;
@@ -27183,85 +27353,85 @@ function getInitiativeMarker(initiative, mercators) {
 }
 
 /**
-* Création de la vignette vidéo
-* @return
-*/
-function createVideo(video){
+ * Création de la vignette vidéo
+ * @return
+ */
+function createVideo(video) {
     var vignette =
         '<div class="col-md-4 col-sm-6 col-xs-12">' +
-            '<div class="pro-card pro-card-video vignette" data-linkall="> a">' +
-                '<div class="pro-header">' +
-                    '<figure class="fit-cover" role="group">' +
-                        '<img alt="' + video.title["fr_FR"] + '" width="280" height="175" src="' + video.imageURL + (video.imageURL.includes('?') ? '&' : '?') + 'imagePreview=1" loading="lazy">' +
-                    '</figure>' +
-                    '<span class="icon-ico-lecteur"></span>' +
-                '</div>' +
-                '<div class="pro-meta-avis">' +
-                    '<div class="pro-avis">' +
-                        '<a href="#pro-avis-like-pro" class="pro-like"' +
-                            'data-typeid="3" ' +
-                            'data-isdislike="false"' +
-                            'data-title="' + video.title["fr_FR"] + '"' +
-                            'data-entityid="' + video.id + '"' +
-                            'data-entitygroupid="' + video.groupId + '">' +
-                            video.nbLikes +
-                        '</a>' +
-                        '<a href="#pro-avis-dislike-pro" class="pro-dislike"' +
-                            'data-typeid="3" ' +
-                            'data-isdislike="true"' +
-                            'data-title="' + video.title["fr_FR"] + '"' +
-                            'data-entityid="' + video.id + '"' +
-                            'data-entitygroupid="' + video.groupId + '">' +
-                            video.nbDislikes +
-                        '</a>' +
-                    '</div>';
-                    if (video.nbViews != ""){
-                        vignette +=
-                        '<span class="pro-view">' +
-                            video.nbViews + ' vues' +
-                        '</span>';
-                    }
-                vignette +=
-                '</div>' +
-                '<a href="' + homeURL + 'detail-video/-/entity/id/' + video.id + '" title="Vers la page ' + video.title["fr_FR"] + '" class="pro-link-all"><h3>' + video.title["fr_FR"] + '</h3></a>' +
-            '</div>' +
+        '<div class="pro-card pro-card-video vignette" data-linkall="> a">' +
+        '<div class="pro-header">' +
+        '<figure class="fit-cover" role="group">' +
+        '<img alt="' + video.title["fr_FR"] + '" width="280" height="175" src="' + video.imageURL + (video.imageURL.includes('?') ? '&' : '?') + 'imagePreview=1" loading="lazy">' +
+        '</figure>' +
+        '<span class="icon-ico-lecteur"></span>' +
+        '</div>' +
+        '<div class="pro-meta-avis">' +
+        '<div class="pro-avis">' +
+        '<a href="#pro-avis-like-pro" class="pro-like"' +
+        'data-typeid="3" ' +
+        'data-isdislike="false"' +
+        'data-title="' + video.title["fr_FR"] + '"' +
+        'data-entityid="' + video.id + '"' +
+        'data-entitygroupid="' + video.groupId + '">' +
+        video.nbLikes +
+        '</a>' +
+        '<a href="#pro-avis-dislike-pro" class="pro-dislike"' +
+        'data-typeid="3" ' +
+        'data-isdislike="true"' +
+        'data-title="' + video.title["fr_FR"] + '"' +
+        'data-entityid="' + video.id + '"' +
+        'data-entitygroupid="' + video.groupId + '">' +
+        video.nbDislikes +
+        '</a>' +
+        '</div>';
+    if (video.nbViews != "") {
+        vignette +=
+            '<span class="pro-view">' +
+            video.nbViews + ' vues' +
+            '</span>';
+    }
+    vignette +=
+        '</div>' +
+        '<a href="' + homeURL + 'detail-video/-/entity/id/' + video.id + '" title="Vers la page ' + video.title["fr_FR"] + '" class="pro-link-all"><h3>' + video.title["fr_FR"] + '</h3></a>' +
+        '</div>' +
         '</div>';
 
     return vignette;
 }
 
 /**
-* Création de la vignette projet
+ * Création de la vignette projet
  * @return
-*/
-function createProject(project){
+ */
+function createProject(project) {
     var vignette =
         '<div class="col-md-4 col-sm-6 col-xs-12">' +
-            '<div class="item bloc-card-projet vignette">' +
-                '<a href="' + homeURL + project.detailURL + '" title="lien de la page">' +
-                    '<div class="img">' +
-                        '<figure role="group">' +
-                            '<img src="' + project.imageURL + (project.imageURL.includes('?') ? '&' : '?') + 'imagePreview=1" loading="lazy" alt="Image projet" width="360" height="242" class="fit-cover"/>' +
-                        '</figure>' +
-                        '<span>Voir le projet</span>' +
-                    '</div>' +
-                    '<div class="content">' +
-                        '<span class="location">' + project.districtLabel + '</span>' +
-                        '<h3>' + project.title + '</h3>' +
-                        '<div class="pro-wrap-thematique">' +
-                            '<!-- Liste des thématiques de la participation -->';
-                            for(var i = 0 ; i < project.jsonThematicCategoriesTitle.length ; i++){
-                                vignette += '<span>' + project.jsonThematicCategoriesTitle[i]["fr_FR"] + '</span>';
+        '<div class="item bloc-card-projet vignette">' +
+        '<a href="' + homeURL + project.detailURL + '" title="lien de la page">' +
+        '<div class="img">' +
+        '<figure role="group">' +
+        '<img src="' + project.imageURL + (project.imageURL.includes('?') ? '&' : '?') + 'imagePreview=1" loading="lazy" alt="Image projet" width="360" height="242" class="fit-cover"/>' +
+        '</figure>' +
+        '<span>Voir le projet</span>' +
+        '</div>' +
+        '<div class="content">' +
+        '<span class="location">' + project.districtLabel + '</span>' +
+        '<h3>' + project.title + '</h3>' +
+        '<div class="pro-wrap-thematique">' +
+        '<!-- Liste des thématiques de la participation -->';
+    for (var i = 0; i < project.jsonThematicCategoriesTitle.length; i++) {
+        vignette += '<span>' + project.jsonThematicCategoriesTitle[i]["fr_FR"] + '</span>';
 
-                            }
-    vignette +=         '</div>' +
-                    '</div>' +
-                '</a>' +
-                '<ul>' +
-                    '<li><a href="' + homeURL + project.detailURL + '#pro-link-participation" title="lien de la page" tabindex="-1">' + project.nbParticipations + ' démarche(s) publiée(s)</a></li>' +
-                    '<li><a href="' + homeURL + project.detailURL + '#pro-link-evenement" title="lien de la page" tabindex="-1">' + project.nbEvents + ' Événement(s) à venir</a></li>' +
-                '</ul>' +
-            '</div>' +
+    }
+    vignette += '</div>' +
+        '</div>' +
+        '</a>' +
+        '<ul>' +
+        '<li><a href="' + homeURL + project.detailURL + '#pro-link-participation" title="lien de la page" tabindex="-1">' + project.nbParticipations + ' démarche(s) publiée(s)</a></li>' +
+        '<li><a href="' + homeURL + project.detailURL + '#pro-link-evenement" title="lien de la page" tabindex="-1">' + project.nbEvents + ' Événement(s) à venir</a></li>' +
+        '</ul>' +
+        '</div>' +
         '</div>';
     return vignette;
 }
@@ -27388,8 +27558,10 @@ function getParticipationStatus(participation, statusCode) {
 function createParticipation(participation) {
 
 
-
-    const { status: participationStatus, duration: proDuree } = getParticipationStatus(participation, participation.statusCode);
+    const {
+        status: participationStatus,
+        duration: proDuree
+    } = getParticipationStatus(participation, participation.statusCode);
 
     let vignette = `
     <div class="item pro-bloc-card-participation vignette type-color-hexa-${participation.typeColor}" data-linkall="a">
@@ -27456,60 +27628,60 @@ function createParticipation(participation) {
 
 
 /**
-* Création de la vignette event (agenda)
+ * Création de la vignette event (agenda)
  * @return
-*/
-function createAgenda(agenda){
+ */
+function createAgenda(agenda) {
     debugger;
     var vignette =
-    '<div class="vignette">' +
-        '<a href="' + homeURL + 'detail-evenement/-/entity/id/' + agenda.id + '/' + agenda.normalizedTitle + '" title="lien de la page" class="item pro-bloc-card-event"' + 
-            'data-lat="' + agenda.mercatorY + '"' +  
-            'data-lng="' + agenda.mercatorX + '"' + 
-        '>' + 
-            '<div>' + 
-                '<div class="pro-header-event">' + 
-                    '<span class="pro-ico"><span class="icon-ico-debat"></span></span>' + 
-                    '<span class="pro-time"><time>' + agenda.eventScheduleDisplay + '</time></span>' + 
-                    '<p>À : ' + agenda.placeAlias + '</p>' + 
-                    '<h3>' + agenda.title["fr_FR"] + '</h3>' + 
-                '</div>' + 
-                '<div class="pro-footer-event">' + 
-                    '<span class="pro-number"><strong>' + agenda.nbPart + '</strong> Participant(s)</span>' + 
-                '</div>' + 
-            '</div>' + 
+        '<div class="vignette">' +
+        '<a href="' + homeURL + 'detail-evenement/-/entity/id/' + agenda.id + '/' + agenda.normalizedTitle + '" title="lien de la page" class="item pro-bloc-card-event"' +
+        'data-lat="' + agenda.mercatorY + '"' +
+        'data-lng="' + agenda.mercatorX + '"' +
+        '>' +
+        '<div>' +
+        '<div class="pro-header-event">' +
+        '<span class="pro-ico"><span class="icon-ico-debat"></span></span>' +
+        '<span class="pro-time"><time>' + agenda.eventScheduleDisplay + '</time></span>' +
+        '<p>À : ' + agenda.placeAlias + '</p>' +
+        '<h3>' + agenda.title["fr_FR"] + '</h3>' +
+        '</div>' +
+        '<div class="pro-footer-event">' +
+        '<span class="pro-number"><strong>' + agenda.nbPart + '</strong> Participant(s)</span>' +
+        '</div>' +
+        '</div>' +
         '</a>' +
-    '</div>';
+        '</div>';
 
     return vignette;
 }
 
 /**
-* Création de la vignette Atelier projet
+ * Création de la vignette Atelier projet
  * @return
-*/
-function createProjectWorkshop(projectWorkshop){
+ */
+function createProjectWorkshop(projectWorkshop) {
     var vignette =
-    '<div class="col-md-3 col-sm-6 col-xs-12 vignette">' + 
-        '<a href="' + projectWorkshop.detailURL + '" title="Lien vers la page (' + projectWorkshop.title + ')" class="pro-bloc-actu">' +          
-            '<div class="img">' +
-                '<figure role="group">' +
-                    '<img src="' + projectWorkshop.thumbnail + (projectWorkshop.thumbnail.includes('?') ? '&' : '?') + 'imagePreview=1" loading="lazy" alt="Image" width="360" height="174" class="fit-cover"/>' +
-                '</figure>' +
-                '<span>';
-                    vignette += projectWorkshop.jsonVocabulariesTitle;
+        '<div class="col-md-3 col-sm-6 col-xs-12 vignette">' +
+        '<a href="' + projectWorkshop.detailURL + '" title="Lien vers la page (' + projectWorkshop.title + ')" class="pro-bloc-actu">' +
+        '<div class="img">' +
+        '<figure role="group">' +
+        '<img src="' + projectWorkshop.thumbnail + (projectWorkshop.thumbnail.includes('?') ? '&' : '?') + 'imagePreview=1" loading="lazy" alt="Image" width="360" height="174" class="fit-cover"/>' +
+        '</figure>' +
+        '<span>';
+    vignette += projectWorkshop.jsonVocabulariesTitle;
 
     vignette +=
-                '</span>' +
-            '</div>' +
-            '<div class="content">' +
-                '<span class="publication">Publié le ' + projectWorkshop.modifiedDate + '</span>' +
-                '<h3>' + projectWorkshop.title + '</h3>' +
-                '<p>' + projectWorkshop.chapo + (projectWorkshop.chapo.length > 100 ? '...' : '') + '</p>' +
-                '<span class="link">Découvrir le projet</span>' +
-            '</div>' +
+        '</span>' +
+        '</div>' +
+        '<div class="content">' +
+        '<span class="publication">Publié le ' + projectWorkshop.modifiedDate + '</span>' +
+        '<h3>' + projectWorkshop.title + '</h3>' +
+        '<p>' + projectWorkshop.chapo + (projectWorkshop.chapo.length > 100 ? '...' : '') + '</p>' +
+        '<span class="link">Découvrir le projet</span>' +
+        '</div>' +
         '</a>' +
-    '</div>';
+        '</div>';
 
     return vignette;
 }
@@ -27659,9 +27831,9 @@ function createSaisineObservatoire(saisineObservatoire) {
 
 
 /**
-* Création de la vignette budget participatif
+ * Création de la vignette budget participatif
  * @return
-*/
+ */
 function createBudgetParticipatif(budgetParticipatif) {
     var vignette = `
     <div class="item pro-bloc-card-budget vignette ${budgetParticipatif.isNotDoable ? 'pro-theme-non-faisable' : 'pro-theme-faisable'}" data-linkall="a">
@@ -27741,12 +27913,11 @@ function createInitiative(initiative) {
 }
 
 
-
 /* DANS LES LISTING DE FACETTE DANS LES BARRES LATERALES, AU CLICK SUR EFFACER, ON DESELECTIONNE LES CHECKBOX ENFANTS ET LA VALEUR DE LA DATE DANS INPUT TEXT */
-$('.pro-remove').on('click',function(){
-    
+$('.pro-remove').on('click', function () {
+
     // Utilisé pour les recherches ajax
-    if($(this).hasClass('dynamic')){
+    if ($(this).hasClass('dynamic')) {
         // Renvoi la liste des entités demandées
         getSelectedEntries();
     }
@@ -27754,7 +27925,7 @@ $('.pro-remove').on('click',function(){
 
 
 $(document).ready(function () {
-	
+
     $('.closefirstmodal').click(function () {
         $('#WarningClosePopup').modal('show');
     });
@@ -27765,13 +27936,12 @@ $(document).ready(function () {
     });
 
 
-    
 });
 
 /**
  * Lors d'un clic d'un lien vers une autre page d'un listing
  */
-$(document).on('click', "a[href='#go-to-top']", function(e){
+$(document).on('click', "a[href='#go-to-top']", function (e) {
     e.preventDefault();
     var target = $(this).attr('href');
     scrollToAnchor(target);
@@ -27780,7 +27950,7 @@ $(document).on('click', "a[href='#go-to-top']", function(e){
 /**
  * Lors d'un clic d'une option sur selecteur de page de listing
  */
-$(document).on('change', "#change-page", function(e){
+$(document).on('change', "#change-page", function (e) {
     e.preventDefault();
     scrollToAnchor("#go-to-top");
 });
@@ -27792,11 +27962,25 @@ $(document).on('change', "#change-page", function(e){
 function scrollToAnchor(anchorId) {
     // Le sélecteur $(html, body) permet de corriger un bug sur chrome et safari (webkit).
     $('html, body')
-       // On arrête toutes les animations en cours. 
-       .stop()
-       // On fait maintenant l'animation vers le haut (scrollTop) vers notre ancre target.
-       .animate({scrollTop: $(anchorId).offset().top}, 1000 );
+        // On arrête toutes les animations en cours.
+        .stop()
+        // On fait maintenant l'animation vers le haut (scrollTop) vers notre ancre target.
+        .animate({scrollTop: $(anchorId).offset().top}, 1000);
 }
+
+/**
+ * Permet de rendre accessible un tooltip
+ */
+AccessTooltip({
+    objs : '.icon-ico-info',
+    tooltipClassName : 'access-tooltip',
+    toolTipBetween : 5,
+    toolTipUp : false,
+    mouse : true,
+    tempDelay : 4000,
+    useAriaDP : false,
+    useEscClose : true
+});
 // Service custom : Livechat Creacast
 (tarteaucitron.job = tarteaucitron.job || []).push('iframelivechatcreacast');
 

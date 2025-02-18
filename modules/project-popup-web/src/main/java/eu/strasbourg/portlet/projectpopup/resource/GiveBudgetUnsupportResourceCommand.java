@@ -68,6 +68,8 @@ public class GiveBudgetUnsupportResourceCommand implements MVCResourceCommand {
         // pour l'entite courante, le nombre de votes de l'utilisateur, le nombre de votes pour la phase active
         int nbUserUnsupports = 0;
         int nbEntrySupports = 0;
+        long nbEntryPositivesSupports = 0;
+        long nbEntryNegativesSupports = 0;
         int nbUserSupports = 0;
         long nbUnsupportForActivePhase = 0;
 
@@ -90,6 +92,10 @@ public class GiveBudgetUnsupportResourceCommand implements MVCResourceCommand {
             nbUserSupports = budgetParticipatif.getNbSupportOfUserInActivePhase(publikID);
             // Recuperation du nombre de votes + et - pour l'entite courante
             nbEntrySupports = (int) budgetParticipatif.getNbSupports();
+            // Recuperation du nombre de votes + pour l'entite courante
+            nbEntryPositivesSupports = (int) budgetParticipatif.getNbSupportsPositifs();
+            // Recuperation du nombre de votes - pour l'entite courante
+            nbEntryNegativesSupports = (int) budgetParticipatif.getNbSupportsNegatifs();
             // Recuperation du nombre de votes - pour la phase
             nbUnsupportForActivePhase = budgetParticipatif.getPhase().getNumberOfNegativeVote();
         } catch (PortalException e1) {
@@ -147,6 +153,7 @@ public class GiveBudgetUnsupportResourceCommand implements MVCResourceCommand {
             // MaJ des compteurs
             nbUserUnsupports++;
             nbEntrySupports--;
+            nbEntryNegativesSupports++;
 
         }
 
@@ -160,6 +167,8 @@ public class GiveBudgetUnsupportResourceCommand implements MVCResourceCommand {
 
         updatedUnsupportsInfo.put("nbUserUnsupports", nbUserUnsupports);
         updatedUnsupportsInfo.put("nbEntrySupports", nbEntrySupports);
+        updatedUnsupportsInfo.put("nbEntryPositivesSupports", nbEntryPositivesSupports);
+        updatedUnsupportsInfo.put("nbEntryNegativesSupports", nbEntryNegativesSupports);
         updatedUnsupportsInfo.put("nbUnsupportForActivePhase", nbUnsupportForActivePhase);
 
         jsonResponse.put("updatedUnsupportsInfo", updatedUnsupportsInfo);

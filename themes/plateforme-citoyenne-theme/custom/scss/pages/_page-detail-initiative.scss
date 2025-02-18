@@ -54,6 +54,24 @@
 				-webkit-transform-origin: top left;
 				transform-origin: top left;
 			}
+
+			.pro-compteur {
+				position: relative;
+
+				.icon-ico-info {
+					position: absolute;
+					top: -10px;
+					right: -20px;
+
+					.tooltipHTML{
+						display:none;
+					}
+
+					&:before{
+						font-size: 25px;
+					}
+				}
+			}
 		}
 	}
 

@@ -519,3 +519,14 @@ form {
         }
     }
 }
+
+// permet de rendre accessible un tooltip
+.access-tooltip{
+    position:absolute;
+    z-index:1000;
+    left: - 10000000px;
+    background-color:black;
+    padding:5px;
+    color:white;
+    font-size:80%;
+}

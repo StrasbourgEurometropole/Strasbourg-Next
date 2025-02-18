@@ -51,6 +51,8 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
         int nbUserUnsupports = 0;
         int nbUserEntrySupports = 0;
         int nbEntrySupports = 0;
+        long nbEntryPositivesSupports = 0;
+        long nbEntryNegativesSupports = 0;
         long nbSupportForActivePhase = 0;
         long nbUnsupportForActivePhase = 0;
         long nbUserSupportForEntry = 0;
@@ -78,6 +80,10 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
             nbUserEntrySupports = budgetParticipatif.getNbPositiveSupportOfUser(publikID);
             // Recuperation du nombre de votes + et - pour l'entite courante
             nbEntrySupports = (int) budgetParticipatif.getNbSupports();
+            // Recuperation du nombre de votes + pour l'entite courante
+            nbEntryPositivesSupports = (int) budgetParticipatif.getNbSupportsPositifs();
+            // Recuperation du nombre de votes - pour l'entite courante
+            nbEntryNegativesSupports = (int) budgetParticipatif.getNbSupportsNegatifs();
             // Recuperation du nombre de votes + pour la phase
             nbSupportForActivePhase = budgetParticipatif.getPhase().getNumberOfVote();
             // Recuperation du nombre de votes - pour la phase
@@ -107,6 +113,7 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
                     nbUserSupports--;
                     nbUserEntrySupports--;
                     nbEntrySupports--;
+                    nbEntryPositivesSupports--;
                 }
             }
         }
@@ -122,6 +129,8 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
         updatedSupportsInfo.put("nbUserUnsupports", nbUserUnsupports);
         updatedSupportsInfo.put("nbUserEntrySupports", nbUserEntrySupports);
         updatedSupportsInfo.put("nbEntrySupports", nbEntrySupports);
+        updatedSupportsInfo.put("nbEntryPositivesSupports", nbEntryPositivesSupports);
+        updatedSupportsInfo.put("nbEntryNegativesSupports", nbEntryNegativesSupports);
         updatedSupportsInfo.put("nbSupportForActivePhase", nbSupportForActivePhase);
         updatedSupportsInfo.put("nbUnsupportForActivePhase", nbUnsupportForActivePhase);
         updatedSupportsInfo.put("nbUserSupportForEntry", nbUserSupportForEntry);

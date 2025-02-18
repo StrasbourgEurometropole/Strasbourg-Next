@@ -569,16 +569,23 @@
     function majDisplay(updatedSupportsInfo){
         // Modification des textes des labels et bouton
         // nombre de vote
-        var textDiscover = Math.abs(updatedSupportsInfo.nbEntrySupports).toString().padStart(6, '0').split('');;
+        var textDiscover = Math.abs(updatedSupportsInfo.nbEntrySupports).toString().padStart(6, '0').split('');
         if (updatedSupportsInfo.nbEntrySupports < 0) {
             textDiscover[0] = '-';
         }
         $('#nbEntrySupports').html(createCompt(textDiscover));
+
+        // nombre de vote + et - pour la tooltip
+        var textTooltip = "<div class='tooltipHTML'>Votes positifs : " + updatedSupportsInfo.nbEntryPositivesSupports +
+            "<br/>Votes n&eacute;gatifs : " + updatedSupportsInfo.nbEntryNegativesSupports + "</div>";
+        $('.pro-compteur .icon-ico-info')[0].title = textTooltip;
+
         if(updatedSupportsInfo.nbSupportForActivePhase !== undefined &&
             updatedSupportsInfo.nbUserSupports !== undefined) {
             // message sous les boutons
             $('#nbUserSupports').text(updatedSupportsInfo.nbSupportForActivePhase - updatedSupportsInfo.nbUserSupports);
         }
+
         if(updatedSupportsInfo.nbUserEntrySupports !== undefined) {
             // message bouton remove
             $('#nbUserEntrySupports').text(updatedSupportsInfo.nbUserEntrySupports);

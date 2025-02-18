@@ -836,7 +836,12 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 		case 23:
 		case 24:
 			return "<div class='pro-compteur'>" +
-						"<span class='pro-compt pro-compt-six' id='nbEntrySupports'>" + this.getNbSupportsBoard() + "</span>" +
+						"<span class='pro-compt pro-compt-six' id='nbEntrySupports'>" +
+							this.getNbSupportsBoard() +
+						"</span>" +
+					"<span class='icon-ico-info' aria-labelledby='tooltip'>" +
+						"<div id='tooltip' class='tooltipHTML'>Votes positifs : " + this.getNbSupportsPositifs() + "<br/>Votes n&eacute;gatifs : " + this.getNbSupportsNegatifs() + "</div>" +
+					"</span>" +
 						"<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes") + "</p>" +
 					"</div>";
 		case 25:
@@ -847,7 +852,12 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 		case 31:
 		case 36:
 			return "<div class='pro-compteur'>" +
-					"<span class='pro-compt pro-compt-six' id='nbEntrySupports'>" + this.getNbSupportsBoard() + "</span>" +
+					"<span class='pro-compt pro-compt-six' id='nbEntrySupports'>" +
+						this.getNbSupportsBoard() +
+					"</span>" +
+					"<span class='icon-ico-info' aria-labelledby='tooltip'>" +
+						"<div id='tooltip' class='tooltipHTML'>Votes positifs : " + this.getNbSupportsPositifs() + "<br/>Votes n&eacute;gatifs : " + this.getNbSupportsNegatifs() + "</div>" +
+					"</span>" +
 					"<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes") + "</p>" +
 					"<span>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes.laureat") + "</span>" +
 					"</div>";
@@ -860,14 +870,24 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 		case 49:
 		case 54:
 			return "<div class='pro-compteur'>" +
-					"<span class='pro-compt pro-compt-six' id='nbEntrySupports'>" + this.getNbSupportsBoard() + "</span>" +
+					"<span class='pro-compt pro-compt-six' id='nbEntrySupports'>" +
+						this.getNbSupportsBoard() +
+					"</span>" +
+					"<span class='icon-ico-info' aria-labelledby='tooltip'>" +
+						"<div id='tooltip' class='tooltipHTML'>Votes positifs : " + this.getNbSupportsPositifs() + "<br/>Votes n&eacute;gatifs : " + this.getNbSupportsNegatifs() + "</div>" +
+					"</span>" +
 					"<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes") + "</p>" +
 					"<span>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.realized") + "</span>" +
 					"</div>";
 		case 55:
 		case 60:
 			return "<div class='pro-compteur'>" +
-					"<span class='pro-compt pro-compt-six' id='nbEntrySupports'>" + this.getNbSupportsBoard() + "</span>" +
+					"<span class='pro-compt pro-compt-six' id='nbEntrySupports'>" +
+						this.getNbSupportsBoard() +
+					"</span>" +
+					"<span class='icon-ico-info' aria-labelledby='tooltip'>" +
+						"<div id='tooltip' class='tooltipHTML'>Votes positifs : " + this.getNbSupportsPositifs() + "<br/>Votes n&eacute;gatifs : " + this.getNbSupportsNegatifs() + "</div>" +
+					"</span>" +
 					"<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes") + "</p>" +
 					"<span>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.suspended") + "</span>" +
 					"</div>";
