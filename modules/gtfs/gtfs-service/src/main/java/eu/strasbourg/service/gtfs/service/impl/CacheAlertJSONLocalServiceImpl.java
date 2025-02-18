@@ -99,7 +99,8 @@ public class CacheAlertJSONLocalServiceImpl
 				JSONObject content = infoMessage.getJSONObject("Content");
 				jsonAlert.put("linesNumber", content.getJSONArray("ImpactedLineRef"));
 				jsonAlert.put("startDate", content.getString("ImpactStartDateTime"));
-				jsonAlert.put("endDate", content.getString("ImpactEndDateTime"));
+				if(Validator.isNotNull(content.getString("ImpactEndDateTime")))
+					jsonAlert.put("endDate", content.getString("ImpactEndDateTime"));
 				JSONObject title = JSONFactoryUtil.createJSONObject();
 				JSONObject period = JSONFactoryUtil.createJSONObject();
 				JSONObject details = JSONFactoryUtil.createJSONObject();
