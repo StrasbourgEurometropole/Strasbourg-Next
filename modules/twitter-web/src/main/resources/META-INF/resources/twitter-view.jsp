@@ -13,17 +13,17 @@
 						<div class="item">
 							<c:if test="${tweet.retweet}">
 								<div class="retweet">
-									<a href="https://twitter.com/${tweet.screenName}">${tweet.userName} <liferay-ui:message key="tw.retweeted" /></a>
+									<a href="https://x.com/${tweet.screenName}">${tweet.userName} <liferay-ui:message key="tw.retweeted" /></a>
 								</div>									
 							</c:if>
 							<div class="pseudo">
 								<i><img src="/o/sae-theme/images/pictos/twitter-hover.png" alt="" class="on"><img class="off" src="/o/sae-theme/images/pictos/twitter.png" alt=""></i>
 								<p style="word-wrap: break-word;">
 									<c:if test="${tweet.retweet}">
-										<span style="word-wrap: break-word;"><a href="https://twitter.com/${tweet.retweetScreenName}">${tweet.retweetUserName}</a></span><a href="https://twitter.com/${tweet.retweetScreenName}">@${tweet.retweetScreenName}</a>
+										<span style="word-wrap: break-word;"><a href="https://x.com/${tweet.retweetScreenName}">${tweet.retweetUserName}</a></span><a href="https://x.com/${tweet.retweetScreenName}">@${tweet.retweetScreenName}</a>
 									</c:if>
 									<c:if test="${not tweet.retweet}">
-										<span style="word-wrap: break-word;"><a href="https://twitter.com/${tweet.screenName}">${tweet.userName}</a></span><a href="https://twitter.com/${tweet.screenName}">@${tweet.screenName}</a>
+										<span style="word-wrap: break-word;"><a href="https://x.com/${tweet.screenName}">${tweet.userName}</a></span><a href="https://x.com/${tweet.screenName}">@${tweet.screenName}</a>
 									</c:if>
 									 - <a href="${tweet.url}">${tweet.displayDate} <liferay-ui:message key="tw.${tweet.displayDateUnit}" /></a>
 								</p> 
@@ -40,7 +40,7 @@
 				    <span><liferay-ui:message key="tw.partage" /></span>
                     <ul>
                         <li><a class="btn-fb" href="https://www.facebook.com/strasetudiants" target="_blank"></a></li>
-                        <li><a class="btn-twitter" href="//twitter.com/StrasEtudiants" target="_blank"></a></li>
+                        <li><a class="btn-twitter" href="//x.com/StrasEtudiants" target="_blank"></a></li>
                         <li><a class="btn-insta" href="//www.instagram.com/strasetudiants" target="_blank"></a></li>
 						<li><a class="btn-linkdin" href="//www.linkedin.com/showcase/strasbourg-aime-ses-%C3%A9tudiants/" target="_blank"></a></li>
 

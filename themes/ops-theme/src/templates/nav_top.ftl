@@ -84,7 +84,7 @@
                     <li><a href="https://www.instagram.com/ops_strasbourg" title="<@liferay_ui.message key='eu.ops.link.to.instagram' />" target="_blank" aria-label="Compte Instagram"><span
                                 class="icon-ico-instagram"></span></a></li>
 
-                    <li><a href="https://twitter.com/OPStrasbourg" title="<@liferay_ui.message key='eu.ops.link.to.twitter' />" target="_blank" aria-label="Compte X"><span class="icon-ico-twitter"></span></a></li>
+                    <li><a href="https://x.com/OPStrasbourg" title="<@liferay_ui.message key='eu.ops.link.to.twitter' />" target="_blank" aria-label="Compte X"><span class="icon-ico-twitter"></span></a></li>
 
                     <li><a href="https://www.facebook.com/orchestre.philharmonique.strasbourg/?ref=ts" title="<@liferay_ui.message key='eu.ops.link.to.facebook' />" target="_blank" aria-label="Page Facebook"><span
                                 class="icon-ico-facebook"></span></a></li>
