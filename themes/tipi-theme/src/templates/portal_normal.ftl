@@ -130,7 +130,7 @@
 					<span>Suivez-nous</span> 
 					<ul> 
 						<li> <a class="btn-fb" href="https://www.facebook.com/strasbourg.eu" target="_blank" title="Page Facebook de Strasbourg.eu (nouvelle fenêtre)">Facebook</a></li> 
-						<li> <a class="btn-twitter" href="https://twitter.com/strasbourg" target="_blank" title="Fil Twitter de Strasbourg.eu (nouvelle fenêtre)">Twitter</a></li> 
+						<li> <a class="btn-twitter" href="https://twitter.com/strasbourg" target="_blank" title="Fil X de Strasbourg.eu (nouvelle fenêtre)">X</a></li>
 						<li> <a class="btn-daily" href="https://www.dailymotion.com/villedestrasbourg" target="_blank" title="Les vidéos de Strasbourg.eu (nouvelle fenêtre)">Dailymotion</a></li>
 						<li> <a class="btn-insta" href="https://instagram.com/strasbourg_eurometropole" target="_blank" title="Instagram de Strasbourg.eu (nouvelle fenêtre)">Instagram</a></li> 
 						<li> <a class="btn-tumblr" href="https://www.strasblr.eu/" target="_blank" title="Strasblr : un autre regard sur Strasbourg (nouvelle fenêtre)">Tumblr</a></li>

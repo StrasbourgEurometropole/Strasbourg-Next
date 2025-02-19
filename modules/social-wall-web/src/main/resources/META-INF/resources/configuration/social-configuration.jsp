@@ -17,7 +17,7 @@
         <div class="container-fluid-1280">
     <div class="sheet"><div class="panel-group panel-group-flush">
 
-                <aui:fieldset id="twitter" label="twitter">
+                <aui:fieldset id="twitter" label="X">
                     <aui:input type="text" name="twitterAccount" value="${twitterAccount}" label="twitter-account" />
                 </aui:fieldset>
 

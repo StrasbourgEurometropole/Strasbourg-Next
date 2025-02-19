@@ -180,7 +180,7 @@
             <a aria-label="Partagez sur Facebook" data-href="#" id="sharefacebook" target="_blank" title="Lien de partage sur Facebook"></a>
           </li>
           <li class="twitter">
-            <a aria-label="Partagez sur Twitter" id="sharetwitter" target="_blank" title="Lien de partage sur Twitter"></a>
+            <a aria-label="Partagez sur X" id="sharetwitter" target="_blank" title="Lien de partage sur X"></a>
           </li>
           <li class="linkedin">
             <a aria-label="Partagez sur LinkedIn" id="ShareLinkedIn" target="_blank" title="Lien de partage sur LinkedIn"></a>

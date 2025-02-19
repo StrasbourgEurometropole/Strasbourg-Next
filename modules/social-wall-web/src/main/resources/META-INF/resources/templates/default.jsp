@@ -28,7 +28,7 @@
         </div>
         <div class="seu-no-js-links">
             <a href="#"  title="Facebook">Sur Facebook</a>
-            <a href="#" title="Twitter">Sur Twitter</a>
+            <a href="#" title="X">Sur X</a>
             <a href="#" title="Instagram">Sur Instagram</a>
             <a href="#" title="Dailymotion">Sur Dailymotion</a>
         </div>
