@@ -1,0 +1,58 @@
+{
+  "pages": [
+    {
+      "description": {
+        "fr_FR": "Description"
+      },
+      "rows": [
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "lastName"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "address"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "phone"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "email"
+              ]
+            }
+          ]
+        }
+      ],
+      "title": {
+        "fr_FR": "Page"
+      }
+    }
+  ],
+  "definitionSchemaVersion": "2.0",
+  "paginationMode": "single-page",
+  "defaultLanguageId": "fr_FR",
+  "fields": []
+}

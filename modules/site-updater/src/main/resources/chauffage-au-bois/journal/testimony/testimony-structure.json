@@ -1,0 +1,101 @@
+{
+  "definitionSchemaVersion": "2.0",
+  "availableLanguageIds": [
+    "fr_FR"
+  ],
+  "successPage": {
+    "body": {},
+    "title": {},
+    "enabled": false
+  },
+  "defaultLanguageId": "fr_FR",
+  "fields": [
+    {
+      "labelAtStructureLevel": true,
+      "ddmDataProviderInstanceId": [],
+      "predefinedValue": {
+        "fr_FR": ""
+      },
+      "tooltip": {
+        "fr_FR": ""
+      },
+      "requireConfirmation": false,
+      "type": "text",
+      "showLabel": true,
+      "required": false,
+      "displayStyle": "singleline",
+      "requiredErrorMessage": {
+        "fr_FR": ""
+      },
+      "objectFieldName": "",
+      "ddmDataProviderInstanceOutput": [],
+      "repeatable": false,
+      "options": [
+        {
+          "reference": "Option71528064",
+          "label": {
+            "fr_FR": "Option"
+          },
+          "value": "Option71528064"
+        }
+      ],
+      "nativeField": false,
+      "confirmationLabel": {
+        "fr_FR": ""
+      },
+      "fieldReference": "testimonyName",
+      "tip": {
+        "fr_FR": ""
+      },
+      "placeholder": {
+        "fr_FR": ""
+      },
+      "direction": [
+        "vertical"
+      ],
+      "hideField": false,
+      "confirmationErrorMessage": {
+        "fr_FR": ""
+      },
+      "autocomplete": false,
+      "dataType": "string",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Nom du témoignages"
+      },
+      "fieldNamespace": "",
+      "visibilityExpression": "",
+      "indexType": "keyword",
+      "name": "testimonyName",
+      "localizable": true,
+      "dataSourceType": "manual"
+    },
+    {
+      "dataType": "string",
+      "predefinedValue": {
+        "fr_FR": ""
+      },
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Témoignage"
+      },
+      "type": "rich_text",
+      "showLabel": true,
+      "required": false,
+      "fieldNamespace": "",
+      "visibilityExpression": "",
+      "requiredErrorMessage": {
+        "fr_FR": ""
+      },
+      "indexType": "text",
+      "objectFieldName": "",
+      "repeatable": false,
+      "name": "testimony",
+      "localizable": true,
+      "fieldReference": "testimony",
+      "tip": {
+        "fr_FR": ""
+      }
+    }
+  ]
+}

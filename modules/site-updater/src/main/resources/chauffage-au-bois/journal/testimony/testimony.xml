@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Témoignages</name>
+        <key>TESTIMONY</key>
+        <definition>testimony-structure.json</definition>
+        <layout>testimony-layout.json</layout>
+    </structure>
+</root>

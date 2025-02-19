@@ -1,0 +1,38 @@
+{
+  "pages": [
+    {
+      "description": {
+        "fr_FR": ""
+      },
+      "rows": [
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "testimonyName"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "testimony"
+              ]
+            }
+          ]
+        }
+      ],
+      "title": {
+        "fr_FR": ""
+      }
+    }
+  ],
+  "definitionSchemaVersion": "2.0",
+  "paginationMode": "single-page",
+  "defaultLanguageId": "fr_FR",
+  "fields": []
+}

@@ -1,0 +1,186 @@
+{
+  "definitionSchemaVersion": "2.0",
+  "availableLanguageIds": [
+    "fr_FR"
+  ],
+  "successPage": {
+    "body": {},
+    "title": {},
+    "enabled": false
+  },
+  "defaultLanguageId": "fr_FR",
+  "fields": [
+    {
+      "autocomplete": false,
+      "ddmDataProviderInstanceId": "[]",
+      "dataType": "string",
+      "predefinedValue": {
+        "fr_FR": ""
+      },
+      "tooltip": {
+        "fr_FR": ""
+      },
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Nom"
+      },
+      "type": "text",
+      "showLabel": true,
+      "required": false,
+      "displayStyle": "singleline",
+      "fieldNamespace": "",
+      "visibilityExpression": "",
+      "indexType": "keyword",
+      "ddmDataProviderInstanceOutput": "[]",
+      "repeatable": false,
+      "name": "lastName",
+      "options": [
+        {
+          "reference": "",
+          "label": {
+            "fr_FR": "Option"
+          },
+          "value": "Option"
+        }
+      ],
+      "localizable": true,
+      "fieldReference": "lastName",
+      "tip": {
+        "fr_FR": ""
+      },
+      "placeholder": {
+        "fr_FR": ""
+      },
+      "dataSourceType": "manual"
+    },
+    {
+      "autocomplete": false,
+      "ddmDataProviderInstanceId": "[]",
+      "dataType": "string",
+      "predefinedValue": {
+        "fr_FR": ""
+      },
+      "tooltip": {
+        "fr_FR": ""
+      },
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Adresse"
+      },
+      "type": "text",
+      "showLabel": true,
+      "required": false,
+      "displayStyle": "singleline",
+      "fieldNamespace": "",
+      "visibilityExpression": "",
+      "indexType": "keyword",
+      "ddmDataProviderInstanceOutput": "[]",
+      "repeatable": false,
+      "name": "address",
+      "options": [
+        {
+          "reference": "",
+          "label": {
+            "fr_FR": "Option"
+          },
+          "value": "Option"
+        }
+      ],
+      "localizable": true,
+      "fieldReference": "address",
+      "tip": {
+        "fr_FR": ""
+      },
+      "placeholder": {
+        "fr_FR": ""
+      },
+      "dataSourceType": "manual"
+    },
+    {
+      "autocomplete": false,
+      "ddmDataProviderInstanceId": "[]",
+      "dataType": "string",
+      "predefinedValue": {
+        "fr_FR": ""
+      },
+      "tooltip": {
+        "fr_FR": ""
+      },
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Numéro de téléphone"
+      },
+      "type": "text",
+      "showLabel": true,
+      "required": false,
+      "displayStyle": "singleline",
+      "fieldNamespace": "",
+      "visibilityExpression": "",
+      "indexType": "keyword",
+      "ddmDataProviderInstanceOutput": "[]",
+      "repeatable": false,
+      "name": "phone",
+      "options": [
+        {
+          "reference": "",
+          "label": {
+            "fr_FR": "Option"
+          },
+          "value": "Option"
+        }
+      ],
+      "localizable": true,
+      "fieldReference": "phone",
+      "tip": {
+        "fr_FR": ""
+      },
+      "placeholder": {
+        "fr_FR": ""
+      },
+      "dataSourceType": "manual"
+    },
+    {
+      "autocomplete": false,
+      "ddmDataProviderInstanceId": "[]",
+      "dataType": "string",
+      "predefinedValue": {
+        "fr_FR": ""
+      },
+      "tooltip": {
+        "fr_FR": ""
+      },
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Mail"
+      },
+      "type": "text",
+      "showLabel": true,
+      "required": false,
+      "displayStyle": "singleline",
+      "fieldNamespace": "",
+      "visibilityExpression": "",
+      "indexType": "keyword",
+      "ddmDataProviderInstanceOutput": "[]",
+      "repeatable": false,
+      "name": "email",
+      "options": [
+        {
+          "reference": "",
+          "label": {
+            "fr_FR": "Option"
+          },
+          "value": "Option"
+        }
+      ],
+      "localizable": true,
+      "fieldReference": "email",
+      "tip": {
+        "fr_FR": ""
+      },
+      "placeholder": {
+        "fr_FR": ""
+      },
+      "dataSourceType": "manual"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Professionnel</name>
+        <key>PROFESSIONAL</key>
+        <definition>professional-structure.json</definition>
+        <layout>professional-layout.json</layout>
+    </structure>
+</root>
