@@ -60,8 +60,7 @@ title="Overlay" />
                     </div>
 
                     <input type="hidden" id="nb-results" value="0" />
-                    <p id="results-display" class="st-results-show" style="display: none;">
-                    </p>
+                    <p id="results-display" class="st-results-show" style="display: none;"></p>
                 </div>
         </form>
 
@@ -74,6 +73,9 @@ title="Overlay" />
                     </div>
                     <ul id="results"  class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-2@t-small">
                     </ul>
+                    <p id="max-results-display" class="st-max-results-show" style="display: none;">
+                        <liferay-ui:message key="eu.strasbourg.dynamic-search-strasbourg-result-display-max" />
+                    </p>
                     <button type="button" id="see-more" class="st-btn" style="display: none" onclick="addResult()">
                         <liferay-ui:message key="eu.strasbourg.dynamic-search-strasbourg-see-more" />
                     </button>

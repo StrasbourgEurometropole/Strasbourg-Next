@@ -86,3 +86,16 @@ span.loading-small-animation  {
         transform: translate(-50%, -50%) rotate(360deg);
     }
 }
+
+.st-page-wrapper .st-max-results-show{
+    font-size: 16px;
+    color: var(--secondary, #2AD783);
+    margin-top: 15px;
+    font-weight: 700;
+}
+
+@media screen and (max-width: 980px){
+    .st-page-wrapper .st-max-results-show  {
+        font-size: 12px;
+    }
+}

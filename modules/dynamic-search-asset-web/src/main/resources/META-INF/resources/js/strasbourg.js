@@ -360,6 +360,7 @@ function addPopulateList(data) {
     var totalResult = parseInt(data.find(item => item.totalResult).totalResult, 10);
 
     var resultDisplay = document.getElementById('results-display');
+    var maxResultDisplay = document.getElementById('max-results-display');
     var seeMore = document.getElementById('see-more');
     var nbResults = parseInt(data.find(item => item.displayResult).displayResult, 10);
     document.getElementById('nb-results').value = nbResults;
@@ -367,9 +368,16 @@ function addPopulateList(data) {
         resultDisplay.innerHTML = Liferay.Language.get('eu.strasbourg.dynamic-search-strasbourg-result-display-x')
             .replace('{0}', nbResults);
         resultDisplay.style.display = "block";
-        seeMore.style.display = "block";
+        if(nbResults < 500) {
+            maxResultDisplay.style.display = "none";
+            seeMore.style.display = "block";
+        }else {
+            maxResultDisplay.style.display = "block";
+            seeMore.style.display = "none"
+        }
     }else {
         resultDisplay.style.display = "none";
+        maxResultDisplay.style.display = "none";
         seeMore.style.display = "none"
     }
 
