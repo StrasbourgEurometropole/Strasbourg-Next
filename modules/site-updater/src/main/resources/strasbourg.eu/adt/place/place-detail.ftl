@@ -25,7 +25,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
     <div class="st-barre-inner st-wrapper">
         <div class="st-container-left">
             <#if  entry.imageId?has_content && entry.imageId?number != 0>
-                <div class="st-image">
+                <div class="st-image st-little-image">
                     <@strasbourg.addImage fileEntryId=entry.imageId maxWidth=80  />
                 </div>
             </#if>
@@ -686,7 +686,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                         - ${event.placeZipCode} ${event.getPlaceCity(locale)}
                                     </p>
                                 </div>
-                                <div class="st-image">
+                                <div class="st-image st-little-image">
 
                                     <#if event.getImageId() !=0>
                                         <@strasbourg.addImage fileEntryId=event.getImageId() maxWidth=100 isFigure=true />

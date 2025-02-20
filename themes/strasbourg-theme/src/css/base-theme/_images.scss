@@ -99,6 +99,12 @@ figcaption {
 }
 
 
+.st-page-wrapper .st-little-image .st-credits,
+.st-page-wrapper .st-little-image .st-credits-content {
+	--spacing: 5px; // distance entre le bouton et les bords de l'image
+}
+
+
 .st-page-wrapper .st-credits {
 	z-index: z-index('credits-button');
 	justify-content: center;
