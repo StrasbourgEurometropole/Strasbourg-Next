@@ -62,8 +62,14 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -902,6 +908,26 @@ public class AgendaImporter {
 				reportLine
 						.error(LanguageUtil.get(bundle, "period-without-schedule"));
 			}
+		}
+		if(!reportLine.hasError()) {
+			// on vérifi que les dates de l'event sont en ce moment ou dans le futur
+			LocalDateTime dateTime = LocalDateTime.now();
+			// On classe les périodes par date de fin, ce qui va nous
+			// permettre de setter le champ "lastEndDate" sur l'événement
+			periods.sort(
+					(p1, p2) -> p1.getEndDate().compareTo(p2.getEndDate()));
+			EventPeriod lastPeriod = periods.get(periods.size() - 1);
+			Date lastEndDate = lastPeriod.getCalculateEndDate();
+			// s'il n'y a pas d'heure de fin, on set 23:59:59
+			LocalTime lastEndTime = LocalTime.parse("23:59:59");
+			if (Validator.isNotNull(lastPeriod.getEndTime()))
+				lastEndTime = LocalTime.parse(lastPeriod.getEndTime());
+			LocalDateTime lastEndDateTime = LocalDateTime.of(lastEndDate.toInstant()
+					.atZone(ZoneId.systemDefault())
+					.toLocalDate(), lastEndTime);
+			if (lastEndDateTime.isBefore(dateTime))
+				reportLine
+						.error(LanguageUtil.get(bundle, "event-finished"));
 		}
 
 		// Validation du lien avec les manifestations
