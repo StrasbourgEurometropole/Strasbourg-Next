@@ -22,12 +22,13 @@
 		}
 
 		@include mobile {
-			padding: 20px
+			padding: 20px;
 		}
 	}
 
 	.st-col-left {
 		margin-right: 80px;
+		max-width: 240px;
 
 		@include tablet-portrait {
 			margin-right: 40px;
@@ -36,6 +37,10 @@
 		@include tablet-small {
 			margin-right: initial;
 			margin-bottom: 20px;
+		}
+
+		@include mobile {
+			max-width: none;
 		}
 	}
 
@@ -78,6 +83,7 @@
 		.st-col-left {
 			display: flex;
 			align-items: center;
+			max-width: none;
 
 			@include tablet-small {
 				flex-direction: column;
