@@ -719,16 +719,26 @@ public class JSONSearchHelper {
                 }
 
                 if (Validator.isNotNull(official.getFonctionEurometropole()))
-                    jsonOfficial.put(
-                            Constants.ATTRIBUTE_FONTION_EURO,
-                            official.getFonctionEurometropole().getTitle(locale)
-                    );
+
+                    try {
+                        jsonOfficial.put(
+                                Constants.ATTRIBUTE_FONTION_EURO,
+                                official.getName(official.getFonctionEurometropole(), locale)
+                        );
+                    } catch (PortalException e) {
+                        _log.error(e);
+                    }
 
                 if (Validator.isNotNull(official.getFonctionCity()))
-                    jsonOfficial.put(
-                            Constants.ATTRIBUTE_FONCTION_CITY,
-                            official.getFonctionCity().getTitle(locale)
-                    );
+
+                    try {
+                        jsonOfficial.put(
+                                Constants.ATTRIBUTE_FONCTION_CITY,
+                                official.getName(official.getFonctionCity(), locale)
+                        );
+                    } catch (PortalException e) {
+                        _log.error(e);
+                    }
                 break;
         }
 
